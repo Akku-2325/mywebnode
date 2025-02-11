@@ -112,10 +112,10 @@ button:hover {
     color: red;
 }
 
-/* Profile Page Styles */
+/* Profile Page Styles (Вместо предыдущего кода) */
 .profile-container {
     width: 80%;
-    max-width: 700px;  /* Увеличил max-width */
+    max-width: 700px; /* Увеличил max-width */
     margin: 20px auto;
     padding: 20px;
     background-color: #f9f9f9; /* Заменил цвет фона */
@@ -139,10 +139,17 @@ button:hover {
 .profile-container a {
     color: #007bff;
     text-decoration: none;
+    display: inline-block; /* позволяет применять padding и margin */
+    padding: 8px 15px;
+    border-radius: 5px;
+    background-color: #e9ecef; /* нейтральный фон */
+    margin: 5px;
+    transition: background-color 0.3s ease; /* плавный переход при наведении */
 }
 
 .profile-container a:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    background-color: #dee2e6; /* немного темнее при наведении */
 }
 
 .profile-container form {
@@ -204,7 +211,6 @@ button:hover {
     display: block;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
 /* Main Page Styles */
 .main-page-container {
     width: 80%;
