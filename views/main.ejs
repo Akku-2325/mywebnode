@@ -1,35 +1,16 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Заметки</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
-        <nav class="navbar">
-            <a href="#">Главная</a>
-            <a href="#">О нас</a>
-            <a href="#">Контакты</a>
-        </nav>
-
-        <div class="notes-section">
-            <h2>Оставьте заметку</h2>
-            <form id="noteForm" class="notes-form">
-                <label for="noteTitle">Заголовок:</label>
-                <input type="text" id="noteTitle" required>
-
-                <label for="noteContent">Содержание:</label>
-                <textarea id="noteContent" rows="4" required></textarea>
-
-                <button type="submit">Добавить заметку</button>
-            </form>
-
-            <ul id="notesList" class="notes-list"></ul>
-        </div>
+        <h1>Welcome, <%= user.username %>!</h1>
+        <p>You are logged in.</p>
+        <a href="/profile">View Profile</a>  <!-- Add a link to the profile page -->
+        <a href="/auth/logout">Logout</a>
+        <!-- Add any other content for logged-in users here -->
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>

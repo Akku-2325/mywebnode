@@ -38,7 +38,7 @@ app.use(session({
 
 // MongoDB Connection
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URL, {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })

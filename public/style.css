@@ -1,130 +1,229 @@
-/* Общие стили */
+/* style.css */
+
 body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #f4f4f9, #e0e7ff);
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-    color: #333;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     min-height: 100vh;
 }
 
 .container {
-    width: 90%;
-    max-width: 1100px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Навигация */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #007bff;
-    padding: 15px 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-.navbar a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    padding: 10px 15px;
-    transition: 0.3s;
-}
-
-.navbar a:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-}
-
-/* Форма заметок */
-.notes-form {
-    background: #f8f9fa;
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.notes-form label {
-    font-weight: 600;
-    color: #555;
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+p {
+    color: #666;
+    text-align: center;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Added to center form elements */
+}
+
+label {
+    margin-top: 10px;
     display: block;
-    margin-bottom: 5px;
+    text-align: left;
+    width: 100%; /* Added to make labels full width */
 }
 
-.notes-form input,
-.notes-form textarea {
+input[type="email"],
+input[type="password"],
+input[type="text"],
+textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 15px;
+    margin: 5px 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
-.notes-form input:focus,
-.notes-form textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
-    outline: none;
-}
-
-.notes-form button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background: #007bff;
+button {
+    background-color: #007bff;
     color: white;
-    font-weight: bold;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.3s ease;
 }
 
-.notes-form button:hover {
-    background: #0056b3;
+button:hover {
+    background-color: #0056b3;
 }
 
-/* Список заметок */
-ul.notes-list {
+.error {
+    color: red;
     list-style: none;
     padding: 0;
+    margin-bottom: 10px;
 }
 
-ul.notes-list li {
-    background: #fff;
-    border-left: 5px solid #007bff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-ul.notes-list li h3 {
-    color: #333;
+.error li {
     margin-bottom: 5px;
 }
 
-ul.notes-list li .delete-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #d9534f;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+.password-requirements {
+    list-style: none;
+    padding: 0;
+    margin-top: 5px;
+    text-align: left; /* Align text to the left */
+    width: 100%; /* Make the list take full width */
 }
 
-ul.notes-list li .delete-btn:hover {
-    background: #c9302c;
+.password-requirements li {
+    color: #777;
+    margin-bottom: 5px;
+}
+
+.password-requirements li.valid {
+    color: green;
+}
+
+.password-requirements li.invalid {
+    color: red;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+}
+
+.profile-container img {
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-container p {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.profile-container h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-container form {
+    width: 100%;
+}
+
+.profile-container form input[type="file"] {
+    margin-bottom: 10px;
+}
+
+.profile-container .danger-zone {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Styles for Login and Register Pages */
+.login-register-container {
+    width: 80%;
+    max-width: 500px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center; /* Center content inside the container */
+}
+
+.login-register-container h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-register-container form {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+}
+
+.login-register-container form div {
+    margin-bottom: 15px;
+}
+
+.login-register-container form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.login-register-container form input[type="email"],
+.login-register-container form input[type="password"],
+.login-register-container form input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.login-register-container form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-register-container form button:hover {
+    background-color: #0056b3;
+}
+
+.login-register-container p {
+    margin-top: 15px;
+    color: #777;
+}
+
+.login-register-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-register-container a:hover {
+    text-decoration: underline;
 }

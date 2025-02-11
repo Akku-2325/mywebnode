@@ -5,82 +5,84 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>Register</h1>
-    <% if (typeof error !== 'undefined' && error) { %>
-        <p style="color: red;"><%= error %></p>
-    <% } %>
-    <form action="/auth/register" method="POST" onsubmit="return validateForm()">
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-            <ul class="password-requirements">
-                <li id="password-length">At least 8 characters long (e.g., P@sswOrd)</li>
-                <li id="password-lowercase">One lowercase letter (e.g., pAssword1!)</li>
-                <li id="password-uppercase">One uppercase letter (e.g., Pa55word!)</li>
-                <li id="password-number">One number (e.g., PasswOrd1!)</li>
-                <li id="password-special">One special character (e.g., PasswOrd1!)</li>
-            </ul>
-        </div>
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="/auth/login">Login</a></p>
+    <div class="login-register-container">
+        <h1>Register</h1>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p style="color: red;"><%= error %></p>
+        <% } %>
+        <form action="/auth/register" method="POST" onsubmit="return validateForm()">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <ul class="password-requirements">
+                    <li id="password-length">At least 8 characters long</li>
+                    <li id="password-lowercase">One lowercase letter</li>
+                    <li id="password-uppercase">One uppercase letter</li>
+                    <li id="password-number">One number</li>
+                    <li id="password-special">One special character</li>
+                </ul>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already have an account? <a href="/auth/login">Login</a></p>
 
-    <script>
-        function validateForm() {
-            const password = document.getElementById('password').value;
-            let isValid = true;
+        <script>
+            function validateForm() {
+                const password = document.getElementById('password').value;
+                let isValid = true;
 
-            document.getElementById('password-length').classList.remove('valid');
-            document.getElementById('password-lowercase').classList.remove('valid');
-            document.getElementById('password-uppercase').classList.remove('valid');
-            document.getElementById('password-number').classList.remove('valid');
-            document.getElementById('password-special').classList.remove('valid');
+                document.getElementById('password-length').classList.remove('valid', 'invalid');
+                document.getElementById('password-lowercase').classList.remove('valid', 'invalid');
+                document.getElementById('password-uppercase').classList.remove('valid', 'invalid');
+                document.getElementById('password-number').classList.remove('valid', 'invalid');
+                document.getElementById('password-special').classList.remove('valid', 'invalid');
 
-            if (password.length < 8) {
-                document.getElementById('password-length').classList.add('invalid');
-                isValid = false;
-            } else {
-                document.getElementById('password-length').classList.add('valid');
+                if (password.length < 8) {
+                    document.getElementById('password-length').classList.add('invalid');
+                    isValid = false;
+                } else {
+                    document.getElementById('password-length').classList.add('valid');
+                }
+
+                if (!/^(?=.*[a-z])/.test(password)) {
+                    document.getElementById('password-lowercase').classList.add('invalid');
+                    isValid = false;
+                }else {
+                    document.getElementById('password-lowercase').classList.add('valid');
+                }
+
+                if (!/^(?=.*[A-Z])/.test(password)) {
+                    document.getElementById('password-uppercase').classList.add('invalid');
+                    isValid = false;
+                }else {
+                    document.getElementById('password-uppercase').classList.add('valid');
+                }
+
+                if (!/\d/.test(password)) {
+                    document.getElementById('password-number').classList.add('invalid');
+                    isValid = false;
+                }else {
+                    document.getElementById('password-number').classList.add('valid');
+                }
+
+                if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+                    document.getElementById('password-special').classList.add('invalid');
+                    isValid = false;
+                }else {
+                    document.getElementById('password-special').classList.add('valid');
+                }
+
+                return isValid;
             }
-
-            if (!/^(?=.*[a-z])/.test(password)) {
-                document.getElementById('password-lowercase').classList.add('invalid');
-                isValid = false;
-            }else {
-                document.getElementById('password-lowercase').classList.add('valid');
-            }
-
-            if (!/^(?=.*[A-Z])/.test(password)) {
-                document.getElementById('password-uppercase').classList.add('invalid');
-                isValid = false;
-            }else {
-                document.getElementById('password-uppercase').classList.add('valid');
-            }
-
-            if (!/\d/.test(password)) {
-                document.getElementById('password-number').classList.add('invalid');
-                isValid = false;
-            }else {
-                document.getElementById('password-number').classList.add('valid');
-            }
-
-            if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-                document.getElementById('password-special').classList.add('invalid');
-                isValid = false;
-            }else {
-                document.getElementById('password-special').classList.add('valid');
-            }
-
-            return isValid;
-        }
-    </script>
+        </script>
+    </div>
 </body>
 </html>
