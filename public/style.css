@@ -1,7 +1,7 @@
 /* Общие стили */
 body {
-    font-family: 'Poppins', sans-serif; /* Современный шрифт */
-    background: linear-gradient(135deg, #f3f4f6, #dfe7fd);
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9;
     margin: 0;
     padding: 0;
     color: #333;
@@ -11,119 +11,96 @@ body {
     min-height: 100vh;
 }
 
-.profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
-
 .container {
     width: 90%;
-    max-width: 960px;
-    margin: 20px auto;
-    padding: 25px;
-    background: white;
+    max-width: 1100px;
+    background: #fff;
+    padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.container:hover {
-    transform: translateY(-5px);
+/* Профиль пользователя */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
-/* Стили для фото профиля */
-img[alt="Profile Picture"] {
-    border-radius: 50%;
+.profile-container img {
     width: 150px;
     height: 150px;
+    border-radius: 50%;
     object-fit: cover;
-    border: 4px solid white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border: 3px solid #007bff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Заголовки */
-h1, h2 {
+.profile-container .info {
     text-align: center;
-    color: #222;
-    font-weight: 600;
 }
 
+.profile-container h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #212529;
+}
+
+/* Стили для заголовков */
 h2 {
-    margin-top: 30px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-}
-
-/* Ссылки */
-a {
+    font-size: 22px;
     color: #007bff;
-    text-decoration: none;
-    transition: all 0.3s;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
 }
 
-a:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-/* Формы */
+/* Форма */
 form {
-    background: #fff;
+    background: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
 }
 
 form label {
-    font-weight: 500;
+    font-weight: 600;
     color: #555;
+    display: block;
+    margin-bottom: 5px;
 }
 
-form input, form textarea {
+form input,
+form textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    transition: border 0.3s;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
 }
 
-form input:focus, form textarea:focus {
+form input:focus,
+form textarea:focus {
     border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
     outline: none;
 }
 
 form button {
-    background: #007bff;
-    color: white;
-    padding: 12px 20px;
+    width: 100%;
+    padding: 12px;
     border: none;
     border-radius: 6px;
+    background: #007bff;
+    color: white;
+    font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: 0.3s;
 }
 
 form button:hover {
-    background: #0056b3;
-}
-
-/* Кнопки действий */
-.action-buttons {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.action-buttons a {
-    background: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 6px;
-    display: inline-block;
-    transition: background 0.3s;
-}
-
-.action-buttons a:hover {
     background: #0056b3;
 }
 
@@ -135,36 +112,36 @@ ul.notes-list {
 
 ul.notes-list li {
     background: #fff;
+    border-left: 5px solid #007bff;
     padding: 15px;
-    margin-bottom: 10px;
     border-radius: 6px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+ul.notes-list li h3 {
+    color: #333;
+    margin-bottom: 5px;
 }
 
 /* Сообщения об ошибках */
 .error {
+    color: #d9534f;
     background: #f8d7da;
-    color: #721c24;
     padding: 10px;
+    border-left: 4px solid #d9534f;
     border-radius: 6px;
+    margin-bottom: 15px;
 }
 
-/* Требования к паролю */
-.password-requirements li.valid {
-    color: #28a745;
-}
-
-.password-requirements li.invalid {
-    color: #dc3545;
-}
-
-/* Адаптивность */
+/* Медиа-запросы */
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
+    .profile-container {
+        flex-direction: column;
+        text-align: center;
     }
-    img[alt="Profile Picture"] {
-        width: 120px;
-        height: 120px;
+    .container {
+        width: 100%;
+        padding: 20px;
     }
 }
