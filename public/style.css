@@ -1,15 +1,14 @@
 /* Общие стили */
 body {
-    font-family: 'Roboto', sans-serif; /* Современный шрифт */
-    background-color: #f8f9fa; /* Светло-серый фон */
+    font-family: 'Poppins', sans-serif; /* Современный шрифт */
+    background: linear-gradient(135deg, #f3f4f6, #dfe7fd);
     margin: 0;
     padding: 0;
-    color: #343a40; /* Темный серый для текста */
-
-    display: flex; /* Flexbox layout */
-    justify-content: center; /* Horizontal centering */
-    align-items: center; /* Vertical centering */
-    min-height: 100vh; /* Make the body at least the height of the viewport */
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .profile-container {
@@ -20,47 +19,48 @@ body {
 }
 
 .container {
-    width: 80%;
-    max-width: 960px; /* Максимальная ширина контейнера */
+    width: 90%;
+    max-width: 960px;
     margin: 20px auto;
-    overflow: hidden;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px; /* Скругленные углы */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Легкая тень */
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: translateY(-5px);
 }
 
 /* Стили для фото профиля */
 img[alt="Profile Picture"] {
-    border-radius: 50%; /* Круглая обрезка */
-    width: 200px; /* Задайте нужный размер */
-    height: 200px;
-    object-fit: cover; /* Заполнить контейнер с сохранением пропорций */
-    border: 3px solid #fff; /* Добавьте белую рамку */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Тень для объема */
-    margin: auto 300px
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Стили для заголовков */
+/* Заголовки */
 h1, h2 {
-    color: #212529;
     text-align: center;
-    padding: 20px 0;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee; /* Линия под заголовком */
+    color: #222;
+    font-weight: 600;
 }
 
 h2 {
-    color: #212529;
     margin-top: 30px;
-    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
 }
 
-/* Стили для ссылок */
+/* Ссылки */
 a {
     color: #007bff;
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: all 0.3s;
 }
 
 a:hover {
@@ -68,143 +68,103 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Стили для форм */
+/* Формы */
 form {
-    background-color: #fff;
+    background: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-}
-
-form div {
-    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500; /* Полужирный шрифт */
-    color: #495057;
+    font-weight: 500;
+    color: #555;
 }
 
-form input[type="text"],
-form input[type="email"],
-form input[type="password"],
-form textarea {
+form input, form textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ced4da;
+    border: 1px solid #ccc;
     border-radius: 6px;
-    box-sizing: border-box;
-    margin-top: 5px;
-    transition: border-color 0.3s ease;
+    transition: border 0.3s;
 }
 
-form input[type="text"]:focus,
-form input[type="email"]:focus,
-form input[type="password"]:focus,
-form textarea:focus {
-    border-color: #80bdff;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Легкая подсветка при фокусе */
+form input:focus, form textarea:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 form button {
-    background-color: #007bff;
+    background: #007bff;
     color: white;
     padding: 12px 20px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-weight: 600;
+    transition: background 0.3s;
 }
 
 form button:hover {
-    background-color: #0056b3;
+    background: #0056b3;
 }
 
-/* Стили для кнопок действий */
+/* Кнопки действий */
 .action-buttons {
     text-align: center;
     margin-top: 20px;
 }
 
 .action-buttons a {
-    background-color: #007bff;
+    background: #007bff;
     color: white;
-    padding: 12px 20px;
+    padding: 10px 15px;
     border-radius: 6px;
-    margin: 0 10px;
     display: inline-block;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s;
 }
 
 .action-buttons a:hover {
-    background-color: #0056b3;
-    text-decoration: none;
+    background: #0056b3;
 }
 
-/* Стили для списка заметок */
+/* Список заметок */
 ul.notes-list {
     list-style: none;
     padding: 0;
 }
 
 ul.notes-list li {
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background: #fff;
     padding: 15px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); /* Легкая тень для элементов списка */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
 }
 
-ul.notes-list li h3 {
-    margin-top: 0;
-    color: #555;
-}
-
-ul.notes-list li p {
-    color: #777;
-}
-
-/* Стили для сообщений об ошибках */
+/* Сообщения об ошибках */
 .error {
-    color: #721c24; /* Темно-красный цвет */
-    margin-bottom: 15px;
-    padding: 12px;
-    background-color: #f8d7da; /* Светло-розовый фон */
-    border: 1px solid #f5c6cb; /* Розовая граница */
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
     border-radius: 6px;
 }
 
-/* Стили для требований к паролю */
-ul.password-requirements {
-    list-style: none;
-    padding: 0;
-    margin-top: 5px;
-    margin-bottom: 15px;
+/* Требования к паролю */
+.password-requirements li.valid {
+    color: #28a745;
 }
 
-ul.password-requirements li {
-    font-size: 0.9em;
-    color: #6c757d; /* Более мягкий серый цвет */
-    padding: 5px 0;
+.password-requirements li.invalid {
+    color: #dc3545;
 }
 
-ul.password-requirements li.valid {
-    color: #28a745; /* Зеленый цвет для валидных требований */
-}
-
-ul.password-requirements li.invalid {
-    color: #dc3545; /* Красный цвет для невыполненных требований */
-}
-
-/* Адаптивный дизайн */
+/* Адаптивность */
 @media (max-width: 768px) {
     .container {
-        width: 95%; /* На узких экранах контейнер занимает больше места */
+        width: 95%;
+    }
+    img[alt="Profile Picture"] {
+        width: 120px;
+        height: 120px;
     }
 }
