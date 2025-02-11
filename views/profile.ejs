@@ -5,64 +5,47 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div class="profile-container">
-    <h1>Your Profile</h1>
+    <div class="profile-container">
+        <h1>Your Profile</h1>
 
-    <% if (editing) { %>
-        <h2>Edit Profile</h2>
-        <% if (errors && errors.length > 0) { %>
-            <ul class="error">
-                <% errors.forEach(error => { %>
-                    <li><%= error.msg %></li>
-                <% }); %>
-            </ul>
-        <% } %>
-        <form action="/profile/edit" method="POST">
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" value="<%= user.username %>" required>
-            </div>
-            <div>
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" value="<%= user.firstName %>">
-            </div>
-            <div>
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" value="<%= user.lastName %>">
-            </div>
-            <div>
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" value="<%= user.location %>">
-            </div>
-            <div>
-                <label for="website">Website:</label>
-                <input type="text" id="website" name="website" value="<%= user.website %>">
-            </div>
-            <div>
-                <label for="bio">Bio:</label>
-                <textarea id="bio" name="bio"><%= user.bio %></textarea>
-            </div>
-            <button type="submit">Update Profile</button>
-            <a href="/profile">Cancel</a>
-        </form>
-    <% } else { %>
-        <img src="<%= user.profilePicture || '/images/default-profile.png' %>" alt="Profile Picture" width="100">
-        <h2>Update Picture</h2>
-        <form action="/profile/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="profilePicture">
-            <button type="submit">Upload</button>
-        </form>
-        <form action="/profile/remove-picture" method="POST">
-            <button type="submit">Remove Profile Picture</button>
-        </form>
+        <div class="profile-tabs">
+            <button class="tab-button active" data-tab="info">Важная информация</button>
+            <button class="tab-button" data-tab="bio">О себе</button>
+            <button class="tab-button" data-tab="additional">Дополнительно</button>
+        </div>
 
-        <p>Username: <%= user.username %></p>
-        <p>Email: <%= user.email %></p>
-        <p>First Name: <%= user.firstName %></p>
-        <p>Last Name: <%= user.lastName %></p>
-        <p>Location: <%= user.location %></p>
-        <p>Website: <%= user.website %></p>
-        <p>Bio: <%= user.bio %></p>
+        <div id="info" class="tab-content active">
+            <img src="<%= user.profilePicture || '/images/default-profile.png' %>" alt="Profile Picture" width="150">
+            <h2>Update Picture</h2>
+            <form action="/profile/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="profilePicture">
+                <button type="submit">Upload</button>
+            </form>
+            <form action="/profile/remove-picture" method="POST">
+                <button type="submit">Remove Profile Picture</button>
+            </form>
+
+            <p>Username: <%= user.username %></p>
+            <p>Email: <%= user.email %></p>
+        </div>
+
+        <div id="bio" class="tab-content">
+            <p>Bio: <%= user.bio %></p>
+            <form action="/profile/edit" method="POST">
+                <div>
+                    <label for="bio">Update Bio:</label>
+                    <textarea id="bio" name="bio"><%= user.bio %></textarea>
+                </div>
+                <button type="submit">Update Bio</button>
+            </form>
+        </div>
+
+        <div id="additional" class="tab-content">
+            <p>First Name: <%= user.firstName %></p>
+            <p>Last Name: <%= user.lastName %></p>
+            <p>Location: <%= user.location %></p>
+            <p>Website: <%= user.website %></p>
+        </div>
 
         <a href="/profile?edit=true">Edit Profile</a>
         <a href="/auth/logout">Logout</a>
@@ -71,7 +54,8 @@
         <form action="/profile/delete" method="POST">
             <button type="submit">Delete Account</button>
         </form>
-    <% } %>
     </div>
+
+    <script src="/script.js"></script>
 </body>
 </html>
