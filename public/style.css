@@ -29,7 +29,6 @@ body {
     padding: 15px 20px;
     border-radius: 12px;
     margin-bottom: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .navbar a {
@@ -45,49 +44,12 @@ body {
     border-radius: 6px;
 }
 
-/* Профиль пользователя */
-.profile-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.profile-container img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #007bff;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.profile-container .info {
-    text-align: center;
-}
-
-.profile-container h1 {
-    margin: 0;
-    font-size: 24px;
-    color: #212529;
-}
-
-/* Заголовки */
-h2 {
-    font-size: 22px;
-    color: #007bff;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 5px;
-}
-
 /* Форма заметок */
 .notes-form {
     background: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    transition: 0.3s;
     margin-bottom: 20px;
 }
 
@@ -105,7 +67,6 @@ h2 {
     border: 1px solid #ccc;
     border-radius: 6px;
     margin-bottom: 15px;
-    transition: all 0.3s ease;
 }
 
 .notes-form input:focus,
@@ -144,12 +105,7 @@ ul.notes-list li {
     border-radius: 8px;
     margin-bottom: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: 0.3s;
     position: relative;
-}
-
-ul.notes-list li:hover {
-    transform: translateY(-3px);
 }
 
 ul.notes-list li h3 {
@@ -167,36 +123,8 @@ ul.notes-list li .delete-btn {
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 12px;
-    transition: 0.3s;
 }
 
 ul.notes-list li .delete-btn:hover {
     background: #c9302c;
-}
-
-/* Ошибки */
-.error {
-    color: #d9534f;
-    background: #f8d7da;
-    padding: 10px;
-    border-left: 4px solid #d9534f;
-    border-radius: 6px;
-    margin-bottom: 15px;
-}
-
-/* Медиа-запросы */
-@media (max-width: 768px) {
-    .profile-container {
-        flex-direction: column;
-        text-align: center;
-    }
-    .container {
-        width: 100%;
-        padding: 20px;
-    }
-    .navbar {
-        flex-direction: column;
-        text-align: center;
-    }
 }
