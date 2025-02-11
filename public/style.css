@@ -5,6 +5,11 @@ body {
     margin: 0;
     padding: 0;
     color: #343a40; /* Темный серый для текста */
+
+    display: flex; /* Flexbox layout */
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+    min-height: 100vh; /* Make the body at least the height of the viewport */
 }
 
 .container {
@@ -18,8 +23,18 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Легкая тень */
 }
 
+/* Стили для фото профиля */
+img[alt="Profile Picture"] {
+    border-radius: 50%; /* Круглая обрезка */
+    width: 100px; /* Задайте нужный размер */
+    height: 100px;
+    object-fit: cover; /* Заполнить контейнер с сохранением пропорций */
+    border: 3px solid #fff; /* Добавьте белую рамку */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Тень для объема */
+}
+
 /* Стили для заголовков */
-h1 {
+h1, h2 {
     color: #212529;
     text-align: center;
     padding: 20px 0;
