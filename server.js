@@ -37,11 +37,18 @@ app.use(session({
 }));
 
 // MongoDB Connection
+// MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log('Connected to MongoDB Atlas'))
+.then(() => {
+    console.log('Connected to MongoDB Atlas');
+    // Дополнительная проверка: выполните простой запрос сразу после подключения
+    mongoose.connection.db.admin().ping()
+        .then(() => console.log('Successfully pinged the database'))
+        .catch(err => console.error('Failed to ping the database', err));
+})
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware to check if user is logged in
