@@ -175,6 +175,29 @@ app.post('/profile/delete', isLoggedIn, async (req, res) => {
   }
 });
 
+app.post('/profile/remove-picture', isLoggedIn, async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        // Update the user's profile picture
+        user.profilePicture = '/images/default-profile.png';  // Save the file path to the database
+        await user.save();
+
+        // Update the session
+        req.session.user.profilePicture = user.profilePicture;
+
+        res.redirect('/profile');
+    } catch (error) {
+        console.error('Error uploading profile picture:', error);
+        res.status(500).send('An error occurred while uploading the profile picture.');
+    }
+});
+
 app.post('/profile/upload', isLoggedIn, upload.single('profilePicture'), async (req, res) => {
     try {
         const userId = req.session.userId;
