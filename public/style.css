@@ -1,24 +1,36 @@
 /* Общие стили */
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Roboto', sans-serif; /* Современный шрифт */
+    background-color: #f8f9fa; /* Светло-серый фон */
     margin: 0;
     padding: 0;
-    color: #333;
+    color: #343a40; /* Темный серый для текста */
 }
 
 .container {
     width: 80%;
-    margin: auto;
+    max-width: 960px; /* Максимальная ширина контейнера */
+    margin: 20px auto;
     overflow: hidden;
     padding: 20px;
+    background-color: #fff;
+    border-radius: 10px; /* Скругленные углы */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05); /* Легкая тень */
 }
 
 /* Стили для заголовков */
-h1, h2 {
-    color: #333;
+h1 {
+    color: #212529;
     text-align: center;
-    padding: 10px 0;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee; /* Линия под заголовком */
+}
+
+h2 {
+    color: #212529;
+    margin-top: 30px;
+    margin-bottom: 15px;
 }
 
 /* Стили для ссылок */
@@ -38,7 +50,7 @@ form {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
 }
 
@@ -49,7 +61,8 @@ form div {
 form label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: 500; /* Полужирный шрифт */
+    color: #495057;
 }
 
 form input[type="text"],
@@ -57,25 +70,36 @@ form input[type="email"],
 form input[type="password"],
 form textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
     box-sizing: border-box;
     margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form textarea:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25); /* Легкая подсветка при фокусе */
 }
 
 form button {
-    background-color: #5cb85c;
+    background-color: #007bff;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-weight: 600;
 }
 
 form button:hover {
-    background-color: #4cae4c;
+    background-color: #0056b3;
 }
 
 /* Стили для кнопок действий */
@@ -87,10 +111,11 @@ form button:hover {
 .action-buttons a {
     background-color: #007bff;
     color: white;
-    padding: 10px 15px;
-    border-radius: 4px;
+    padding: 12px 20px;
+    border-radius: 6px;
     margin: 0 10px;
     display: inline-block;
+    transition: background-color 0.3s ease;
 }
 
 .action-buttons a:hover {
@@ -107,9 +132,10 @@ ul.notes-list {
 ul.notes-list li {
     background-color: #fff;
     border: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05); /* Легкая тень для элементов списка */
 }
 
 ul.notes-list li h3 {
@@ -123,12 +149,12 @@ ul.notes-list li p {
 
 /* Стили для сообщений об ошибках */
 .error {
-    color: #d9534f;
-    margin-bottom: 10px;
-    padding: 8px;
-    background-color: #f2dede;
-    border: 1px solid #ebccd1;
-    border-radius: 4px;
+    color: #721c24; /* Темно-красный цвет */
+    margin-bottom: 15px;
+    padding: 12px;
+    background-color: #f8d7da; /* Светло-розовый фон */
+    border: 1px solid #f5c6cb; /* Розовая граница */
+    border-radius: 6px;
 }
 
 /* Стили для требований к паролю */
@@ -136,17 +162,26 @@ ul.password-requirements {
     list-style: none;
     padding: 0;
     margin-top: 5px;
+    margin-bottom: 15px;
 }
 
 ul.password-requirements li {
-    font-size: 0.8em;
-    color: #888;
+    font-size: 0.9em;
+    color: #6c757d; /* Более мягкий серый цвет */
+    padding: 5px 0;
 }
 
 ul.password-requirements li.valid {
-    color: green;
+    color: #28a745; /* Зеленый цвет для валидных требований */
 }
 
 ul.password-requirements li.invalid {
-    color: red;
+    color: #dc3545; /* Красный цвет для невыполненных требований */
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+    .container {
+        width: 95%; /* На узких экранах контейнер занимает больше места */
+    }
 }
