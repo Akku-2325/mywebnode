@@ -3,11 +3,11 @@
 <head>
     <title>Profile</title>
     <link rel="stylesheet" href="/style.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <div class="container">
         <div class="profile-container">
-        <h1>Your Profile</h1>
 
         <% if (editing) { %>
             <h2>Edit Profile</h2>
@@ -47,33 +47,70 @@
                 <a href="/profile">Cancel</a>
             </form>
         <% } else { %>
-            <img src="<%= user.profilePicture || '/images/default-profile.png' %>" alt="Profile Picture" width="100">
-            <h2>Update Picture</h2>
-            <form action="/profile/upload" method="POST" enctype="multipart/form-data">
-                <input type="file" name="profilePicture">
-                <button type="submit">Upload</button>
-            </form>
-            <form action="/profile/remove-picture" method="POST">
-                <button type="submit">Remove Profile Picture</button>
-            </form>
 
-            <p>Username: <%= user.username %></p>
-            <p>Email: <%= user.email %></p>
-            <p>First Name: <%= user.firstName %></p>
-            <p>Last Name: <%= user.lastName %></p>
-            <p>Location: <%= user.location %></p>
-            <p>Website: <%= user.website %></p>
-            <p>Bio: <%= user.bio %></p>
+             <div class="profile-left">
+                <div class="profile-image">
+                     <img src="<%= user.profilePicture || '/images/default-profile.png' %>" alt="Profile Picture">
+                </div>
+                <h2 class="profile-name"><%= user.username %></h2>
+                <p class="profile-description"><%= user.bio %></p>
+                 <div class="profile-social">
+                      <a href="#"><i class="fa fa-facebook"></i></a>
+                      <a href="#"><i class="fa fa-twitter"></i></a>
+                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                      <a href="#"><i class="fa fa-linkedin"></i></a>
+                 </div>
+              </div>
 
-            <a href="/profile?edit=true">Edit Profile</a>
-            <a href="/auth/logout">Logout</a>
+              <div class="profile-right">
+                    <div class="profile-tabs">
+                        <button class="tab-button active">О пользователе</button>
+                        <button class="tab-button">Отправить сообщение</button>
+                    </div>
 
-            <div class="danger-zone">
-                <h2>Danger Zone</h2>
-                <form action="/profile/delete" method="POST">
-                    <button type="submit">Delete Account</button>
-                </form>
-            </div>
+                    <div class="profile-details">
+                          <div class="detail-row">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value"><%= user.email %></span>
+                          </div>
+                          <div class="detail-row">
+                            <span class="detail-label">First Name:</span>
+                            <span class="detail-value"><%= user.firstName %></span>
+                          </div>
+                          <div class="detail-row">
+                            <span class="detail-label">Last Name:</span>
+                            <span class="detail-value"><%= user.lastName %></span>
+                          </div>
+                          <div class="detail-row">
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value"><%= user.location %></span>
+                          </div>
+                           <div class="detail-row">
+                            <span class="detail-label">Website:</span>
+                            <span class="detail-value"><%= user.website %></span>
+                          </div>
+                    </div>
+
+                      <form action="/profile/upload" method="POST" enctype="multipart/form-data">
+                            <label for="profilePicture">Update Picture</label>
+                            <input type="file" id="profilePicture" name="profilePicture">
+                            <button type="submit">Upload</button>
+                      </form>
+                      <form action="/profile/remove-picture" method="POST">
+                            <button type="submit">Remove Profile Picture</button>
+                      </form>
+
+                      <a href="/profile?edit=true">Edit Profile</a>
+                      <a href="/auth/logout">Logout</a>
+
+                      <div class="danger-zone">
+                            <h2>Danger Zone</h2>
+                            <form action="/profile/delete" method="POST">
+                                <button type="submit">Delete Account</button>
+                            </form>
+                      </div>
+              </div>
+
         <% } %>
         </div>
     </div>
