@@ -33,8 +33,8 @@ body {
 /* Стили для фото профиля */
 img[alt="Profile Picture"] {
     border-radius: 50%; /* Круглая обрезка */
-    width: 500px; /* Задайте нужный размер */
-    height: 100px;
+    width: 200px; /* Задайте нужный размер */
+    height: 200px;
     object-fit: cover; /* Заполнить контейнер с сохранением пропорций */
     border: 3px solid #fff; /* Добавьте белую рамку */
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Тень для объема */
