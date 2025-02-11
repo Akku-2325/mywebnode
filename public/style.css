@@ -6,8 +6,7 @@ body {
     padding: 0;
     color: #343a40; /* Темный серый для текста */
 
-    display: flex; /* Flexbox layout */
-    justify-content: center; /* Horizontal centering */
+    display: flex; /* Flexbox layout */ /* Horizontal centering */
     align-items: center; /* Vertical centering */
     min-height: 100vh; /* Make the body at least the height of the viewport */
 }
