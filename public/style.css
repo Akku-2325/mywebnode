@@ -10,6 +10,7 @@ body {
     min-height: 100vh;
 }
 
+
 .container {
     width: 80%;
     max-width: 600px;
@@ -164,35 +165,35 @@ button:hover {
 }
 
 /* Main Page Styles */
-/* Main Page Styles */
 .main-page-container {
-    width: 80%; /* Restored to a more standard width */
-    max-width: 400px; /* Adjust as needed */
+    width: 80%;
+    max-width: 400px;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin: 20px auto; /* Added to center the container horizontally and add some spacing */
+    margin: 20px auto;
 }
 
 .main-page-container h1 {
-    margin-bottom: 10px; /* Reduce the margin to bring content closer */
-    font-size: 1.5em; /* Adjust the size of the heading */
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    color: #333;
 }
 
 .main-page-container p {
-    color: #666; /* Define paragraph color */
-    margin-bottom: 15px; /* Add spacing below the paragraph */
+    color: #666;
+    margin-bottom: 15px;
 }
 
 .main-page-container a {
-    color: #007bff; /* Link color */
-    text-decoration: none; /* Remove underline */
+    color: #007bff;
+    text-decoration: none;
 }
 
 .main-page-container a:hover {
-    text-decoration: underline; /* Underline on hover for better UX */
+    text-decoration: underline;
 }
 
 /* Styles for Login and Register Pages - UNCHANGED */
