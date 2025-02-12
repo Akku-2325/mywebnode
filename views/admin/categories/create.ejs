@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Category</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create New Category</h1>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <p style="color: red;"><%= error %></p>
+        <% } %>
+
+        <form action="/categories" method="POST">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
+            <button type="submit">Create Category</button>
+        </form>
+
+        <a href="/admin">Back to Admin Panel</a>
+    </div>
+</body>
+</html>

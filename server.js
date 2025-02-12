@@ -245,6 +245,33 @@ app.get('/', (req, res) => {
     }
 });
 
+app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
+    try {
+        res.render('admin/index');
+    } catch (error) {
+        console.error('Error rendering admin panel:', error);
+        res.status(500).send('Error rendering admin panel.');
+    }
+});
+
+//Temporary route to create an admin user for testing purposes (REMOVE LATER)
+app.get('/create-admin', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash('adminpassword', 10); // Hash the password
+        const adminUser = new User({
+            email: 'admin@example.com',
+            username: 'admin',
+            password: hashedPassword,
+            role: 'admin'
+        });
+        await adminUser.save();
+        res.send('Admin user created successfully!  Remember to remove this route!');
+    } catch (error) {
+        console.error('Error creating admin user:', error);
+        res.status(500).send('Error creating admin user');
+    }
+});
+
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });

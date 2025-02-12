@@ -28,10 +28,12 @@ const categoryController = {
         try {
             const newCategory = new Category(req.body);
             await newCategory.save();
-            res.status(201).json(newCategory);
+            res.redirect('/categories');
+            //res.status(201).json(newCategory);
         } catch (error) {
             console.error('Error creating category:', error);
-            res.status(400).json({ message: 'Failed to create category' });
+            res.render('admin/categories/create', { error: 'Failed to create category' });
+            //res.status(400).json({ message: 'Failed to create category' });
         }
     },
 
