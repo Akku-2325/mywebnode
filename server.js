@@ -13,6 +13,7 @@ const User = require('./models/User');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -254,23 +255,7 @@ app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
     }
 });
 
-//Temporary route to create an admin user for testing purposes (REMOVE LATER)
-app.get('/create-admin', async (req, res) => {
-    try {
-        const hashedPassword = await bcrypt.hash('adminpassword', 10); // Hash the password
-        const adminUser = new User({
-            email: 'admin@example.com',
-            username: 'admin',
-            password: hashedPassword,
-            role: 'admin'
-        });
-        await adminUser.save();
-        res.send('Admin user created successfully!  Remember to remove this route!');
-    } catch (error) {
-        console.error('Error creating admin user:', error);
-        res.status(500).send('Error creating admin user');
-    }
-});
+
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
