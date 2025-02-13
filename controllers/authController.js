@@ -76,7 +76,7 @@ const authController = {
             // Если 2FA включена, проверяем код
             if (user.is2FAEnabled) {
                 if (!twoFactorCode) {
-                    return res.render('login', { error: 'Two-factor code is required.', twoFactorRequired: true, twoFactorRequired: true });
+                    return res.render('login', { error: 'Two-factor code is required.', twoFactorRequired: true });
                 }
     
                 const verified = speakeasy.totp.verify({
@@ -87,7 +87,7 @@ const authController = {
                 });
     
                 if (!verified) {
-                    return res.render('login', { error: 'Invalid two-factor code.', twoFactorRequired: true, twoFactorRequired: true });
+                    return res.render('login', { error: 'Invalid two-factor code.', twoFactorRequired: true });
                 }
             }
     
