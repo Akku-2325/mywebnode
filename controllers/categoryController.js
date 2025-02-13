@@ -4,7 +4,9 @@ const categoryController = {
     getAllCategories: async (req, res) => {
         try {
             const categories = await Category.find();
-            res.render('admin/categories/index', { categories }); //Отображаем все категории
+            // TODO: Create a dedicated view for listing categories
+            // For now, render the product index view (you'll need to adapt it)
+            res.render('admin/products/index', { categories: categories, products: [] });
         } catch (error) {
             console.error('Error fetching categories:', error);
             res.status(500).send('Error fetching categories');
@@ -17,7 +19,8 @@ const categoryController = {
             if (!category) {
                 return res.status(404).send('Category not found');
             }
-            res.render('admin/categories/edit', { category });
+            // TODO: Create a view to display a single category
+            res.render('admin/products/index', { categories: [category], products: [] });
         } catch (error) {
             console.error('Error fetching category:', error);
             res.status(500).send('Error fetching category.');
@@ -26,12 +29,14 @@ const categoryController = {
 
     createCategory: async (req, res) => {
         try {
+            console.log("Data received:", req.body); // Проверка данных
             const newCategory = new Category(req.body);
             await newCategory.save();
-            res.redirect('/categories');
+            console.log("Category saved successfully");
+            res.redirect('/categories'); // Перенаправление на список категорий
         } catch (error) {
             console.error('Error creating category:', error);
-            res.render('admin/categories/create', { error: 'Failed to create category' });
+            res.render('admin/categories/create', { error: 'Failed to create category' }); // Отображение формы с ошибкой
         }
     },
 
@@ -45,7 +50,7 @@ const categoryController = {
             if (!category) {
                 return res.status(404).send('Category not found');
             }
-            res.render('admin/categories/edit', { category });
+            res.render('admin/categories/edit', { category: category });
         } catch (error) {
             console.error('Error fetching category for edit:', error);
             res.status(500).send('Error fetching category for edit.');
