@@ -51,7 +51,7 @@ const authController = {
             const user = await User.findOne({ email });
       
             if (!user) {
-              return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
+                return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
             }
       
             if (user.lockUntil && user.lockUntil > Date.now()) {
@@ -77,10 +77,9 @@ const authController = {
             // 2FA Logic
             if (user.is2FAEnabled) {
               // Redirect to 2FA verification page if not yet verified
-              req.session.userId = user._id; // Important: Save the userId in the session
-              req.session.twoFactorRequired = true; // Mark that 2FA is required
-      
-              return res.redirect('/auth/verify2FA'); // Redirect to verification page
+              req.session.userId = user._id;
+              req.session.twoFactorRequired = true;
+              return res.redirect('/auth/verify2FA');
             } else {
               // No 2FA, log in directly
               req.session.userId = user._id;
@@ -90,7 +89,7 @@ const authController = {
                 username: user.username,
                 role: user.role,
               };
-              req.session.is2FAVerified = true; //set the flag as true, so we know this flag in the app!
+              req.session.is2FAVerified = true;
               console.log('User logged in:', req.session.user);
               return res.redirect('/');
             }
@@ -105,6 +104,11 @@ const authController = {
         postVerify2FA: async (req, res) => {
             const { twoFactorCode } = req.body;
             const userId = req.session.userId; // Get userId from session
+            
+            if (!req.session.twoFactorRequired) {
+                return res.redirect('/'); // Или куда-нибудь еще, где требуется 2FA
+             }
+    
 
             if (!userId) {
                 return res.redirect('/auth/login'); // No user in session, redirect to login
@@ -114,19 +118,7 @@ const authController = {
                 const user = await User.findById(userId);
 
                 if (!user) {
-                    return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
-                }
-
-                if (!user.is2FAEnabled) {
-                    req.session.user = {
-                        _id: user._id,
-                        email: user.email,
-                        username: user.username,
-                        role: user.role,
-                    };
-                    req.session.is2FAVerified = true;
-                    delete req.session.twoFactorRequired;
-                    return res.redirect('/');
+                    return res.redirect('/auth/login');
                 }
 
                 if (!twoFactorCode) {
@@ -188,51 +180,37 @@ const authController = {
           });
         },
           get2FASetup: async (req, res) => {
-              console.log("2fa1")
               if (!req.session.userId) {
-                  console.log("2fa2")
                   return res.redirect('/auth/login');
               }
-              console.log("2fa3")
               try {
-                  console.log("2fa4")
                   const user = await User.findById(req.session.userId);
-                  console.log("2fa5")
                   if (!user) {
-                      console.log("2fa6")
                       return res.status(404).send('User not found');
                   }
-                  console.log("2fa7")
                   // Generate a secret key for 2FA
                   const secret = speakeasy.generateSecret({ length: 20 });
-                  console.log("2fa8")
+                  const otpAuthURL = speakeasy.otpauthURL({
+                    secret: secret.base32,
+                    label: `YourAppName (${user.email})`, // Или username
+                    encoding: 'base32',
+                  });
+
                   // Generate QR code
-                  qrcode.toDataURL(secret.otpauth_url, async (err, data_url) => {
-                      console.log("2fa9")
+                  qrcode.toDataURL(otpAuthURL, async (err, data_url) => {
                       if (err) {
-                          console.log("2fa10")
                           console.error('Error generating QR code:', err);
                           return res.status(500).send('Error generating QR code');
                       }
-                      console.log("2fa11")
+
                       // Update user in database
                       user.twoFASecret = secret.base32;
                       user.is2FAEnabled = true; // Enable 2FA
                       await user.save();
-                      console.log("2fa12")
-                      req.session.user = {
-                          _id: user._id,
-                          email: user.email,
-                          username: user.username,
-                          role: user.role,
-                          twoFASecret: user.twoFASecret, // save for session as well
-                          is2FAEnabled: user.is2FAEnabled,
-                      };
-                      console.log("2fa13")
+
                       res.render('2fa/setup', { qr_code: data_url, secret: secret.base32 });
                   });
               } catch (error) {
-                  console.log("2fa14")
                   console.error('Error setting up 2FA:', error);
                   res.status(500).send('Error setting up 2FA');
               }
