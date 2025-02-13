@@ -14,6 +14,8 @@ const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
 const authMiddleware = require('./middleware/authMiddleware');
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/admin', adminRoutes);
 
 const app = express();
 const port = process.env.PORT || 3000;

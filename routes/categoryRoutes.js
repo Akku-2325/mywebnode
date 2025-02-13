@@ -8,15 +8,9 @@ router.get('/', categoryController.getAllCategories);
 router.get('/:id', categoryController.getCategoryById);
 
 // Admin routes
-router.get('/create', authMiddleware.isLoggedIn, authMiddleware.isAdmin, (req, res) => {
-    res.render('admin/categories/create'); // render form to create category
-});
+router.get('/create', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.getCreateCategoryForm);
 router.post('/', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.createCategory);
-router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
-router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
-
-// Admin routes for editing
-router.get('/:id/edit', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.editCategory);
+router.get('/:id/edit', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.getEditCategoryForm);
 router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
 router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
 
