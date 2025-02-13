@@ -22,7 +22,7 @@ const authMiddleware = {
     }
   },
     setUser: async (req, res, next) => {
-        if (req.session.userId) {
+        if (req.session && req.session.userId) { // Check if req.session exists
             try {
                 const user = await User.findById(req.session.userId).lean();
                 if (user) {
