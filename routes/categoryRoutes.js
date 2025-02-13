@@ -10,7 +10,11 @@ router.get('/:id', categoryController.getCategoryById);
 // Admin routes
 router.get('/create', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.getCreateCategoryForm);
 router.post('/', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.createCategory);
-router.get('/:id/edit', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.getEditCategoryForm);
+router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
+router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
+
+// Admin routes for editing
+router.get('/:id/edit', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.editCategory);
 router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
 router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
 
