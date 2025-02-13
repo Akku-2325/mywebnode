@@ -1,9 +1,9 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
 const speakeasy = require('speakeasy');
 const qrcode = require('qrcode');
-const mongoose = require('mongoose');
 
 const authController = {
     getRegister: (req, res) => {
