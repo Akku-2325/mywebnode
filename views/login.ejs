@@ -17,12 +17,15 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <% if (typeof twoFactorRequired !== 'undefined' && twoFactorRequired) { %>
-            <div>
-                <label for="twoFactorCode">Two-Factor Code:</label>
-                <input type="text" id="twoFactorCode" name="twoFactorCode" required>
-            </div>
-        <% } %>
+         <div>
+            <label for="twoFactorCode">Two-Factor Code:</label>
+            <input 
+                type="<%= (typeof twoFactorRequired !== 'undefined' && twoFactorRequired) ? 'text' : 'hidden' %>"
+                id="twoFactorCode" 
+                name="twoFactorCode" 
+                required="<%= (typeof twoFactorRequired !== 'undefined' && twoFactorRequired) ? true : false %>" 
+            />
+        </div>
         <button type="submit">Login</button>
     </form>
 </body>
