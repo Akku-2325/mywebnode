@@ -22,12 +22,12 @@ const authController = {
             if (existingUser) {
                 return res.render('register', { error: 'Email already registered.' });
             }
-
             const newUser = new User({ email, password, username });
             await newUser.save();
 
-            req.session.userId = newUser._id;
-            res.redirect('/auth/2fa/setup');
+            // После успешной регистрации, сразу перенаправляем на страницу настройки 2FA
+            req.session.userId = newUser._id; // Сохраняем userId в сессии
+            return res.redirect('/auth/2fa/setup');
 
         } catch (error) {
             console.error('Error registering user:', error);
@@ -35,8 +35,8 @@ const authController = {
         }
     },
 
-    getLogin: (req, res) => {
-        res.render('login', { twoFactorRequired: false });
+    getLogin: async (req, res) => {
+        res.render('login', {twoFactorRequired: false});
     },
 
     postLogin: async (req, res) => {
@@ -44,11 +44,10 @@ const authController = {
         if (!errors.isEmpty()) {
             return res.render('login', { error: errors.array()[0].msg, twoFactorRequired: false });
         }
-        const { email, password, twoFactorCode } = req.body; // Получаем twoFactorCode
+        const { email, password, twoFactorCode } = req.body;
     
         try {
             const user = await User.findOne({ email });
-    
             if (!user) {
                 return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
             }
@@ -68,40 +67,46 @@ const authController = {
                 await user.save();
                 return res.render('login', { error: 'Invalid password.', twoFactorRequired: false });
             }
-    
             user.loginAttempts = 0;
             user.lockUntil = undefined;
             await user.save();
-    
             // Если 2FA включена, проверяем код
             if (user.is2FAEnabled) {
+                // Check if two-factor code is provided
                 if (!twoFactorCode) {
-                    return res.render('login', { error: 'Two-factor code is required.', twoFactorRequired: true });
+                    // ***ВАЖНО***: Здесь передаем twoFactorRequired: true
+                    return res.render('login', { error: 'Two-factor code is required', twoFactorRequired: true });
                 }
-    
                 const verified = speakeasy.totp.verify({
                     secret: user.twoFASecret,
                     encoding: 'base32',
                     token: twoFactorCode,
-                    window: 2
+                    window: 2 // Allow a window of 2 (codes can be used 1 code before or 1 code after to allow for clock drift)
                 });
-    
                 if (!verified) {
-                    return res.render('login', { error: 'Invalid two-factor code.', twoFactorRequired: true });
+                    return res.render('login', { error: 'Invalid two-factor code', twoFactorRequired: true });
                 }
-            }
-    
-            // Если 2FA не включена, или код 2FA верен, устанавливаем сессию и редиректим
+                // Если код 2fa ввели, то устанавливаем сессию и редиректим
+                req.session.userId = user._id;
+                req.session.user = {
+                    _id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    is2FAVerified: true // Set this to true after verification
+                };
+                console.log("User logged in with 2FA:", req.session.user);
+                return res.redirect('/');
+            } // Если  2fa был выключен - сразу логинимся
             req.session.userId = user._id;
-            req.session.is2FAVerified = true;
             req.session.user = {
                 _id: user._id,
                 email: user.email,
                 username: user.username,
                 role: user.role,
+                is2FAVerified: true// No 2FA
             };
-    
-            console.log('User logged in:', req.session.user);
+            console.log("User logged in with no 2FA:", req.session.user);
             res.redirect('/');
     
         } catch (error) {
@@ -109,7 +114,6 @@ const authController = {
             res.render('login', { error: 'An error occurred during login.', twoFactorRequired: false });
         }
     },
-
 
     getLogout: (req, res) => {
         req.session.destroy((err) => {
@@ -121,7 +125,7 @@ const authController = {
         });
     },
 
-    get2FASetup: async (req, res) => {
+   get2FASetup: async (req, res) => {
         if (!req.session.userId) {
             return res.redirect('/auth/login');
         }
@@ -131,24 +135,48 @@ const authController = {
             if (!user) {
                 return res.status(404).send('User not found');
             }
-
+             // Check if the user already has a 2FA secret
+            if (user.twoFASecret) {
+                return res.render('2fa/setup', { qr_code: null, secret: user.twoFASecret, message: '2FA is already set up for your account.' });
+            }
+            // Generate a secret key for 2FA
             const secret = speakeasy.generateSecret({ length: 20 });
-
+             // Generate QR code
             qrcode.toDataURL(secret.otpauth_url, async (err, data_url) => {
                 if (err) {
                     console.error('Error generating QR code:', err);
                     return res.status(500).send('Error generating QR code');
                 }
-
+                // Update user in database
                 user.twoFASecret = secret.base32;
                 user.is2FAEnabled = true;
                 await user.save();
-
-                res.render('2fa/setup', { qr_code: data_url, secret: secret.base32 });
+                // Update session
+                req.session.user = {
+                    _id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    twoFASecret: user.twoFASecret, // save for session as well
+                    is2FAEnabled: user.is2FAEnabled,
+                     is2FAVerified: true // Save for session as well
+                };
+                console.log('2FA setup for user:', req.session.user);
+                 res.render('2fa/setup', { qr_code: data_url, secret: secret.base32 });
             });
         } catch (error) {
             console.error('Error setting up 2FA:', error);
             res.status(500).send('Error setting up 2FA');
+        }
+    },
+    getVerify2FA: async (req, res) => {
+        try {
+            // Here, you would typically fetch the user and check if 2FA is enabled
+            // You might also want to pass user-specific data to the view
+            res.render('verify2FA'); // Render the 2FA verification form
+        } catch (error) {
+            console.error('Error fetching 2FA setup:', error);
+            res.render('login', { error: 'Error displaying 2FA setup.' });
         }
     },
 };
