@@ -72,7 +72,7 @@ const productController = {
     getCreateProductForm: async (req, res) => {
         try {
             const categories = await Category.find();
-            res.render('admin/products/create', { categories });
+            res.render('admin/products/create', { categories: categories }); // Correct path
         } catch (error) {
             console.error('Error fetching categories:', error);
             res.status(500).send('Error fetching categories for the product form.');
