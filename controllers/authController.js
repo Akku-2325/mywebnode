@@ -103,64 +103,65 @@ const authController = {
       
         // New function to handle 2FA verification
         postVerify2FA: async (req, res) => {
-          const { twoFactorCode } = req.body;
-          const userId = req.session.userId; // Get userId from session
-      
-          if (!userId) {
-            return res.redirect('/auth/login'); // No user in session, redirect to login
-          }
-      
-          try {
-            const user = await User.findById(userId);
-      
-            if (!user) {
-              return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
+            const { twoFactorCode } = req.body;
+            const userId = req.session.userId; // Get userId from session
+        
+            if (!userId) {
+                return res.redirect('/auth/login'); // No user in session, redirect to login
             }
-      
-            if (!user.is2FAEnabled) {
-                req.session.user = {
-                  _id: user._id,
-                  email: user.email,
-                  username: user.username,
-                  role: user.role,
-              };
-                req.session.is2FAVerified = true;
-                return res.redirect('/');
+        
+            try {
+                const user = await User.findById(userId);
+        
+                if (!user) {
+                    return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
+                }
+        
+                if (!user.is2FAEnabled) {
+                    req.session.user = {
+                        _id: user._id,
+                        email: user.email,
+                        username: user.username,
+                        role: user.role,
+                    };
+                    req.session.is2FAVerified = true;
+                    delete req.session.twoFactorRequired; //clears the `twoFactorRequired`flag
+                    return res.redirect('/');
+                }
+        
+                if (!twoFactorCode) {
+                    return res.render('verify2FA', { error: 'Two-factor code is required' });
+                }
+        
+                const verified = speakeasy.totp.verify({
+                    secret: user.twoFASecret,
+                    encoding: 'base32',
+                    token: twoFactorCode,
+                    window: 2,
+                });
+        
+                if (verified) {
+                    // 2FA code is valid
+        
+                    // Set session variables
+                    req.session.user = {
+                        _id: user._id,
+                        email: user.email,
+                        username: user.username,
+                        role: user.role,
+                    };
+                    req.session.is2FAVerified = true; // Mark 2FA as verified
+                    delete req.session.twoFactorRequired; // Remove the flag
+        
+                    return res.redirect('/'); // Redirect to the main page
+                } else {
+                    // 2FA code is invalid
+                    return res.render('verify2FA', { error: 'Invalid two-factor code' });
+                }
+            } catch (error) {
+                console.error('Error verifying 2FA:', error);
+                res.render('verify2FA', { error: 'An error occurred during 2FA verification.' });
             }
-      
-            if (!twoFactorCode) {
-              return res.render('verify2FA', { error: 'Two-factor code is required' });
-            }
-      
-            const verified = speakeasy.totp.verify({
-              secret: user.twoFASecret,
-              encoding: 'base32',
-              token: twoFactorCode,
-              window: 2,
-            });
-      
-            if (verified) {
-              // 2FA code is valid
-      
-              // Set session variables
-              req.session.user = {
-                _id: user._id,
-                email: user.email,
-                username: user.username,
-                role: user.role,
-              };
-              req.session.is2FAVerified = true; // Mark 2FA as verified
-              delete req.session.twoFactorRequired; // Remove the flag
-      
-              return res.redirect('/'); // Redirect to the main page
-            } else {
-              // 2FA code is invalid
-              return res.render('verify2FA', { error: 'Invalid two-factor code' });
-            }
-          } catch (error) {
-            console.error('Error verifying 2FA:', error);
-            res.render('verify2FA', { error: 'An error occurred during 2FA verification.' });
-          }
         },
       
         getVerify2FA: async (req, res) => {

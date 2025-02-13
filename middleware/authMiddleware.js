@@ -1,13 +1,13 @@
 const User = require('../models/User');
 
 const authMiddleware = {
-  isLoggedIn: (req, res, next) => {
-    if (req.session.userId && req.session.is2FAVerified) {
-      return next();
-    } else {
-      return res.redirect('/auth/login');
-    }
-  },
+    isLoggedIn: (req, res, next) => {
+        if (req.session.userId && req.session.is2FAVerified) {
+            return next();
+        } else {
+            return res.redirect('/auth/login');
+        }
+    },
 
   isAdmin: async (req, res, next) => {
     try {
