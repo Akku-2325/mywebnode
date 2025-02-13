@@ -40,8 +40,11 @@ const authController = {
     },
 
     postLogin: async (req, res) => {
+        console.log("postLogin called"); // Добавьте этот лог
+    
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
+            console.log("Validation errors:", errors.array());
             return res.render('login', { error: errors.array()[0].msg, twoFactorRequired: false });
         }
         const { email, password, twoFactorCode } = req.body;
@@ -49,10 +52,12 @@ const authController = {
         try {
             const user = await User.findOne({ email });
             if (!user) {
+                console.log("User not found");
                 return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
             }
     
             if (user.lockUntil && user.lockUntil > Date.now()) {
+                console.log("Account locked");
                 const timeRemaining = Math.ceil((user.lockUntil - Date.now()) / 60000);
                 return res.render('login', { error: `Account locked. Try again in ${timeRemaining} minutes.`, twoFactorRequired: false });
             }
@@ -60,6 +65,7 @@ const authController = {
             const isPasswordValid = await user.isValidPassword(password);
     
             if (!isPasswordValid) {
+                console.log("Invalid password");
                 user.loginAttempts += 1;
                 if (user.loginAttempts >= 5) {
                     user.lockUntil = new Date(Date.now() + 15 * 60 * 1000);
@@ -73,11 +79,17 @@ const authController = {
     
             // *** Обработка 2FA ***
             if (user.is2FAEnabled) {
+                console.log("2FA is enabled for this user"); // Добавьте этот лог
                 if (!twoFactorCode) {
+                    console.log("Two-factor code is missing"); // Добавьте этот лог
                     // ***ВАЖНО***: Здесь передаем twoFactorRequired: true и *ОСТАНАВЛИВАЕМ выполнение функции*
                     return res.render('login', { error: 'Two-factor code is required', twoFactorRequired: true });
+                    console.log("user.is2FAEnabled:", user.is2FAEnabled);
+                        console.log("twoFactorCode:", twoFactorCode);
+                        console.log("typeof twoFactorCode:", typeof twoFactorCode);
                 }
     
+                console.log("Two-factor code provided:", twoFactorCode); // Добавьте этот лог
                 const verified = speakeasy.totp.verify({
                     secret: user.twoFASecret,
                     encoding: 'base32',
@@ -86,10 +98,12 @@ const authController = {
                 });
     
                 if (!verified) {
+                    console.log("Invalid two-factor code"); // Добавьте этот лог
                     return res.render('login', { error: 'Invalid two-factor code', twoFactorRequired: true });
                 }
     
                 // 2FA verification successful
+                console.log("Two-factor code verified"); // Добавьте этот лог
                 req.session.userId = user._id;
                 req.session.user = {
                     _id: user._id,
@@ -102,6 +116,7 @@ const authController = {
                 return res.redirect('/'); // ***ВАЖНО***: ОСТАНАВЛИВАЕМ выполнение функции
             } else {
                 // *** Обработка обычного логина (без 2FA) ***
+                console.log("2FA is NOT enabled for this user"); // Добавьте этот лог
                 req.session.userId = user._id;
                 req.session.user = {
                     _id: user._id,
