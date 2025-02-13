@@ -179,42 +179,122 @@ const authController = {
             res.redirect('/auth/login');
           });
         },
-          get2FASetup: async (req, res) => {
-              if (!req.session.userId) {
-                  return res.redirect('/auth/login');
+        get2FASetup: async (req, res) => {
+          console.log("get2FASetup called");
+          if (!req.session.userId) {
+              console.log("get2FASetup: no user ID in session");
+              return res.redirect('/auth/login');
+          }
+          try {
+              const user = await User.findById(req.session.userId);
+              if (!user) {
+                  console.log("get2FASetup: user not found");
+                  return res.status(404).send('User not found');
               }
-              try {
-                  const user = await User.findById(req.session.userId);
-                  if (!user) {
-                      return res.status(404).send('User not found');
+              // Generate a secret key for 2FA
+              console.log("get2FASetup: generating secret key");
+              const secret = speakeasy.generateSecret({ length: 20 });
+              console.log("get2FASetup: secret key generated", secret.base32);
+  
+              const otpAuthURL = speakeasy.otpauthURL({
+                  secret: secret.base32,
+                  label: `YourAppName (${user.email})`, // Или username
+                  encoding: 'base32',
+              });
+              console.log("get2FASetup: otpAuthURL generated", otpAuthURL);
+  
+              // Generate QR code
+              qrcode.toDataURL(otpAuthURL, async (err, data_url) => {
+                  if (err) {
+                      console.error('get2FASetup: Error generating QR code:', err);
+                      return res.status(500).send('Error generating QR code');
                   }
-                  // Generate a secret key for 2FA
-                  const secret = speakeasy.generateSecret({ length: 20 });
-                  const otpAuthURL = speakeasy.otpauthURL({
-                    secret: secret.base32,
-                    label: `YourAppName (${user.email})`, // Или username
-                    encoding: 'base32',
-                  });
-
-                  // Generate QR code
-                  qrcode.toDataURL(otpAuthURL, async (err, data_url) => {
+  
+                  const saltRounds = 10;
+                  console.log("get2FASetup: hashing secret key");
+                  bcrypt.hash(secret.base32, saltRounds, async (err, hash) => {
                       if (err) {
-                          console.error('Error generating QR code:', err);
-                          return res.status(500).send('Error generating QR code');
+                          console.error('get2FASetup: Error hashing secret:', err);
+                          return res.status(500).send('Error setting up 2FA');
                       }
-
-                      // Update user in database
-                      user.twoFASecret = secret.base32;
-                      user.is2FAEnabled = true; // Enable 2FA
+                      console.log("get2FASetup: secret key hashed", hash);
+  
+                      user.twoFASecret = hash;
+                      user.is2FAEnabled = true;
+                      console.log("get2FASetup: saving user");
                       await user.save();
-
+                      console.log("get2FASetup: user saved");
+  
                       res.render('2fa/setup', { qr_code: data_url, secret: secret.base32 });
                   });
-              } catch (error) {
-                  console.error('Error setting up 2FA:', error);
-                  res.status(500).send('Error setting up 2FA');
-              }
+              });
+          } catch (error) {
+              console.error('get2FASetup: Error setting up 2FA:', error);
+              res.status(500).send('Error setting up 2FA');
           }
-      };
+      },
+  
+      postVerify2FA: async (req, res) => {
+          console.log("postVerify2FA called");
+  
+          if (!req.session.twoFactorRequired) {
+              console.log("postVerify2FA: 2FA not required, redirecting");
+              return res.redirect('/'); // Или куда-нибудь еще, где требуется 2FA
+          }
+  
+          const { twoFactorCode } = req.body;
+          const userId = req.session.userId; // Get userId from session
+          console.log("postVerify2FA: userId from session", userId);
+  
+  
+          if (!userId) {
+              console.log("postVerify2FA: no user ID in session, redirecting to login");
+              return res.redirect('/auth/login'); // No user in session, redirect to login
+          }
+  
+          try {
+              const user = await User.findById(userId);
+              if (!user) {
+                  console.log("postVerify2FA: user not found");
+                  return res.redirect('/auth/login');
+              }
+              console.log("postVerify2FA: user found", user.email);
+  
+              if (!twoFactorCode) {
+                  console.log("postVerify2FA: no 2FA code provided");
+                  return res.render('verify2FA', {error: 'Two-factor code is required'});
+              }
+  
+              console.log("postVerify2FA: comparing codes");
+              bcrypt.compare(twoFactorCode, user.twoFASecret, async (err, valid) => {
+                  if (err) {
+                      console.error('postVerify2FA: bcrypt compare error:', err);
+                      return res.render('verify2FA', {error: 'Error verifying 2FA'});
+                  }
+                  console.log("postVerify2FA: bcrypt compare result:", valid);
+  
+                  if (valid) {
+                      req.session.user = {
+                          _id: user._id,
+                          email: user.email,
+                          username: user.username,
+                          role: user.role,
+                      };
+                      req.session.is2FAVerified = true; // Mark 2FA as verified
+                      delete req.session.twoFactorRequired; // Remove the flag
+                      console.log("postVerify2FA: 2FA verified, redirecting to home");
+                      return res.redirect('/'); // Redirect to the main page
+                  } else {
+                      console.log("postVerify2FA: invalid two-factor code");
+                      return res.render('verify2FA', {error: 'Invalid two-factor code'});
+                  }
+              });
+  
+          } catch (error) {
+              console.error('postVerify2FA: Error verifying 2FA:', error);
+              res.render('verify2FA', {error: 'An error occurred during 2FA verification.'});
+          }
+      },
+  };
       
       module.exports = authController;
