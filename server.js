@@ -9,7 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 // const dataRoutes = require('./routes/data'); // Removed
 const path = require('path');
 // const Note = require('./models/Note'); // Removed
-const User = require('../models/User');
+const User = require('./models/User');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
@@ -84,6 +84,15 @@ const categoryRoutes = require('./routes/categoryRoutes');
 app.use('/categories', categoryRoutes);
 // const orderRoutes = require('./routes/orderRoutes');
 // app.use('/orders', orderRoutes);
+
+app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
+    try {
+        res.render('admin/index');
+    } catch (error) {
+        console.error('Error rendering admin panel:', error);
+        res.status(500).send('Error rendering admin panel.');
+    }
+});
 
 // Protected route example (Profile management - moved here for now)
 app.get('/profile', isLoggedIn, async (req, res) => {
@@ -174,7 +183,7 @@ app.post('/profile/delete', isLoggedIn, async (req, res) => {
       });
   } catch (error) {
       console.error('Error deleting account:', error);
-      res.status(500).send('An error occurred while deleting the account.');
+      res.status(500).send('Error deleting the account.');
   }
 });
 
@@ -244,20 +253,6 @@ app.get('/', (req, res) => {
         res.render('index');
     }
 });
-
-app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
-    try {
-        res.render('admin/index');
-    } catch (error) {
-        console.error('Error rendering admin panel:', error);
-        res.status(500).send('Error rendering admin panel.');
-    }
-});
-
-// дубликат
-// app.get('/admin', isLoggedIn, authMiddleware.isAdmin, (req, res) => {
-//    res.render('admin/index');
-// });
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
