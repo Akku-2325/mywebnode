@@ -9,13 +9,11 @@ const authRoutes = require('./routes/authRoutes');
 // const dataRoutes = require('./routes/data'); // Removed
 const path = require('path');
 // const Note = require('./models/Note'); // Removed
-const User = require('./models/User');
+const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
 const authMiddleware = require('./middleware/authMiddleware');
-const adminRoutes = require('./routes/adminRoutes');
-app.use('/admin', adminRoutes);
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -158,7 +156,6 @@ app.post('/profile/edit', isLoggedIn, [
         };
 
         res.redirect('/profile');
-
     } catch (error) {
         console.error('Error updating profile:', error);
         res.status(500).send('An error occurred while updating the profile.');
