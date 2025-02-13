@@ -4,9 +4,7 @@ const categoryController = {
     getAllCategories: async (req, res) => {
         try {
             const categories = await Category.find();
-            // TODO: Create a dedicated view for listing categories
-            // For now, render the product index view (you'll need to adapt it)
-            res.render('admin/products/index', { categories: categories, products: [] });
+            res.render('admin/categories/index', { categories: categories }); // Correct path
         } catch (error) {
             console.error('Error fetching categories:', error);
             res.status(500).send('Error fetching categories');
@@ -19,8 +17,7 @@ const categoryController = {
             if (!category) {
                 return res.status(404).send('Category not found');
             }
-            // TODO: Create a view to display a single category
-            res.render('admin/products/index', { categories: [category], products: [] });
+            res.render('admin/categories/show', { category: category }); // Correct path (create admin/categories/show.ejs)
         } catch (error) {
             console.error('Error fetching category:', error);
             res.status(500).send('Error fetching category.');

@@ -10,12 +10,13 @@ const authMiddleware = {
     },
 
     isAdmin: async (req, res, next) => {
-        if (req.session.user && req.session.user.role === 'admin') {
-            return next();
-        } else {
-            return res.status(403).json({ message: 'Forbidden: Admin access required' });
-        }
-    },
+      if (req.session.user && req.session.user.role === 'admin') {
+          return next();
+      } else {
+          //  return res.status(403).json({ message: 'Forbidden: Admin access required' }); // Original
+          return res.status(403).render('error', { message: 'Forbidden: Admin access required' }); // Перенаправление на страницу error.ejs
+      }
+  },
 
     setUser: async (req, res, next) => {
         console.log('setUser middleware called'); // Debugging log

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= category.name %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1><%= category.name %></h1>
+        <p><%= category.description %></p>
+        <img src="<%= category.imageUrl %>" alt="<%= category.name %>" width="200">
+        <p>Order: <%= category.order %></p>
+
+        <a href="/categories">Back to Categories</a>
+    </div>
+</body>
+</html>
