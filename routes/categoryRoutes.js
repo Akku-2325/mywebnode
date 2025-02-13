@@ -15,8 +15,7 @@ router.post('/', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryCont
 router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
 router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
 
-// ... другие маршруты ...
-
+// Admin routes for editing
 router.get('/:id/edit', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.editCategory);
 router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
 router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
