@@ -7,7 +7,7 @@ const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
-const User = require('/app/models/User'); //try with this
+const User = require('./models/User'); //try with this
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
@@ -23,12 +23,15 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 // Apply setUser middleware to all routes
-app.use(authMiddleware.setUser);
-
-app.get('/', (req, res) => {
-    const user = { username: 'JohnDoe' };
-    res.render('main', { user: user }); // Передаем { user: user }
-  });
+app.use(async (req, res, next) => {
+    try {
+        await authMiddleware.setUser(req, res, next);
+    } catch (error) {
+        console.error('Error in setUser middleware:', error);
+        // Handle the error gracefully, e.g., redirect to an error page
+        res.status(500).send('Internal Server Error');
+    }
+});
 
 // Session Configuration
 app.use(session({
