@@ -83,7 +83,6 @@ const productController = {
         try {
             const product = await Product.findById(req.params.id).populate('category');
             const categories = await Category.find();
-            console.log('Categories:', categories)
             if (!product) {
                 return res.status(404).send('Product not found');
             }
