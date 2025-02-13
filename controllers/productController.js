@@ -27,11 +27,14 @@ const productController = {
 
     createProduct: async (req, res) => {
         try {
+            console.log('req.body:', req.body)
             const newProduct = new Product(req.body);
             await newProduct.save();
             res.redirect('/products');
         } catch (error) {
             console.error('Error creating product:', error);
+            console.error('Detailed error:', error.message);
+            console.error('Stack trace:', error.stack);
             const categories = await Category.find();
             res.render('admin/products/create', {
                 error: 'Failed to create product',
