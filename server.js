@@ -7,11 +7,11 @@ const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
-const User = require('./models/User');
+const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
-const fs = require('fs');
-const authMiddleware = require('./middleware/authMiddleware'); // Импортируем authMiddleware
+const fs = require('fs'); // Import the fs module
+const authMiddleware = require('./middleware/authMiddleware');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -46,19 +46,19 @@ mongoose.connect(process.env.MONGODB_URI, {
     })
     .catch(err => console.error('MongoDB connection error:', err));
 
-// Убираем лишний middleware isLoggedIn
-// const isLoggedIn = (req, res, next) => {
-//     if (req.session.userId) {
-//         next();
-//     } else {
-//         res.redirect('/auth/login');
-//     }
-// };
+// Middleware to check if user is logged in
+const isLoggedIn = (req, res, next) => {
+    if (req.session.userId) {
+        next();
+    } else {
+        res.redirect('/auth/login');
+    }
+};
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadDir = path.join(__dirname, 'public', 'uploads');
+        const uploadDir = path.join(__dirname, 'public', 'uploads'); // Construct the full path
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
         }
@@ -74,13 +74,13 @@ const upload = multer({ storage: storage });
 // Routes
 app.use('/auth', authRoutes);
 
+//  Add your new routes here, e.g.:
 const productRoutes = require('./routes/productRoutes');
 app.use('/products', productRoutes);
 const categoryRoutes = require('./routes/categoryRoutes');
 app.use('/categories', categoryRoutes);
 
-// Применяем authMiddleware.isLoggedIn для защиты маршрутов
-app.get('/admin', authMiddleware.isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
+app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
     try {
         res.render('admin/index');
     } catch (error) {
@@ -89,7 +89,8 @@ app.get('/admin', authMiddleware.isLoggedIn, authMiddleware.isAdmin, async (req,
     }
 });
 
-app.get('/profile', authMiddleware.isLoggedIn, async (req, res) => {
+// Protected route example (Profile management - moved here for now)
+app.get('/profile', isLoggedIn, async (req, res) => {
     try {
         const user = await User.findById(req.session.userId).lean();
 
@@ -97,16 +98,17 @@ app.get('/profile', authMiddleware.isLoggedIn, async (req, res) => {
 
         res.render('profile', {
             user: user,
+            // notes: notes, // Removed
             editing: editMode,
             errors: []
         });
     } catch (error) {
         console.error('Error fetching data:', error);
-        res.render('profile', { user: req.session.user, error: 'Failed to fetch profile.', editing: false, errors: [] });
+        res.render('profile', { user: req.session.user, /* notes: [], */ error: 'Failed to fetch profile.', editing: false, errors: [] }); // Updated
     }
 });
 
-app.post('/profile/edit', authMiddleware.isLoggedIn, [
+app.post('/profile/edit', isLoggedIn, [
     body('username').trim().isLength({ min: 3, max: 20 }).withMessage('Username must be between 3 and 20 characters'),
     body('firstName').trim().isLength({ max: 50 }).withMessage('First name cannot be longer than 50 characters'),
     body('lastName').trim().isLength({ max: 50 }).withMessage('Last name cannot be longer than 50 characters'),
@@ -120,6 +122,7 @@ app.post('/profile/edit', authMiddleware.isLoggedIn, [
             const user = await User.findById(req.session.userId).lean()
             return res.render('profile', {
                 user: user,
+                // notes: notes, // Removed
                 editing: true,
                 errors: errors.array()
             });
@@ -162,23 +165,23 @@ app.post('/profile/edit', authMiddleware.isLoggedIn, [
     }
 });
 
-app.post('/profile/delete', authMiddleware.isLoggedIn, async (req, res) => {
-    try {
-        await User.findByIdAndDelete(req.session.userId);
-        req.session.destroy((err) => {
-            if (err) {
-                console.error('Error destroying session:', err);
-                return res.redirect('/');
-            }
-            res.redirect('/auth/register');
-        });
-    } catch (error) {
-        console.error('Error deleting account:', error);
-        res.status(500).send('An error occurred while deleting the account.');
-    }
+app.post('/profile/delete', isLoggedIn, async (req, res) => {
+  try {
+      await User.findByIdAndDelete(req.session.userId);
+      req.session.destroy((err) => {
+          if (err) {
+              console.error('Error destroying session:', err);
+              return res.redirect('/');
+          }
+          res.redirect('/auth/register');
+      });
+  } catch (error) {
+      console.error('Error deleting account:', error);
+      res.status(500).send('An error occurred while deleting the account.');
+  }
 });
 
-app.post('/profile/remove-picture', authMiddleware.isLoggedIn, async (req, res) => {
+app.post('/profile/remove-picture', isLoggedIn, async (req, res) => {
     try {
         const userId = req.session.userId;
         const user = await User.findById(userId);
@@ -199,7 +202,7 @@ app.post('/profile/remove-picture', authMiddleware.isLoggedIn, async (req, res) 
     }
 });
 
-app.post('/profile/upload', authMiddleware.isLoggedIn, upload.single('profilePicture'), async (req, res) => {
+app.post('/profile/upload', isLoggedIn, upload.single('profilePicture'), async (req, res) => {
     try {
         const userId = req.session.userId;
         const user = await User.findById(userId);
@@ -235,10 +238,12 @@ app.post('/profile/upload', authMiddleware.isLoggedIn, upload.single('profilePic
     }
 });
 
-app.get('/', authMiddleware.isLoggedIn, (req, res) => { // Применяем authMiddleware здесь
+app.get('/', (req, res) => {
     if (req.session.userId) {
+        // User is logged in, render the main page
         res.render('main', { user: req.session.user });
     } else {
+        // User is not logged in, render the index page
         res.render('index');
     }
 });
