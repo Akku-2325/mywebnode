@@ -19,6 +19,12 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
+        <% if (typeof twoFactorRequired !== 'undefined' && twoFactorRequired) { %>
+            <div>
+                <label for="twoFactorCode">Two-Factor Code:</label>
+                <input type="text" id="twoFactorCode" name="twoFactorCode" required>
+            </div>
+        <% } %>
             <button type="submit">Login</button>
         </form>
         <p>Don't have an account? <a href="/auth/register">Register</a></p>

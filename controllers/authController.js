@@ -36,27 +36,26 @@ const authController = {
     },
 
     getLogin: async (req, res) => {
-        res.render('login');
+        res.render('login', {twoFactorRequired: false});
     },
 
     postLogin: async (req, res) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty()) {
+         if (!errors.isEmpty()) {
             return res.render('login', { error: errors.array()[0].msg });
         }
-
-        const { email, password } = req.body;
+        const { email, password, twoFactorCode } = req.body;
 
         try {
             const user = await User.findOne({ email });
 
             if (!user) {
-                return res.render('login', { error: 'Invalid email.' });
+                return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
             }
 
             if (user.lockUntil && user.lockUntil > Date.now()) {
                 const timeRemaining = Math.ceil((user.lockUntil - Date.now()) / 60000);
-                return res.render('login', { error: `Account locked. Try again in ${timeRemaining} minutes.` });
+                return res.render('login', { error: `Account locked. Try again in ${timeRemaining} minutes.`, twoFactorRequired: false });
             }
 
             const isPasswordValid = await user.isValidPassword(password);
@@ -67,13 +66,34 @@ const authController = {
                     user.lockUntil = new Date(Date.now() + 15 * 60 * 1000);
                 }
                 await user.save();
-                return res.render('login', { error: 'Invalid password.' });
+                return res.render('login', { error: 'Invalid password.', twoFactorRequired: false });
             }
 
             user.loginAttempts = 0;
             user.lockUntil = undefined;
             await user.save();
-
+             // If 2FA is enabled for the user
+            if (user.is2FAEnabled) {
+                // Check if two-factor code is provided
+                 console.log("зашли суда? 1");
+                if (!twoFactorCode) {
+                     console.log("зашли суда? 2");
+                    return res.render('login', { error: 'Two-factor code is required', twoFactorRequired: true });
+                }
+                 console.log("зашли суда? 3");
+                const verified = speakeasy.totp.verify({
+                    secret: user.twoFASecret,
+                    encoding: 'base32',
+                    token: twoFactorCode,
+                    window: 2 // Allow a window of 2 (codes can be used 1 code before or 1 code after to allow for clock drift)
+                });
+                 console.log("зашли суда? 4");
+                if (!verified) {
+                    console.log("зашли суда? 5");
+                    return res.render('login', { error: 'Invalid two-factor code', twoFactorRequired: true });
+                }
+            }
+             console.log("зашли сюда? 6");
             req.session.userId = user._id;
             req.session.user = {
                 _id: user._id,
@@ -81,13 +101,13 @@ const authController = {
                 username: user.username,
                 role: user.role,
             };
-
+             console.log("зашли сюда? 7");
             console.log('User logged in:', req.session.user);
 
             res.redirect('/');
         } catch (error) {
             console.error('Error logging in:', error);
-            res.render('login', { error: 'An error occurred during login.' });
+            res.render('login', { error: 'An error occurred during login.', twoFactorRequired: false });
         }
     },
 
@@ -133,6 +153,16 @@ const authController = {
                 res.status(500).send('Error setting up 2FA');
             }
         },
+    getVerify2FA: async (req, res) => {
+        try {
+            // Here, you would typically fetch the user and check if 2FA is enabled
+            // You might also want to pass user-specific data to the view
+            res.render('verify2FA'); // Render the 2FA verification form
+        } catch (error) {
+            console.error('Error fetching 2FA setup:', error);
+            res.render('login', { error: 'Error displaying 2FA setup.' });
+        }
+    },
 };
 
 module.exports = authController;
