@@ -59,7 +59,23 @@ const productController = {
             console.error('Error deleting product:', error);
             res.status(500).json({ message: 'Failed to delete product' });
         }
-    }
+    },
+            getCreateProductForm: (req, res) => {
+        res.render('admin/categories/create');
+    },
+
+    getEditProductForm: async (req, res) => {
+        try {
+            const category = await Product.findById(req.params.id);
+            if (!category) {
+                return res.status(404).send('Product not found');
+            }
+            res.render('admin/categories/edit', { category });
+        } catch (error) {
+            console.error('Error fetching category for edit:', error);
+            res.status(500).send('Error fetching category for edit.');
+        }
+    },
 };
 
 module.exports = productController;
