@@ -4,7 +4,7 @@ const categoryController = require('../controllers/categoryController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 // Public routes
-router.get('/', categoryController.getAllCategories);
+router.get('/', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.getAllCategories);
 router.get('/:id', categoryController.getCategoryById);
 
 // Admin routes
