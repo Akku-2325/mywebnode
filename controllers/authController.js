@@ -41,65 +41,66 @@ const authController = {
     },
 
     postLogin: async (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.render('login', { error: errors.array()[0].msg });
-        }
-        const { email, password, twoFactorCode } = req.body;
-
-        try {
-            const user = await User.findOne({ email });
-
-            if (!user) {
-                return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
-            }
-
-            if (user.lockUntil && user.lockUntil > Date.now()) {
-                const timeRemaining = Math.ceil((user.lockUntil - Date.now()) / 60000);
-                return res.render('login', { error: `Account locked. Try again in ${timeRemaining} minutes.`, twoFactorRequired: false });
-            }
-
-            const isPasswordValid = await user.isValidPassword(password);
-
-            if (!isPasswordValid) {
-                user.loginAttempts += 1;
-                if (user.loginAttempts >= 5) {
-                    user.lockUntil = new Date(Date.now() + 15 * 60 * 1000);
-                }
-                await user.save();
-                return res.render('login', { error: 'Invalid password.', twoFactorRequired: false });
-            }
-
-            user.loginAttempts = 0;
-            user.lockUntil = undefined;
-            await user.save();
-
-            // 2FA Logic
-            if (user.is2FAEnabled) {
-                // Redirect to 2FA verification page if not yet verified
-                req.session.userId = user._id;
-                req.session.twoFactorRequired = true;
-                return res.redirect('/auth/verify2FA');
-            } else {
-                // No 2FA, log in directly
-                // Store user information in session
-                req.session.userId = user._id;
-                req.session.user = {
-                    _id: user._id,
-                    email: user.email,
-                    username: user.username,
-                    role: user.role,
-                };
-                req.session.is2FAVerified = true;
-                console.log('User logged in:', req.session.user);
-                return res.redirect('/');
-            }
-
-        } catch (error) {
-            console.error('Error logging in:', error);
-            res.render('login', { error: 'An error occurred during login.', twoFactorRequired: false });
-        }
-    },
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          return res.render('login', { error: errors.array()[0].msg });
+      }
+      const { email, password, twoFactorCode } = req.body;
+  
+      try {
+          const user = await User.findOne({ email });
+  
+          if (!user) {
+              return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
+          }
+  
+          if (user.lockUntil && user.lockUntil > Date.now()) {
+              const timeRemaining = Math.ceil((user.lockUntil - Date.now()) / 60000);
+              return res.render('login', { error: `Account locked. Try again in ${timeRemaining} minutes.`, twoFactorRequired: false });
+          }
+  
+          const isPasswordValid = await user.isValidPassword(password);
+  
+          if (!isPasswordValid) {
+              user.loginAttempts += 1;
+              if (user.loginAttempts >= 5) {
+                  user.lockUntil = new Date(Date.now() + 15 * 60 * 1000);
+              }
+              await user.save();
+              return res.render('login', { error: 'Invalid password.', twoFactorRequired: false });
+          }
+  
+          user.loginAttempts = 0;
+          user.lockUntil = undefined;
+          await user.save();
+  
+          // 2FA Logic
+          if (user.is2FAEnabled) {
+              // Redirect to 2FA verification page if not yet verified
+              req.session.userId = user._id;
+              req.session.twoFactorRequired = true;
+              return res.redirect('/auth/verify2FA');
+          } else {
+              // No 2FA, log in directly
+              // Store user information in session
+              req.session.userId = user._id;
+              req.session.user = {
+                  _id: user._id,
+                  email: user.email,
+                  username: user.username,
+                  role: user.role,
+              };
+              console.log('User role after login:', req.session.user.role); // Debugging log
+              req.session.is2FAVerified = true;
+              console.log('User logged in:', req.session.user);
+              return res.redirect('/');
+          }
+  
+      } catch (error) {
+          console.error('Error logging in:', error);
+          res.render('login', { error: 'An error occurred during login.', twoFactorRequired: false });
+      }
+  },
 
     // New function to handle 2FA verification
     postVerify2FA: async (req, res) => {

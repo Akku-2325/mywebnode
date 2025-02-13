@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+    <% console.log('res.locals.user in main.ejs:', res.locals.user) %>
     <div class="main-page-container">
         <h1>Welcome, <%= locals.user ? locals.user.username : 'Guest' %>!</h1>
         <p>You are logged in.</p>
