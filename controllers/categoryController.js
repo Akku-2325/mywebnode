@@ -32,7 +32,7 @@ const categoryController = {
             //res.status(201).json(newCategory);
         } catch (error) {
             console.error('Error creating category:', error);
-            res.render('admin/categories/create', { error: 'Failed to create category' });
+            res.render('admin/products/create', { error: 'Failed to create category' });
             //res.status(400).json({ message: 'Failed to create category' });
         }
     },
