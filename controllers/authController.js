@@ -96,48 +96,6 @@ const authController = {
         }
     },
 
-    getVerify2FA: (req, res) => {
-        if (!req.session.userId) {
-            return res.redirect('/auth/login');
-        }
-        res.render('2fa/verify', { email: req.query.email });
-    },
-
-    postVerify2FA: async (req, res) => {
-        const { twoFactorCode, email } = req.body;
-
-        try {
-            const user = await User.findOne({ email });
-            if (!user) {
-                return res.redirect('/auth/login');
-            }
-
-            const verified = speakeasy.totp.verify({
-                secret: user.twoFASecret,
-                encoding: 'base32',
-                token: twoFactorCode,
-                window: 2
-            });
-
-            if (verified) {
-                req.session.is2FAVerified = true;
-                req.session.userId = user._id;
-                req.session.user = {
-                    _id: user._id,
-                    email: user.email,
-                    username: user.username,
-                    role: user.role,
-                };
-                console.log('User logged in:', req.session.user);
-                res.redirect('/');
-            } else {
-                res.render('2fa/verify', { error: 'Invalid two-factor code', email: email });
-            }
-        } catch (error) {
-            console.error('Error verifying 2FA:', error);
-            res.render('2fa/verify', { error: 'An error occurred during verification.', email: email });
-        }
-    },
 
     getLogout: (req, res) => {
         req.session.destroy((err) => {
