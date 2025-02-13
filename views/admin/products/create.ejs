@@ -1,40 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%= creatingCategory ? 'Create Category' : 'Create Product' %></title>
+    <title>Create Product</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
-        <h1><%= creatingCategory ? 'Create New Category' : 'Create New Product' %></h1>
+        <h1>Create New Product</h1>
 
         <% if (typeof error !== 'undefined' && error) { %>
             <p style="color: red;"><%= error %></p>
         <% } %>
 
-        <% if (creatingCategory) { %>
-            <!-- Форма для создания категории -->
-            <form action="/categories" method="POST">
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <div>
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description"></textarea>
-                </div>
-                <button type="submit">Create Category</button>
-            </form>
-        <% } else { %>
-            <!-- Форма для создания продукта -->
-            <form action="/products" method="POST">
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                <!-- ... остальная часть формы для создания продукта ... -->
-            </form>
-        <% } %>
+        <!-- Форма для создания продукта -->
+        <form action="/products" method="POST">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <div>
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required>
+            </div>
+            <div>
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <% if (typeof categories !== 'undefined' && categories) { %>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category._id %>"><%= category.name %></option>
+                        <% }); %>
+                    <% } %>
+                </select>
+            </div>
+            <div>
+                <label for="material">Material:</label>
+                <input type="text" id="material" name="material">
+            </div>
+            <div>
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" name="stock" value="0">
+            </div>
+            <button type="submit">Create Product</button>
+        </form>
 
         <a href="/admin">Back to Admin Panel</a>
     </div>
