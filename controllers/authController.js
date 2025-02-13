@@ -105,18 +105,18 @@ const authController = {
         postVerify2FA: async (req, res) => {
             const { twoFactorCode } = req.body;
             const userId = req.session.userId; // Get userId from session
-        
+
             if (!userId) {
                 return res.redirect('/auth/login'); // No user in session, redirect to login
             }
-        
+
             try {
                 const user = await User.findById(userId);
-        
+
                 if (!user) {
                     return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
                 }
-        
+
                 if (!user.is2FAEnabled) {
                     req.session.user = {
                         _id: user._id,
@@ -125,24 +125,24 @@ const authController = {
                         role: user.role,
                     };
                     req.session.is2FAVerified = true;
-                    delete req.session.twoFactorRequired; //clears the `twoFactorRequired`flag
+                    delete req.session.twoFactorRequired;
                     return res.redirect('/');
                 }
-        
+
                 if (!twoFactorCode) {
                     return res.render('verify2FA', { error: 'Two-factor code is required' });
                 }
-        
+
                 const verified = speakeasy.totp.verify({
                     secret: user.twoFASecret,
                     encoding: 'base32',
                     token: twoFactorCode,
                     window: 2,
                 });
-        
+
                 if (verified) {
                     // 2FA code is valid
-        
+
                     // Set session variables
                     req.session.user = {
                         _id: user._id,
@@ -152,7 +152,7 @@ const authController = {
                     };
                     req.session.is2FAVerified = true; // Mark 2FA as verified
                     delete req.session.twoFactorRequired; // Remove the flag
-        
+
                     return res.redirect('/'); // Redirect to the main page
                 } else {
                     // 2FA code is invalid
@@ -163,7 +163,7 @@ const authController = {
                 res.render('verify2FA', { error: 'An error occurred during 2FA verification.' });
             }
         },
-      
+        
         getVerify2FA: async (req, res) => {
             if (!req.session.userId || !req.session.twoFactorRequired) {
                 return res.redirect('/auth/login'); // If no user ID in session, redirect to login
