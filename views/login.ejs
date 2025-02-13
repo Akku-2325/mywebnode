@@ -10,7 +10,7 @@
         <% if (typeof error !== 'undefined' && error) { %>
             <p style="color: red;"><%= error %></p>
         <% } %>
-        <form action="/auth/login" method="POST" onsubmit="return validateForm()">
+        <form action="/auth/login" method="POST">
             <div>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
@@ -19,39 +19,9 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
             </div>
-        <% if (typeof twoFactorRequired !== 'undefined' && twoFactorRequired) { %>
-            <div>
-                <label for="twoFactorCode">Two-Factor Code:</label>
-                <input type="text" id="twoFactorCode" name="twoFactorCode" required>
-            </div>
-        <% } %>
             <button type="submit">Login</button>
         </form>
         <p>Don't have an account? <a href="/auth/register">Register</a></p>
-
-        <script>
-            function validateForm() {
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-
-                if (!email) {
-                    alert('Please enter an email address.');
-                    return false;
-                }
-
-                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    alert('Please enter a valid email address.');
-                    return false;
-                }
-
-                if (!password) {
-                    alert('Please enter a password.');
-                    return false;
-                }
-
-                return true;
-            }
-        </script>
     </div>
 </body>
 </html>

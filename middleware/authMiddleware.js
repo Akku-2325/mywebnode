@@ -1,12 +1,11 @@
-const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const authMiddleware = {
     isLoggedIn: (req, res, next) => {
-        if (req.session.userId) {
-            next();
+        if (req.session.userId && req.session.is2FAVerified) {
+            return next();
         } else {
-            res.redirect('/auth/login');
+            return res.redirect('/auth/login');
         }
     },
 

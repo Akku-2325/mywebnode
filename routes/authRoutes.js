@@ -42,24 +42,25 @@ const authController = {
     postLogin: async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.render('login', { error: errors.array()[0].msg });
+            return res.render('login', { error: errors.array()[0].msg, twoFactorRequired: false });
         }
+    
         const { email, password, twoFactorCode } = req.body;
-
+    
         try {
             const user = await User.findOne({ email });
-
+    
             if (!user) {
                 return res.render('login', { error: 'Invalid email.', twoFactorRequired: false });
             }
-
+    
             if (user.lockUntil && user.lockUntil > Date.now()) {
                 const timeRemaining = Math.ceil((user.lockUntil - Date.now()) / 60000);
                 return res.render('login', { error: `Account locked. Try again in ${timeRemaining} minutes.`, twoFactorRequired: false });
             }
-
+    
             const isPasswordValid = await user.isValidPassword(password);
-
+    
             if (!isPasswordValid) {
                 user.loginAttempts += 1;
                 if (user.loginAttempts >= 5) {
@@ -68,22 +69,42 @@ const authController = {
                 await user.save();
                 return res.render('login', { error: 'Invalid password.', twoFactorRequired: false });
             }
-
+    
             user.loginAttempts = 0;
             user.lockUntil = undefined;
             await user.save();
-
+    
+            // Если 2FA включена, проверяем код
+            if (user.is2FAEnabled) {
+                if (!twoFactorCode) {
+                    return res.render('login', { error: 'Two-factor code is required.', twoFactorRequired: true });
+                }
+    
+                const verified = speakeasy.totp.verify({
+                    secret: user.twoFASecret,
+                    encoding: 'base32',
+                    token: twoFactorCode,
+                    window: 2
+                });
+    
+                if (!verified) {
+                    return res.render('login', { error: 'Invalid two-factor code.', twoFactorRequired: true });
+                }
+            }
+    
+            // Если 2FA не включена, или код 2FA верен, устанавливаем сессию и редиректим
             req.session.userId = user._id;
+            req.session.is2FAVerified = true; // Важно установить этот флаг
             req.session.user = {
                 _id: user._id,
                 email: user.email,
                 username: user.username,
                 role: user.role,
             };
-
+    
             console.log('User logged in:', req.session.user);
-
             res.redirect('/');
+    
         } catch (error) {
             console.error('Error logging in:', error);
             res.render('login', { error: 'An error occurred during login.', twoFactorRequired: false });
