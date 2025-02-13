@@ -77,11 +77,11 @@ const upload = multer({ storage: storage });
 app.use('/auth', authRoutes);
 // app.use('/data', dataRoutes); // Removed
 
-// TODO: Add your new routes here, e.g.:
-// const productRoutes = require('./routes/productRoutes');
-// app.use('/products', productRoutes);
-// const categoryRoutes = require('./routes/categoryRoutes');
-// app.use('/categories', categoryRoutes);
+//  Add your new routes here, e.g.:
+const productRoutes = require('./routes/productRoutes');
+app.use('/products', productRoutes);
+const categoryRoutes = require('./routes/categoryRoutes');
+app.use('/categories', categoryRoutes);
 // const orderRoutes = require('./routes/orderRoutes');
 // app.use('/orders', orderRoutes);
 
@@ -255,7 +255,10 @@ app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
     }
 });
 
-
+// дубликат
+// app.get('/admin', isLoggedIn, authMiddleware.isAdmin, (req, res) => {
+//    res.render('admin/index');
+// });
 
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);

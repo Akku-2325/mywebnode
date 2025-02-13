@@ -37,29 +37,39 @@ const categoryController = {
         }
     },
 
+    editCategory: async (req, res) => {
+        try {
+            const category = await Category.findById(req.params.id);
+            if (!category) {
+                return res.status(404).send('Category not found');
+            }
+            res.render('admin/categories/edit', { category });
+        } catch (error) {
+            console.error('Error fetching category for edit:', error);
+            res.status(500).send('Error fetching category for edit.');
+        }
+    },
+
     updateCategory: async (req, res) => {
         try {
             const category = await Category.findByIdAndUpdate(req.params.id, req.body, { new: true });
             if (!category) {
-                return res.status(404).json({ message: 'Category not found' });
+                return res.status(404).send('Category not found');
             }
-            res.json(category);
+            res.redirect('/categories');
         } catch (error) {
             console.error('Error updating category:', error);
-            res.status(400).json({ message: 'Failed to update category' });
+            res.status(500).send('Error updating category.');
         }
     },
 
     deleteCategory: async (req, res) => {
         try {
-            const category = await Category.findByIdAndDelete(req.params.id);
-            if (!category) {
-                return res.status(404).json({ message: 'Category not found' });
-            }
-            res.json({ message: 'Category deleted' });
+            await Category.findByIdAndDelete(req.params.id);
+            res.redirect('/categories');
         } catch (error) {
             console.error('Error deleting category:', error);
-            res.status(500).json({ message: 'Failed to delete category' });
+            res.status(500).send('Error deleting category.');
         }
     }
 };

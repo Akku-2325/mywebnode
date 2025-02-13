@@ -15,4 +15,10 @@ router.post('/', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryCont
 router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
 router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
 
+// ... другие маршруты ...
+
+router.get('/:id/edit', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.editCategory);
+router.put('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.updateCategory);
+router.delete('/:id', authMiddleware.isLoggedIn, authMiddleware.isAdmin, categoryController.deleteCategory);
+
 module.exports = router;
