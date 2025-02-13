@@ -22,6 +22,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
+// Apply setUser middleware to all routes
+app.use(authMiddleware.setUser);
+
+app.get('/', (req, res) => {
+    res.render('main'); // user will be available in main.ejs as res.locals.user
+});
+
 // Session Configuration
 app.use(session({
     secret: process.env.SESSION_SECRET,

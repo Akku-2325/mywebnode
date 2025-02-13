@@ -6,10 +6,10 @@
 </head>
 <body>
     <div class="main-page-container">
-        <h1>Welcome, <%= user.username %>!</h1>
+        <h1>Welcome, <%= locals.user.username %>!</h1>
         <p>You are logged in.</p>
         <a href="/profile">View Profile</a>
-        <% if (user.role === 'admin') { %>
+        <% if (locals.user.role === 'admin') { %>
             <a href="/admin">Admin Panel</a>
         <% } %>
         <a href="/auth/logout">Logout</a>
