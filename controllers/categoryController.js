@@ -4,7 +4,7 @@ const categoryController = {
     getAllCategories: async (req, res) => {
         try {
             const categories = await Category.find();
-            res.render('admin/products/index', { categories }); //Отображаем все категории
+            res.render('admin/categories/index', { categories }); //Отображаем все категории
         } catch (error) {
             console.error('Error fetching categories:', error);
             res.status(500).send('Error fetching categories');
@@ -17,7 +17,7 @@ const categoryController = {
             if (!category) {
                 return res.status(404).send('Category not found');
             }
-            res.render('admin/products/edit', { category });
+            res.render('admin/categories/edit', { category });
         } catch (error) {
             console.error('Error fetching category:', error);
             res.status(500).send('Error fetching category.');
@@ -28,15 +28,15 @@ const categoryController = {
         try {
             const newCategory = new Category(req.body);
             await newCategory.save();
-            res.redirect('/products');
+            res.redirect('/categories');
         } catch (error) {
             console.error('Error creating category:', error);
-            res.render('admin/products/create', { error: 'Failed to create category' });
+            res.render('admin/categories/create', { error: 'Failed to create category' });
         }
     },
 
     getCreateCategoryForm: (req, res) => {
-        res.render('admin/products/create');
+        res.render('admin/categories/create');
     },
 
     editCategory: async (req, res) => {
@@ -45,7 +45,7 @@ const categoryController = {
             if (!category) {
                 return res.status(404).send('Category not found');
             }
-            res.render('admin/products/edit', { category });
+            res.render('admin/categories/edit', { category });
         } catch (error) {
             console.error('Error fetching category for edit:', error);
             res.status(500).send('Error fetching category for edit.');
@@ -58,7 +58,7 @@ const categoryController = {
             if (!category) {
                 return res.status(404).send('Category not found');
             }
-            res.redirect('/products');
+            res.redirect('/categories');
         } catch (error) {
             console.error('Error updating category:', error);
             res.status(500).send('Error updating category.');
@@ -68,7 +68,7 @@ const categoryController = {
     deleteCategory: async (req, res) => {
         try {
             await Category.findByIdAndDelete(req.params.id);
-            res.redirect('/products');
+            res.redirect('/categories');
         } catch (error) {
             console.error('Error deleting category:', error);
             res.status(500).send('Error deleting category.');
