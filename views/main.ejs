@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="main-page-container">
-        <h1>Welcome, <%= locals.user.username %>!</h1>
+        <<h1>Welcome, <%= locals.user ? locals.user.username : 'Guest' %>!</h1>
         <p>You are logged in.</p>
         <a href="/profile">View Profile</a>
         <% if (locals.user.role === 'admin') { %>

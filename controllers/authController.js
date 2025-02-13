@@ -238,6 +238,5 @@ const authController = {
               }
           }
       };
-      req.session.user = null; // clear session as well
       
       module.exports = authController;
