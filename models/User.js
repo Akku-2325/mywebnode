@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     profilePicture: { type: String, default: '/images/default-profile.png' }, // Store the path to the profile picture
     loginAttempts: { type: Number, default: 0 },
     lockUntil: { type: Date },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' }
+    role: { type: String, enum: ['user', 'admin'], default: 'user' } // Add role field
 });
 
 // Hash the password before saving

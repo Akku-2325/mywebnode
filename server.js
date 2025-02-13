@@ -6,10 +6,8 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
-// const dataRoutes = require('./routes/data'); // Removed
 const path = require('path');
-// const Note = require('./models/Note'); // Removed
-const User = require('./models/User');
+const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
@@ -75,15 +73,12 @@ const upload = multer({ storage: storage });
 
 // Routes
 app.use('/auth', authRoutes);
-// app.use('/data', dataRoutes); // Removed
 
 //  Add your new routes here, e.g.:
 const productRoutes = require('./routes/productRoutes');
 app.use('/products', productRoutes);
 const categoryRoutes = require('./routes/categoryRoutes');
 app.use('/categories', categoryRoutes);
-// const orderRoutes = require('./routes/orderRoutes');
-// app.use('/orders', orderRoutes);
 
 app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
     try {
@@ -183,7 +178,7 @@ app.post('/profile/delete', isLoggedIn, async (req, res) => {
       });
   } catch (error) {
       console.error('Error deleting account:', error);
-      res.status(500).send('Error deleting the account.');
+      res.status(500).send('An error occurred while deleting the account.');
   }
 });
 

@@ -12,23 +12,20 @@ const authController = {
         if (!errors.isEmpty()) {
             return res.render('register', { error: errors.array()[0].msg });
         }
-    
+
         const { email, password, username } = req.body;
-    
+
         try {
             const existingUser = await User.findOne({ email });
             if (existingUser) {
                 return res.render('register', { error: 'Email already registered.' });
             }
-    
-            // *** НУЖНО УБРАТЬ ЭТУ ЛОГИКУ: ЛЮБОЙ НОВЫЙ ПОЛЬЗОВАТЕЛЬ НЕ МОЖЕТ СТАТЬ АДМИНОМ ЧЕРЕЗ РЕГИСТРАЦИЮ
-            // const newUser = new User({ email, password, username, role: 'admin' });  //  сразу делаем админом (ВРЕМЕННО!!!)
-    
+
             const newUser = new User({ email, password, username });
             await newUser.save();
-    
+
             console.log('New user registered:', newUser);
-    
+
             res.redirect('/auth/login');
         } catch (error) {
             console.error('Error registering user:', error);
