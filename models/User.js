@@ -40,4 +40,4 @@ userSchema.methods.isValidPassword = async function(password) {
     }
 };
 
-module.exports = mongoose.model('User', userSchema);x
+module.exports = mongoose.model('User', userSchema);
