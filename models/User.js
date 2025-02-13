@@ -13,7 +13,11 @@ const userSchema = new mongoose.Schema({
     profilePicture: { type: String, default: '/images/default-profile.png' }, // Store the path to the profile picture
     loginAttempts: { type: Number, default: 0 },
     lockUntil: { type: Date },
-    role: { type: String, enum: ['user', 'admin'], default: 'user' } // Add role field
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+
+    // New fields for 2FA:
+    twoFASecret: { type: String }, // Store the 2FA secret key
+    is2FAEnabled: { type: Boolean, default: false } // Track whether 2FA is enabled
 });
 
 // Hash the password before saving

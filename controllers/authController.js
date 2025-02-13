@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
+const speakeasy = require('speakeasy');
+const qrcode = require('qrcode');
 
 const authController = {
     getRegister: (req, res) => {
@@ -97,7 +99,40 @@ const authController = {
             }
             res.redirect('/auth/login');
         });
-    }
+    },
+
+     get2FASetup: async (req, res) => {
+            if (!req.session.userId) {
+                return res.redirect('/auth/login');
+            }
+
+            try {
+                const user = await User.findById(req.session.userId);
+                if (!user) {
+                    return res.status(404).send('User not found');
+                }
+
+                // Generate a secret key for 2FA
+                const secret = speakeasy.generateSecret({ length: 20 });
+
+                // Generate QR code
+                qrcode.toDataURL(secret.otpauth_url, async (err, data_url) => {
+                    if (err) {
+                        console.error('Error generating QR code:', err);
+                        return res.status(500).send('Error generating QR code');
+                    }
+
+                    // Update user in database
+                    user.twoFASecret = secret.base32;
+                    await user.save();
+
+                    res.render('2fa/setup', { qr_code: data_url, secret: secret.base32 });
+                });
+            } catch (error) {
+                console.error('Error setting up 2FA:', error);
+                res.status(500).send('Error setting up 2FA');
+            }
+        },
 };
 
 module.exports = authController;

@@ -25,4 +25,7 @@ router.post('/login', [
 // Logout Route
 router.get('/logout', authController.getLogout);
 
+// 2FA Setup Route
+router.get('/2fa/setup', authController.get2FASetup); // Add the 2FA setup route
+
 module.exports = router;
