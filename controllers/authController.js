@@ -23,12 +23,12 @@ const authController = {
                 return res.render('register', { error: 'Email already registered.' });
             }
 
-            const newUser = new User({ email, password, username }); // Remove role:'admin'
-            await newUser.save();
+            const newUser = new User({ email, password, username });
+             await newUser.save(); // Сохраняем пользователя
 
-            console.log('New user registered:', newUser);
+             req.session.userId = newUser._id
+               res.redirect('/auth/2fa/setup'); //Перенаправляем на 2fa страницу!
 
-            res.redirect('/auth/login');
         } catch (error) {
             console.error('Error registering user:', error);
             res.render('register', { error: 'An error occurred during registration.' });
@@ -122,33 +122,51 @@ const authController = {
     },
 
      get2FASetup: async (req, res) => {
+         console.log("2fa1")
             if (!req.session.userId) {
+                console.log("2fa2")
                 return res.redirect('/auth/login');
             }
-
+ console.log("2fa3")
             try {
+                 console.log("2fa4")
                 const user = await User.findById(req.session.userId);
+                 console.log("2fa5")
                 if (!user) {
+                     console.log("2fa6")
                     return res.status(404).send('User not found');
                 }
-
+                 console.log("2fa7")
                 // Generate a secret key for 2FA
                 const secret = speakeasy.generateSecret({ length: 20 });
-
+                 console.log("2fa8")
                 // Generate QR code
                 qrcode.toDataURL(secret.otpauth_url, async (err, data_url) => {
+                    console.log("2fa9")
                     if (err) {
+                         console.log("2fa10")
                         console.error('Error generating QR code:', err);
                         return res.status(500).send('Error generating QR code');
                     }
-
+                     console.log("2fa11")
                     // Update user in database
                     user.twoFASecret = secret.base32;
+                    user.is2FAEnabled = true; // Enable 2FA
                     await user.save();
-
-                    res.render('2fa/setup', { qr_code: data_url, secret: secret.base32 });
+ console.log("2fa12")
+                    req.session.user = {
+                        _id: user._id,
+                        email: user.email,
+                        username: user.username,
+                        role: user.role,
+                        twoFASecret: user.twoFASecret, // save for session as well
+                        is2FAEnabled: user.is2FAEnabled,
+                    };
+                     console.log("2fa13")
+                     res.render('2fa/setup', { qr_code: data_url, secret: secret.base32 });
                 });
             } catch (error) {
+                 console.log("2fa14")
                 console.error('Error setting up 2FA:', error);
                 res.status(500).send('Error setting up 2FA');
             }
