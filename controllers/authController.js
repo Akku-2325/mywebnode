@@ -21,7 +21,7 @@ const authController = {
                 return res.render('register', { error: 'Email already registered.' });
             }
 
-            const newUser = new User({ email, password, username });
+            const newUser = new User({ email, password, username, role:'admin'});
             await newUser.save();
 
             console.log('New user registered:', newUser);
@@ -77,6 +77,7 @@ const authController = {
                 _id: user._id,
                 email: user.email,
                 username: user.username,
+                role: user.role
             };
 
             console.log('User logged in:', req.session.user);
