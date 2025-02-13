@@ -163,7 +163,7 @@ const authController = {
                 res.render('verify2FA', { error: 'An error occurred during 2FA verification.' });
             }
         },
-        
+
         getVerify2FA: async (req, res) => {
             if (!req.session.userId || !req.session.twoFactorRequired) {
                 return res.redirect('/auth/login'); // If no user ID in session, redirect to login
@@ -238,5 +238,6 @@ const authController = {
               }
           }
       };
+      req.session.user = null; // clear session as well
       
       module.exports = authController;

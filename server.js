@@ -26,7 +26,12 @@ app.set('view engine', 'ejs');
 app.use(authMiddleware.setUser);
 
 app.get('/', (req, res) => {
-    res.render('main'); // user will be available in main.ejs as res.locals.user
+    if (res.locals.user) {
+        console.log(res.locals);
+        res.render('main'); // user will be available in main.ejs as res.locals.user
+    } else {
+        res.render('index'); // Render the index page if user is not logged in
+    }
 });
 
 // Session Configuration
