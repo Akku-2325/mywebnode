@@ -70,44 +70,49 @@ const authController = {
             user.loginAttempts = 0;
             user.lockUntil = undefined;
             await user.save();
-            // Если 2FA включена, проверяем код
+    
+            // *** Обработка 2FA ***
             if (user.is2FAEnabled) {
-                // Check if two-factor code is provided
                 if (!twoFactorCode) {
-                    // ***ВАЖНО***: Здесь передаем twoFactorRequired: true
+                    // ***ВАЖНО***: Здесь передаем twoFactorRequired: true и *ОСТАНАВЛИВАЕМ выполнение функции*
                     return res.render('login', { error: 'Two-factor code is required', twoFactorRequired: true });
                 }
+    
                 const verified = speakeasy.totp.verify({
                     secret: user.twoFASecret,
                     encoding: 'base32',
                     token: twoFactorCode,
-                    window: 2 // Allow a window of 2 (codes can be used 1 code before or 1 code after to allow for clock drift)
+                    window: 2
                 });
+    
                 if (!verified) {
                     return res.render('login', { error: 'Invalid two-factor code', twoFactorRequired: true });
                 }
-                // Если код 2fa ввели, то устанавливаем сессию и редиректим
+    
+                // 2FA verification successful
                 req.session.userId = user._id;
                 req.session.user = {
                     _id: user._id,
                     email: user.email,
                     username: user.username,
                     role: user.role,
-                    is2FAVerified: true // Set this to true after verification
+                    is2FAVerified: true
                 };
                 console.log("User logged in with 2FA:", req.session.user);
-                return res.redirect('/');
-            } // Если  2fa был выключен - сразу логинимся
-            req.session.userId = user._id;
-            req.session.user = {
-                _id: user._id,
-                email: user.email,
-                username: user.username,
-                role: user.role,
-                is2FAVerified: true// No 2FA
-            };
-            console.log("User logged in with no 2FA:", req.session.user);
-            res.redirect('/');
+                return res.redirect('/'); // ***ВАЖНО***: ОСТАНАВЛИВАЕМ выполнение функции
+            } else {
+                // *** Обработка обычного логина (без 2FA) ***
+                req.session.userId = user._id;
+                req.session.user = {
+                    _id: user._id,
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    is2FAVerified: true // No 2FA, so consider verified
+                };
+                console.log("User logged in with no 2FA:", req.session.user);
+                return res.redirect('/'); // ***ВАЖНО***: ОСТАНАВЛИВАЕМ выполнение функции
+            }
     
         } catch (error) {
             console.error('Error logging in:', error);
