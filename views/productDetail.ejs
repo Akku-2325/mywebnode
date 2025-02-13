@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= product.name %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1><%= product.name %></h1>
+        <p><%= product.description %></p>
+        <p>Price: $<%= product.price %></p>
+
+        <% if (product.images && product.images.length > 0) { %>
+            <div class="product-images">
+                <% product.images.forEach(image => { %>
+                    <img src="<%= image %>" alt="<%= product.name %>" width="200">
+                <% }); %>
+            </div>
+        <% } %>
+
+        <p>Category: <%= product.category ? product.category.name : 'N/A' %></p>
+        <p>Material: <%= product.material %></p>
+        <p>Stock: <%= product.stock %></p>
+
+        <!-- Временно убираем блок отзывов -->
+        <!-- <h2>Reviews</h2>
+        <% if (product.reviews && product.reviews.length > 0) { %>
+            <ul>
+                <% product.reviews.forEach(review => { %>
+                    <li>
+                        <strong><%= review.userId.username %></strong> - <%= review.rating %> stars
+                        <p><%= review.comment %></p>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } else { %>
+            <p>No reviews yet.</p>
+        <% } %> -->
+
+        <a href="/products">Back to Product List</a>
+    </div>
+</body>
+</html>
