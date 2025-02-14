@@ -132,16 +132,48 @@ const productController = {
 
     updateProduct: async (req, res) => {
         try {
-            const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+            const productId = req.params.id;
+            const product = await Product.findById(productId);
+
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' });
             }
-            res.redirect('/products');
+
+            const categories = await Category.find(); // Fetch categories
+
+
+            const tags = req.body.tags ? req.body.tags.split(',').map(tag => tag.trim()) : [];
+
+            // Update product properties
+            product.name = req.body.name;
+            product.description = req.body.description;
+            product.price = req.body.price;
+            product.category = req.body.category;
+            product.metalType = req.body.metalType;
+            product.gemstone = req.body.gemstone;
+            product.gemstoneColor = req.body.gemstoneColor;
+            product.gemstoneCarat = req.body.gemstoneCarat;
+            product.style = req.body.style;
+            product.jewelryType = req.body.jewelryType;
+            product.size = req.body.size;
+            product.weight = req.body.weight;
+            product.brand = req.body.brand;
+            product.collection = req.body.collection;
+            product.tags = tags;
+            product.stock = req.body.stock;
+
+
+            await product.save();
+            console.log("updated successfully")
+            res.redirect('/products/'+productId);//Редирект на страницу редактирования!
+
+
         } catch (error) {
             console.error('Error updating product:', error);
             res.status(400).json({ message: 'Failed to update product' });
         }
     },
+
 
     deleteProduct: async (req, res) => {
         try {
