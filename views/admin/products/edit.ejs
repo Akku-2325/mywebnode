@@ -10,27 +10,27 @@
 
         <% if (typeof error !== 'undefined' && error) { %>
             <p style="color: red;"><%= error %></p>
-    <% } %>
+        <% } %>
 
-    <form action="/products/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="<%= product.name %>" required>
-        </div>
-        <div>
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required><%= product.description %></textarea>
-        </div>
-        <div>
-            <label for="price">Price:</label>
-            <input type="number" id="price" name="price" step="0.01" value="<%= product.price %>" required>
-        </div>
-        <div>
-            <label for="category">Category:</label>
-            <select id="category" name="category">
-                <% if (typeof categories !== 'undefined' && categories) { %>
-                    <% categories.forEach(category => { %>
-                        <option value="<%= category._id %>" <%= product.category && product.category._id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
+        <form action="/products/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="<%= product.name %>" required>
+            </div>
+            <div>
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required><%= product.description %></textarea>
+            </div>
+            <div>
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" value="<%= product.price %>" required>
+            </div>
+            <div>
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <% if (typeof categories !== 'undefined' && categories) { %>
+                        <% categories.forEach(category => { %>
+                            <option value="<%= category._id %>" <%= product.category && product.category._id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
                     <% }); %>
                 <% } %>
             </select>
