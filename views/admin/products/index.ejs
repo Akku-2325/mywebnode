@@ -13,6 +13,18 @@
         <form action="/products" method="GET">
             <input type="text" name="q" placeholder="Search...">
 
+            <label for="sortBy">Sort By:</label>
+            <select name="sortBy" id="sortBy">
+                <option value="">Relevance</option>
+                <option value="priceAsc">Price (Low to High)</option>
+                <option value="priceDesc">Price (High to Low)</option>
+                <option value="nameAsc">Name (A to Z)</option>
+                <option value="nameDesc">Name (Z to A)</option>
+            </select>
+        
+            <button type="submit">Apply Sorting</button>
+        </form>
+
             <label for="metalType">Metal Type:</label>
             <select name="metalType" id="metalType" multiple>
                 <option value="">All Metals</option>
