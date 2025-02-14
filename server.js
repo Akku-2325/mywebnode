@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -12,6 +10,7 @@ const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
 const authMiddleware = require('./middleware/authMiddleware');
+const methodOverride = require('method-override'); // Import method-override
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,6 +20,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
+
+app.use(methodOverride('_method')); // Add method-override middleware
 
 // Apply setUser middleware to all routes
 app.use(async (req, res, next) => {
