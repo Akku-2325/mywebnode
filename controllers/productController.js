@@ -4,9 +4,10 @@ const Category = require('../models/Category');
 const productController = {
     getAllProducts: async (req, res) => {
         try {
-            const { q, metalType, gemstone, style, priceMin, priceMax, jewelryType, brand, collection } = req.query;  // Get query parameters
+            const { q, metalType, gemstone, style, priceMin, priceMax, jewelryType, brand, collection, sortBy } = req.query;  // Get query parameters
 
             let query = {}; // Start with an empty query
+            let sort = {}; // Start with an empty sort
 
             // Text Search (if 'q' parameter is provided)
             if (q) {
@@ -15,7 +16,6 @@ const productController = {
 
             // Filtering
             if (metalType) {
-                // If metalType is an array (multiple values), use $in operator
                 if (Array.isArray(metalType)) {
                     query.metalType = { $in: metalType };
                 } else {
@@ -46,7 +46,28 @@ const productController = {
                 query.price = { ...query.price, $lte: parseFloat(priceMax) }; // Less than or equal to
             }
 
-            const products = await Product.find(query).populate('category'); // Execute the query
+            // Sorting
+            if (sortBy) {
+                switch (sortBy) {
+                    case 'priceAsc':
+                        sort = { price: 1 }; // Ascending order
+                        break;
+                    case 'priceDesc':
+                        sort = { price: -1 }; // Descending order
+                        break;
+                    case 'nameAsc':
+                        sort = { name: 1 };
+                        break;
+                    case 'nameDesc':
+                        sort = { name: -1 };
+                        break;
+                    default:
+                        // No sorting
+                        break;
+                }
+            }
+
+            const products = await Product.find(query).populate('category').sort(sort); // Execute the query with sorting
 
             // Send distinct values for filters (for dynamic filter options)
             const distinctMetalTypes = await Product.distinct("metalType");
