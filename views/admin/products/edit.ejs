@@ -1,38 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Edit Category</title>
+    <title>Edit Product</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Edit Category</h1>
+        <h1>Edit Product</h1>
 
         <% if (typeof error !== 'undefined' && error) { %>
             <p style="color: red;"><%= error %></p>
-        <% } %>
+    <% } %>
 
-        <form action="/categories/<%= category._id %>?_method=PUT" method="POST">
-            <div>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="<%= category.name %>" required>
-            </div>
-            <div>
-                <label for="description">Description:</label>
-                <textarea id="description" name="description"><%= category.description %></textarea>
-            </div>
-            <div>
-                <label for="imageUrl">Image URL:</label>
-                <input type="text" id="imageUrl" name="imageUrl" value="<%= category.imageUrl %>">
-            </div>
-            <div>
-                <label for="order">Order:</label>
-                <input type="number" id="order" name="order" value="<%= category.order %>">
-            </div>
-            <button type="submit">Update Category</button>
-        </form>
+    <form action="/products/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="<%= product.name %>" required>
+        </div>
+        <div>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required><%= product.description %></textarea>
+        </div>
+        <div>
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" value="<%= product.price %>" required>
+        </div>
+        <div>
+            <label for="category">Category:</label>
+            <select id="category" name="category">
+                <% if (typeof categories !== 'undefined' && categories) { %>
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category._id %>" <%= product.category && product.category._id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
+                    <% }); %>
+                <% } %>
+            </select>
+        </div>
+        <div>
+            <label for="metalType">Metal Type:</label>
+            <input type="text" id="metalType" name="metalType" value="<%= product.metalType %>">
+        </div>
+        <div>
+            <label for="gemstone">Gemstone:</label>
+            <input type="text" id="gemstone" name="gemstone" value="<%= product.gemstone %>">
+        </div>
+        <div>
+            <label for="gemstoneColor">Gemstone Color:</label>
+            <input type="text" id="gemstoneColor" name="gemstoneColor" value="<%= product.gemstoneColor %>">
+        </div>
+        <div>
+            <label for="gemstoneCarat">Gemstone Carat:</label>
+            <input type="number" id="gemstoneCarat" name="gemstoneCarat" step="0.01" value="<%= product.gemstoneCarat %>">
+        </div>
+        <div>
+            <label for="style">Style:</label>
+            <input type="text" id="style" name="style" value="<%= product.style %>">
+        </div>
+        <div>
+            <label for="jewelryType">Jewelry Type:</label>
+            <input type="text" id="jewelryType" name="jewelryType" value="<%= product.jewelryType %>">
+        </div>
+        <div>
+            <label for="size">Size:</label>
+            <input type="text" id="size" name="size" value="<%= product.size %>">
+        </div>
+        <div>
+            <label for="weight">Weight:</label>
+            <input type="number" id="weight" name="weight" step="0.01" value="<%= product.weight %>">
+        </div>
+        <div>
+            <label for="brand">Brand:</label>
+            <input type="text" id="brand" name="brand" value="<%= product.brand %>">
+        </div>
+        <div>
+            <label for="collection">Collection:</label>
+            <input type="text" id="collection" name="collection" value="<%= product.collection %>">
+        </div>
+        <div>
+            <label for="tags">Tags (comma-separated):</label>
+            <input type="text" id="tags" name="tags" value="<%= product.tags ? product.tags.join(', ') : '' %>">
+        </div>
+       <div>
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" value="<%= product.stock %>">
+        </div>
+        <button type="submit">Update Product</button>
+    </form>
 
-        <a href="/admin">Back to Admin Panel</a>
-    </div>
+    <a href="/products">Back to Product List</a>
+</div>
 </body>
 </html>

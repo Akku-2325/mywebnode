@@ -47,7 +47,7 @@ const categoryController = {
             if (!category) {
                 return res.status(404).send('Category not found');
             }
-            res.render('admin/categories/edit', { category: category });
+            res.render('admin/categories/edit', { category: category }); // Use the correct view
         } catch (error) {
             console.error('Error fetching category for edit:', error);
             res.status(500).send('Error fetching category for edit.');
