@@ -4,8 +4,67 @@ const Category = require('../models/Category');
 const productController = {
     getAllProducts: async (req, res) => {
         try {
-            const products = await Product.find().populate('category');
-            res.render('admin/products/index', { products: products });
+            const { q, metalType, gemstone, style, priceMin, priceMax, jewelryType, brand, collection } = req.query;  // Get query parameters
+
+            let query = {}; // Start with an empty query
+
+            // Text Search (if 'q' parameter is provided)
+            if (q) {
+                query.$text = { $search: q };
+            }
+
+            // Filtering
+            if (metalType) {
+                // If metalType is an array (multiple values), use $in operator
+                if (Array.isArray(metalType)) {
+                    query.metalType = { $in: metalType };
+                } else {
+                    query.metalType = metalType;
+                }
+            }
+            if (gemstone) {
+                query.gemstone = gemstone;
+            }
+            if (style) {
+                query.style = style;
+            }
+           if (jewelryType) {
+                query.jewelryType = jewelryType;
+            }
+            if (brand) {
+                query.brand = brand;
+            }
+            if (collection) {
+                query.collection = collection;
+            }
+
+            // Price Range Filtering
+            if (priceMin) {
+                query.price = { $gte: parseFloat(priceMin) }; // Greater than or equal to
+            }
+            if (priceMax) {
+                query.price = { ...query.price, $lte: parseFloat(priceMax) }; // Less than or equal to
+            }
+
+            const products = await Product.find(query).populate('category'); // Execute the query
+
+            // Send distinct values for filters (for dynamic filter options)
+            const distinctMetalTypes = await Product.distinct("metalType");
+            const distinctGemstones = await Product.distinct("gemstone");
+            const distinctStyles = await Product.distinct("style");
+            const distinctjewelryTypes = await Product.distinct("jewelryType");
+            const distinctBrands = await Product.distinct("brand");
+            const distinctCollections = await Product.distinct("collection");
+
+            res.render('admin/products/index', {
+                products: products,
+                distinctMetalTypes: distinctMetalTypes,
+                distinctGemstones: distinctGemstones,
+                distinctStyles: distinctStyles,
+                distinctjewelryTypes: distinctjewelryTypes,
+                distinctBrands: distinctBrands,
+                distinctCollections: distinctCollections
+            });
         } catch (error) {
             console.error('Error fetching products:', error);
             res.status(500).json({ message: 'Failed to fetch products' });
