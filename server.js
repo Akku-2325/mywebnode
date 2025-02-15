@@ -126,7 +126,7 @@ app.post('/profile/edit', isLoggedIn, [
     body('lastName').trim().isLength({ max: 50 }).withMessage('Last name cannot be longer than 50 characters'),
     body('location').trim().isLength({ max: 50 }).withMessage('Location cannot be longer than 50 characters'),
     body('website').trim().isURL().withMessage('Website must be a valid URL').optional({ nullable: true, checkFalsy: true }),
-    body('bio').trim().isLength({ max: 200 }).withMessage('Bio cannot be longer than 200 characters')
+    body('bio').trim().isLength({ max: 200 }).withMessage('Bio cannot be longer than 50 characters')
 ], async (req, res) => {
     try {
         const errors = validationResult(req);
@@ -250,7 +250,7 @@ app.post('/profile/upload', isLoggedIn, upload.single('profilePicture'), async (
     }
 });
 
-app.get('/', (req, res) => {
+app.get('/',authMiddleware.redirectIfAdmin, (req, res) => {
     if (req.session.userId) {
         // User is logged in, render the main page
         res.render('main', { user: req.session.user });
