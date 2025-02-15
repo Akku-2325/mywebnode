@@ -52,8 +52,8 @@
             <select name="style" id="style">
                 <option value="">All Styles</option>
                 <% if (typeof distinctStyles !== 'undefined' && distinctStyles) {
-                    distinctStyles.forEach(style => { %>
-                        <option value="<%= style %>" <%= style === style ? 'selected' : '' %>><%= style %></option>
+                    distinctStyles.forEach(distinctStyle => { %>
+                        <option value="<%= distinctStyle %>" <%= style === distinctStyle ? 'selected' : '' %>><%= distinctStyle %></option>
         <% }); } %>
             </select>
 
