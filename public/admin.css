@@ -1,0 +1,28 @@
+/* Добавьте эти стили в ваш style.css */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.category-card img {
+    max-width: 100%;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.category-card h2 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.category-actions {
+    margin-top: 10px;
+}
