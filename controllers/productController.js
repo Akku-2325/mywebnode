@@ -5,17 +5,17 @@ const productController = {
     getAllProducts: async (req, res) => {
         try {
             const { q, metalType, gemstone, style, priceMin, priceMax, jewelryType, brand, collection, sortBy } = req.query;  // Get query parameters
-
+    
             let query = {}; // Start with an empty query
             let sort = {}; // Start with an empty sort
-
+    
             // Text Search (if 'q' parameter is provided)
             if (q) {
                 query.$text = { $search: q };
             }
-
+    
             // Filtering
-            if (metalType) {
+            if (metalType !== undefined) {
                 if (Array.isArray(metalType)) {
                     query.metalType = { $in: metalType };
                 } else {
@@ -28,7 +28,7 @@ const productController = {
             if (style) {
                 query.style = style;
             }
-           if (jewelryType) {
+            if (jewelryType) {
                 query.jewelryType = jewelryType;
             }
             if (brand) {
@@ -37,15 +37,18 @@ const productController = {
             if (collection) {
                 query.collection = collection;
             }
-
+    
             // Price Range Filtering
-            if (priceMin) {
-                query.price = { $gte: parseFloat(priceMin) }; // Greater than or equal to
+            if (priceMin !== undefined) {
+                query.price = { $gte: parseFloat(priceMin) };
             }
-            if (priceMax) {
-                query.price = { ...query.price, $lte: parseFloat(priceMax) }; // Less than or equal to
+            if (priceMax !== undefined) {
+                query.price = { ...query.price, $lte: parseFloat(priceMax) };
+                if (!query.price) {
+                    query.price = { $lte: parseFloat(priceMax) };
+                }
             }
-
+    
             // Sorting
             if (sortBy) {
                 switch (sortBy) {
@@ -66,9 +69,12 @@ const productController = {
                         break;
                 }
             }
-
+    
+            console.log("Query:", query);
+            console.log("Sort:", sort);
+    
             const products = await Product.find(query).populate('category').sort(sort); // Execute the query with sorting
-
+    
             // Send distinct values for filters (for dynamic filter options)
             const distinctMetalTypes = await Product.distinct("metalType");
             const distinctGemstones = await Product.distinct("gemstone");
@@ -76,7 +82,7 @@ const productController = {
             const distinctjewelryTypes = await Product.distinct("jewelryType");
             const distinctBrands = await Product.distinct("brand");
             const distinctCollections = await Product.distinct("collection");
-
+    
             res.render('admin/products/index', {
                 products: products,
                 distinctMetalTypes: distinctMetalTypes,
@@ -91,7 +97,7 @@ const productController = {
             res.status(500).json({ message: 'Failed to fetch products' });
         }
     },
-
+    
     getProductById: async (req, res) => {
         try {
             const product = await Product.findById(req.params.id).populate('category');
