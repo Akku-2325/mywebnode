@@ -12,30 +12,23 @@
         <a href="/products/create">Create New Product</a>
 
         <form action="/products" method="GET">
-            <input type="text" name="q" placeholder="Search..." value="<%= q %>">
+            <input type="text" name="q" placeholder="Search...">
 
             <label for="sortBy">Sort By:</label>
             <select name="sortBy" id="sortBy">
                 <option value="">Relevance</option>
-                <option value="priceAsc" <%= sortBy === 'priceAsc' ? 'selected' : '' %>>Price (Low to High)</option>
-                <option value="priceDesc" <%= sortBy === 'priceDesc' ? 'selected' : '' %>>Price (High to Low)</option>
-                <option value="nameAsc" <%= sortBy === 'nameAsc' ? 'selected' : '' %>>Name (A to Z)</option>
-                <option value="nameDesc" <%= sortBy === 'nameDesc' ? 'selected' : '' %>>Name (Z to A)</option>
+                <option value="priceAsc">Price (Low to High)</option>
+                <option value="priceDesc">Price (High to Low)</option>
+                <option value="nameAsc">Name (A to Z)</option>
+                <option value="nameDesc">Name (Z to A)</option>
             </select>
 
             <label for="metalType">Metal Type:</label>
             <select name="metalType" id="metalType" multiple>
                 <option value="">All Metals</option>
                 <% if (typeof distinctMetalTypes !== 'undefined' && distinctMetalTypes) {
-                    distinctMetalTypes.forEach(metal => {
-                        let isSelected = false;
-                        if (Array.isArray(metalType)) {
-                            isSelected = metalType.includes(metal);
-                        } else if (metalType) {
-                            isSelected = (metalType === metal);
-                        }
-                %>
-                <option value="<%= metal %>" <%= isSelected ? 'selected' : '' %>><%= metal %></option>
+                    distinctMetalTypes.forEach(metal => { %>
+                        <option value="<%= metal %>"><%= metal %> </option>
                 <% }); } %>
             </select>
 
@@ -44,7 +37,7 @@
                 <option value="">All Gemstones</option>
                 <% if (typeof distinctGemstones !== 'undefined' && distinctGemstones) {
                     distinctGemstones.forEach(gem => { %>
-                        <option value="<%= gem %>" <%= gemstone === gem ? 'selected' : '' %>><%= gem %></option>
+                        <option value="<%= gem %>"><%= gem %> </option>
         <% }); } %>
             </select>
 
@@ -52,8 +45,8 @@
             <select name="style" id="style">
                 <option value="">All Styles</option>
                 <% if (typeof distinctStyles !== 'undefined' && distinctStyles) {
-                    distinctStyles.forEach(distinctStyle => { %>
-                        <option value="<%= distinctStyle %>" <%= style === distinctStyle ? 'selected' : '' %>><%= distinctStyle %></option>
+                    distinctStyles.forEach(style => { %>
+                        <option value="<%= style %>"><%= style %></option>
         <% }); } %>
             </select>
 
@@ -62,7 +55,7 @@
                 <option value="">All Types</option>
                 <% if (typeof distinctjewelryTypes !== 'undefined' && distinctjewelryTypes) {
                     distinctjewelryTypes.forEach(type => { %>
-                        <option value="<%= type %>" <%= jewelryType === type ? 'selected' : '' %>><%= type %></option>
+                        <option value="<%= type %>"><%= type %></option>
         <% }); } %>
             </select>
 
@@ -71,7 +64,7 @@
                 <option value="">All Brands</option>
                 <% if (typeof distinctBrands !== 'undefined' && distinctBrands) {
                     distinctBrands.forEach(brand => { %>
-                        <option value="<%= brand %>" <%= brand === brand ? 'selected' : '' %>><%= brand %></option>
+                        <option value="<%= brand %>"><%= brand %></option>
         <% }); } %>
             </select>
 
@@ -80,12 +73,12 @@
                 <option value="">All Collections</option>
                 <% if (typeof distinctCollections !== 'undefined' && distinctCollections) {
                     distinctCollections.forEach(collection => { %>
-                        <option value="<%= collection %>" <%= collection === collection ? 'selected' : '' %>><%= collection %></option>
+                        <option value="<%= collection %>"><%= collection %></option>
         <% }); } %>
             </select>
 
-            <input type="number" name="priceMin" placeholder="Min Price" value="<%= priceMin %>">
-            <input type="number" name="priceMax" placeholder="Max Price" value="<%= priceMax %>">
+            <input type="number" name="priceMin" placeholder="Min Price">
+            <input type="number" name="priceMax" placeholder="Max Price">
 
             <button type="submit">Apply Filters</button>
         </form>

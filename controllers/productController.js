@@ -18,7 +18,7 @@ const productController = {
                 if (Array.isArray(metalType)) {
                     query.metalType = { $in: metalType };
                 } else {
-                    query.metalType = { $in: [metalType] };
+                    query.metalType = { $in: [metalType] }; // Convert to array if single value
                 }
             }
             if (gemstone) {
@@ -85,17 +85,7 @@ const productController = {
                 distinctStyles: distinctStyles,
                 distinctjewelryTypes: distinctjewelryTypes,
                 distinctBrands: distinctBrands,
-                distinctCollections: distinctCollections,
-                q: q,
-                metalType: metalType,
-                gemstone: gemstone,
-                style: style,
-                jewelryType: jewelryType,
-                brand: brand,
-                collection: collection,
-                priceMin: priceMin,
-                priceMax: priceMax,
-                sortBy: sortBy
+                distinctCollections: distinctCollections
             });
         } catch (error) {
             console.error('Error fetching products:', error);
