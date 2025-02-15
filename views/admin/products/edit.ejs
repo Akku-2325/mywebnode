@@ -1,3 +1,4 @@
+<!-- admin/products/edit.ejs -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,7 @@
             <p style="color: red;"><%= error %></p>
         <% } %>
 
-        <form action="/products/<%= product._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+        <form action="/products/<%= product._id %>?_method=PUT" method="POST">
             <div>
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" value="<%= product.name %>" required>
@@ -31,62 +32,62 @@
                     <% if (typeof categories !== 'undefined' && categories) { %>
                         <% categories.forEach(category => { %>
                             <option value="<%= category._id %>" <%= product.category && product.category._id.toString() === category._id.toString() ? 'selected' : '' %>><%= category.name %></option>
-                    <% }); %>
-                <% } %>
-            </select>
-        </div>
-        <div>
-            <label for="metalType">Metal Type:</label>
-            <input type="text" id="metalType" name="metalType" value="<%= product.metalType %>">
-        </div>
-        <div>
-            <label for="gemstone">Gemstone:</label>
-            <input type="text" id="gemstone" name="gemstone" value="<%= product.gemstone %>">
-        </div>
-        <div>
-            <label for="gemstoneColor">Gemstone Color:</label>
-            <input type="text" id="gemstoneColor" name="gemstoneColor" value="<%= product.gemstoneColor %>">
-        </div>
-        <div>
-            <label for="gemstoneCarat">Gemstone Carat:</label>
-            <input type="number" id="gemstoneCarat" name="gemstoneCarat" step="0.01" value="<%= product.gemstoneCarat %>">
-        </div>
-        <div>
-            <label for="style">Style:</label>
-            <input type="text" id="style" name="style" value="<%= product.style %>">
-        </div>
-        <div>
-            <label for="jewelryType">Jewelry Type:</label>
-            <input type="text" id="jewelryType" name="jewelryType" value="<%= product.jewelryType %>">
-        </div>
-        <div>
-            <label for="size">Size:</label>
-            <input type="text" id="size" name="size" value="<%= product.size %>">
-        </div>
-        <div>
-            <label for="weight">Weight:</label>
-            <input type="number" id="weight" name="weight" step="0.01" value="<%= product.weight %>">
-        </div>
-        <div>
-            <label for="brand">Brand:</label>
-            <input type="text" id="brand" name="brand" value="<%= product.brand %>">
-        </div>
-        <div>
-            <label for="collection">Collection:</label>
-            <input type="text" id="collection" name="collection" value="<%= product.collection %>">
-        </div>
-        <div>
-            <label for="tags">Tags (comma-separated):</label>
-            <input type="text" id="tags" name="tags" value="<%= product.tags ? product.tags.join(', ') : '' %>">
-        </div>
-       <div>
-            <label for="stock">Stock:</label>
-            <input type="number" id="stock" name="stock" value="<%= product.stock %>">
-        </div>
-        <button type="submit">Update Product</button>
-    </form>
+                        <% }); %>
+                    <% } %>
+                </select>
+            </div>
+            <div>
+                <label for="metalType">Metal Type:</label>
+                <input type="text" id="metalType" name="metalType" value="<%= product.metalType %>">
+            </div>
+            <div>
+                <label for="gemstone">Gemstone:</label>
+                <input type="text" id="gemstone" name="gemstone" value="<%= product.gemstone %>">
+            </div>
+            <div>
+                <label for="gemstoneColor">Gemstone Color:</label>
+                <input type="text" id="gemstoneColor" name="gemstoneColor" value="<%= product.gemstoneColor %>">
+            </div>
+            <div>
+                <label for="gemstoneCarat">Gemstone Carat:</label>
+                <input type="number" id="gemstoneCarat" name="gemstoneCarat" step="0.01" value="<%= product.gemstoneCarat %>">
+            </div>
+            <div>
+                <label for="style">Style:</label>
+                <input type="text" id="style" name="style" value="<%= product.style %>">
+            </div>
+            <div>
+                <label for="jewelryType">Jewelry Type:</label>
+                <input type="text" id="jewelryType" name="jewelryType" value="<%= product.jewelryType %>">
+            </div>
+            <div>
+                <label for="size">Size:</label>
+                <input type="text" id="size" name="size" value="<%= product.size %>">
+            </div>
+            <div>
+                <label for="weight">Weight:</label>
+                <input type="number" id="weight" name="weight" step="0.01" value="<%= product.weight %>">
+            </div>
+            <div>
+                <label for="brand">Brand:</label>
+                <input type="text" id="brand" name="brand" value="<%= product.brand %>">
+            </div>
+            <div>
+                <label for="collection">Collection:</label>
+                <input type="text" id="collection" name="collection" value="<%= product.collection %>">
+            </div>
+            <div>
+                <label for="tags">Tags (comma-separated):</label>
+                <input type="text" id="tags" name="tags" value="<%= product.tags ? product.tags.join(', ') : '' %>">
+            </div>
+           <div>
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" name="stock" value="<%= product.stock %>">
+            </div>
+            <button type="submit">Update Product</button>
+        </form>
 
-    <a href="/products">Back to Product List</a>
-</div>
+        <a href="/products">Back to Product List</a>
+    </div>
 </body>
 </html>

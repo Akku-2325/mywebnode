@@ -1,20 +1,19 @@
+// productController.js
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 
 const productController = {
     getAllProducts: async (req, res) => {
         try {
-            const { q, metalType, gemstone, style, priceMin, priceMax, jewelryType, brand, collection, sortBy } = req.query;  // Get query parameters
-    
-            let query = {}; // Start with an empty query
-            let sort = {}; // Start with an empty sort
-    
-            // Text Search (if 'q' parameter is provided)
+            const { q, metalType, gemstone, style, priceMin, priceMax, jewelryType, brand, collection, sortBy } = req.query;
+
+            let query = {};
+            let sort = {};
+
             if (q) {
                 query.$text = { $search: q };
             }
-    
-            // Filtering
+
             if (metalType !== undefined) {
                 if (Array.isArray(metalType)) {
                     query.metalType = { $in: metalType };
@@ -37,8 +36,7 @@ const productController = {
             if (collection) {
                 query.collection = collection;
             }
-    
-            // Price Range Filtering
+
             if (priceMin !== undefined) {
                 query.price = { $gte: parseFloat(priceMin) };
             }
@@ -48,15 +46,14 @@ const productController = {
                     query.price = { $lte: parseFloat(priceMax) };
                 }
             }
-    
-            // Sorting
+
             if (sortBy) {
                 switch (sortBy) {
                     case 'priceAsc':
-                        sort = { price: 1 }; // Ascending order
+                        sort = { price: 1 };
                         break;
                     case 'priceDesc':
-                        sort = { price: -1 }; // Descending order
+                        sort = { price: -1 };
                         break;
                     case 'nameAsc':
                         sort = { name: 1 };
@@ -65,24 +62,22 @@ const productController = {
                         sort = { name: -1 };
                         break;
                     default:
-                        // No sorting
                         break;
                 }
             }
-    
+
             console.log("Query:", query);
             console.log("Sort:", sort);
-    
-            const products = await Product.find(query).populate('category').sort(sort); // Execute the query with sorting
-    
-            // Send distinct values for filters (for dynamic filter options)
+
+            const products = await Product.find(query).populate('category').sort(sort);
+
             const distinctMetalTypes = await Product.distinct("metalType");
             const distinctGemstones = await Product.distinct("gemstone");
             const distinctStyles = await Product.distinct("style");
             const distinctjewelryTypes = await Product.distinct("jewelryType");
             const distinctBrands = await Product.distinct("brand");
             const distinctCollections = await Product.distinct("collection");
-    
+
             res.render('admin/products/index', {
                 products: products,
                 distinctMetalTypes: distinctMetalTypes,
@@ -97,7 +92,7 @@ const productController = {
             res.status(500).json({ message: 'Failed to fetch products' });
         }
     },
-    
+
     getProductById: async (req, res) => {
         try {
             const product = await Product.findById(req.params.id).populate('category');
@@ -136,6 +131,20 @@ const productController = {
         }
     },
 
+    getEditProductForm: async (req, res) => {
+        try {
+            const product = await Product.findById(req.params.id).populate('category');
+            const categories = await Category.find();
+            if (!product) {
+                return res.status(404).json({ message: 'Product not found' });
+            }
+            res.render('admin/products/edit', { product: product, categories: categories });
+        } catch (error) {
+            console.error('Error fetching product for edit:', error);
+            res.status(500).send('Error fetching product for edit.');
+        }
+    },
+
     updateProduct: async (req, res) => {
         try {
             const productId = req.params.id;
@@ -144,9 +153,6 @@ const productController = {
             if (!product) {
                 return res.status(404).json({ message: 'Product not found' });
             }
-
-            const categories = await Category.find(); // Fetch categories
-
 
             const tags = req.body.tags ? req.body.tags.split(',').map(tag => tag.trim()) : [];
 
@@ -168,11 +174,9 @@ const productController = {
             product.tags = tags;
             product.stock = req.body.stock;
 
-
             await product.save();
-            console.log("updated successfully")
-            res.redirect('/products/'+productId);//Редирект на страницу редактирования!
-
+            console.log("updated successfully");
+            res.redirect('/products'); // Redirect to the products list
 
         } catch (error) {
             console.error('Error updating product:', error);
@@ -190,8 +194,7 @@ const productController = {
                 return res.status(404).json({ message: 'Product not found' });
             }
             console.log(`Product with ID ${productId} deleted successfully`);
-            // Важно: редирект должен быть на страницу, которая НЕ требует данных удаленного продукта
-            res.redirect('/products'); // Redirect to the products list or another appropriate page
+            res.redirect('/products');
         } catch (error) {
             console.error('Error deleting product:', error);
             res.status(500).json({ message: 'Failed to delete product' });
