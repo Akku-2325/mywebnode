@@ -14,11 +14,11 @@ const productController = {
                 query.$text = { $search: q };
             }
 
-            if (metalType !== undefined) {
+            if (metalType !== undefined && metalType !== null) {
                 if (Array.isArray(metalType)) {
                     query.metalType = { $in: metalType };
                 } else {
-                    query.metalType = metalType;
+                    query.metalType = { $in: [metalType] }; // Convert to array if single value
                 }
             }
             if (gemstone) {
@@ -37,10 +37,10 @@ const productController = {
                 query.collection = collection;
             }
 
-            if (priceMin !== undefined) {
+           if (priceMin !== undefined && priceMin !== '') {
                 query.price = { $gte: parseFloat(priceMin) };
             }
-            if (priceMax !== undefined) {
+            if (priceMax !== undefined && priceMax !== '') {
                 query.price = { ...query.price, $lte: parseFloat(priceMax) };
                 if (!query.price) {
                     query.price = { $lte: parseFloat(priceMax) };
