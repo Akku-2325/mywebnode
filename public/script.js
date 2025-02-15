@@ -1,21 +1,18 @@
-document.getElementById("noteForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+// public/script.js
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[action="/products"]');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    const title = document.getElementById("noteTitle").value.trim();
-    const content = document.getElementById("noteContent").value.trim();
+        const url = new URL(form.action, window.location.origin);
+        const formData = new FormData(form);
 
-    if (title && content) {
-        const noteItem = document.createElement("li");
-        noteItem.innerHTML = `<h3>${title}</h3><p>${content}</p>
-            <button class="delete-btn">Удалить</button>`;
+        for (let pair of formData.entries()) {
+            if (pair[1]) {  // only append if value is not empty
+                url.searchParams.append(pair[0], pair[1]);
+            }
+        }
 
-        document.getElementById("notesList").appendChild(noteItem);
-
-        document.getElementById("noteTitle").value = "";
-        document.getElementById("noteContent").value = "";
-
-        noteItem.querySelector(".delete-btn").addEventListener("click", function() {
-            noteItem.remove();
-        });
-    }
+        window.location.href = url.toString();
+    });
 });
