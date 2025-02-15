@@ -2,13 +2,23 @@
 <html>
 <head>
     <title>Main Page</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <% console.log("Local user: ", locals.user) %>
     <div class="main-page-container">
-        <h1>Welcome, <%= locals.user ? locals.user.username : 'Guest' %>!</h1>
-        <p>You are logged in.</p>
+        <div class="banner">
+            <img src="/images/banner.jpg" alt="Welcome Banner">
+        </div>
+        <div class="shop-info">
+            <h1>Welcome to Our Shop!</h1>
+            <p>We offer a wide selection of high-quality jewelry for every occasion. Discover unique styles and exceptional craftsmanship.</p>
+            <ul>
+                <li>High-Quality Materials</li>
+                <li>Fast & Reliable Shipping</li>
+                <li>Unique & Exclusive Designs</li>
+            </ul>
+            <a href="/products" class="shop-now-button">Shop Now</a>
+        </div>
         <a href="/profile">View Profile</a>
         <% if (locals.user && locals.user.role === 'admin') { %>
             <a href="/admin">Admin Panel</a>
