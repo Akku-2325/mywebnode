@@ -176,11 +176,16 @@ const productController = {
 
     deleteProduct: async (req, res) => {
         try {
-            const product = await Product.findByIdAndDelete(req.params.id);
+            const productId = req.params.id;
+            console.log(`Attempting to delete product with ID: ${productId}`);
+            const product = await Product.findByIdAndDelete(productId);
             if (!product) {
+                console.log(`Product with ID ${productId} not found`);
                 return res.status(404).json({ message: 'Product not found' });
             }
-            res.json({ message: 'Product deleted' });
+            console.log(`Product with ID ${productId} deleted successfully`);
+            // Важно: редирект должен быть на страницу, которая НЕ требует данных удаленного продукта
+            res.redirect('/products'); // Redirect to the products list or another appropriate page
         } catch (error) {
             console.error('Error deleting product:', error);
             res.status(500).json({ message: 'Failed to delete product' });
