@@ -154,6 +154,20 @@
                 grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Smaller product cards */
             }
         }
+           .product-card .add-to-cart {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #28a745; /* Green color */
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 10px;  /* Space it from the price */
+        transition: background-color 0.3s ease;
+    }
+
+    .product-card .add-to-cart:hover {
+        background-color: #218838; /* Darker green on hover */
+    }
     </style>
 </head>
 <body>
@@ -240,6 +254,7 @@
                     <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
                     <h2><%= product.name %></h2>
                     <p class="price">$<%= product.price %></p>
+                    <a href="/addToCart/<%= product._id %>" class="add-to-cart"><i class="fa fa-shopping-cart"></i> В корзину</a>
                     <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                 </div>
             <% }); %>
