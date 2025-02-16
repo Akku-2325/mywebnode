@@ -91,7 +91,8 @@ router.get('/', async (req, res) => {
             priceMinFilter: priceMin || null,
             priceMaxFilter: priceMax || null,
             searchQuery: q || null,
-            categoryData: categoryData // Pass category data to the template
+            categoryData: categoryData,
+            sortBy: sortBy 
         });
 
     } catch (error) {
