@@ -96,6 +96,16 @@ app.use('/categories', categoryRoutes);
 const adminRoutes = require('./routes/adminRoutes'); //Add admin Routes
 app.use('/admin', adminRoutes);
 
+// Route to handle profile rendering
+app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
+    try {
+        res.render('admin/index');
+    } catch (error) {
+        console.error('Error rendering admin panel:', error);
+        res.status(500).send('Error rendering admin panel.');
+    }
+});
+
 // Protected route example (Profile management - moved here for now)
 app.get('/profile', isLoggedIn, async (req, res) => {
     try {
