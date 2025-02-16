@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= product.name %></title>
+    <link rel="stylesheet" href="/style.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      <style>
+        /* Basic Styling - Adapt to your design */
+        .product-detail-container {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .product-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .product-name {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .product-price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .product-description {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .product-attributes {
+            margin-bottom: 20px;
+        }
+
+        .product-attributes p {
+            margin-bottom: 5px;
+        }
+
+        .back-to-products {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-products:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-detail-container">
+        <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>" class="product-image">
+        <h1 class="product-name"><%= product.name %></h1>
+        <p class="product-price">$<%= product.price %></p>
+        <p class="product-description"><%= product.description %></p>
+
+        <div class="product-attributes">
+            <p><strong>Category:</strong> <%= product.category ? product.category.name : 'N/A' %></p>
+            <p><strong>Metal:</strong> <%= product.metalType || 'N/A' %></p>
+            <p><strong>Gemstone:</strong> <%= product.gemstone || 'N/A' %></p>
+            <p><strong>Style:</strong> <%= product.style || 'N/A' %></p>
+            <p><strong>Jewelry Type:</strong> <%= product.jewelryType || 'N/A' %></p>
+            <p><strong>Brand:</strong> <%= product.brand || 'N/A' %></p>
+            <p><strong>Collection:</strong> <%= product.collection || 'N/A' %></p>
+        </div>
+
+        <a href="/productList" class="back-to-products">Back to Products</a>
+    </div>
+</body>
+</html>

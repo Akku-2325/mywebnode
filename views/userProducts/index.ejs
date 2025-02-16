@@ -4,38 +4,232 @@
     <title>Jewelry Shop</title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Basic Styling - Adapt to your design */
+        .product-listing {
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+            align-items: stretch;    /* Stretch items to fill container */
+            width: 100%;
+            max-width: 1200px;       /* Maximum width for the entire component */
+            margin: 20px auto;       /* Center the component horizontally */
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-filter-section {
+            display: flex;                /* Arrange filters side by side */
+            align-items: center;          /* Align items vertically */
+            justify-content: space-between; /* Distribute space evenly */
+            width: 100%;
+            margin-bottom: 20px;          /* Space between filters and product grid */
+        }
+
+        .filters {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;            /* Allow filters to wrap on smaller screens */
+            margin-right: 20px;          /* Space between the filter label and the filter elements */
+        }
+
+        .filters label {
+            margin-right: 10px;          /* Space between each filter label and its input */
+        }
+
+        .filters select,
+        .filters input[type="number"] {
+            margin-right: 15px;          /* Spacing for filter elements */
+            padding: 8px;                /* Padding inside filter elements */
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;              /* Font size for the filter elements */
+            width: auto;
+            flex-shrink: 0;
+        }
+
+        .sort-by {
+            text-align: right;           /* Align sort options to the right */
+        }
+
+        .sort-by label {
+            margin-right: 10px;          /* Space between the sort label and select */
+        }
+
+        .sort-by select {
+            padding: 8px;                /* Padding inside sort select */
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;              /* Font size for the sort select */
+            width: auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Dynamic grid */
+            gap: 20px;                    /* Space between products */
+            width: 100%;
+        }
+
+        .product-card {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;                 /* Make images responsive */
+            height: 200px;                /* Consistent height for images */
+            object-fit: cover;             /* Maintain aspect ratio */
+            border-radius: 5px;
+            margin-bottom: 10px;          /* Space below image */
+        }
+
+        .product-card h2 {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        .product-card .price {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;          /* Space above the detail link */
+        }
+
+        .product-card .view-detail {
+            display: inline-block;
+            padding: 8px 16px;            /* Padding inside the detail link */
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .pagination a {
+            padding: 8px 12px;            /* Padding inside pagination links */
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .product-filter-section {
+                flex-direction: column;   /* Stack filters and sort on smaller screens */
+                align-items: stretch;    /* Stretch items to fill container */
+            }
+
+            .filters {
+                margin-bottom: 15px;      /* Space between filters and sort options */
+            }
+
+            .sort-by {
+                text-align: left;           /* Align sort options to the left */
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Smaller product cards */
+            }
+        }
+    </style>
 </head>
 <body>
+     <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="/"><img src="/images/logo.png" alt="Jewelry Shop"></a>
+            </div>
+            <nav class="nav">
+                <ul>
+                    <li><a href="/bracelets">Браслеты</a></li>
+                    <li><a href="/rings">Кольца</a></li>
+                    <li><a href="/earrings">Серьги</a></li>
+                    <li><a href="/collections">Коллекции</a></li>
+                </ul>
+            </nav>
+            <div class="header-right">
+                <div class="phone">
+                    <a href="tel:7059241111">705 924 11 11</a>
+                </div>
+                <div class="icons">
+                    <a href="/search"><i class="fa fa-search"></i></a>
+                    <a href="/profile"><i class="fa fa-user"></i></a>
+                    <a href="/auth/logout"><i class="fa fa-sign-out"></i></a>
+                    <a href="/cart"><i class="fa fa-shopping-cart"></i></a>
+                </div>
+            </div>
+            <div class="burger-menu">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
     <div class="product-listing">
+         <% if (categoryData && categoryData.bannerImageUrl) { %>
+        <div class="banner">
+            <img src="<%= categoryData.bannerImageUrl %>" alt="Category Banner">
+        </div>
+        <% } %>
+
+         <% if (categoryData && categoryData.description) { %>
+            <div class="category-description">
+                <p><%= categoryData.description %></p>
+            </div>
+        <% } %>
+
         <div class="product-filter-section">
           <div class="filters">
             <label for="category">Category:</label>
             <select name="category" id="category" onchange="window.location.href='?category=' + this.value">
               <option value="">All Categories</option>
                 <% categories.forEach(cat => { %>
-                  <option value="<%= cat._id %>"><%= cat.name %></option>
+                  <option value="<%= cat._id %>" <%= categoryFilter == cat._id ? 'selected' : '' %>><%= cat.name %></option>
                 <% }); %>
             </select>
 
             <label for="priceMin">Min Price:</label>
-            <input type="number" id="priceMin" name="priceMin" placeholder="Min">
+            <input type="number" id="priceMin" name="priceMin" placeholder="Min" value="<%= priceMinFilter %>">
 
             <label for="priceMax">Max Price:</label>
-            <input type="number" id="priceMax" name="priceMax" placeholder="Max">
-            <button onclick="applyPriceFilter()">Apply Price</button>
+            <input type="number" id="priceMax" name="priceMax" placeholder="Max" value="<%= priceMaxFilter %>">
+            <button type="button" id="applyPriceButton">Apply Price</button>
 
             <label for="search">Search:</label>
-            <input type="text" id="search" name="search" placeholder="Search Products">
-            <button onclick="applySearch()">Search</button>
+            <input type="text" id="search" name="search" placeholder="Search Products" value="<%= searchQuery %>">
+            <button type="button" id="applySearchButton">Search</button>
           </div>
 
             <div class="sort-by">
                 <label for="sortBy">Sort By:</label>
-                <select id="sortBy" name="sortBy">
+                <select id="sortBy" name="sortBy" onchange="applySorting()">
                     <option value="">Default Sorting</option>
-                    <option value="priceAsc">Price: Low to High</option>
-                    <option value="priceDesc">Price: High to Low</option>
-                    <!-- Add more sorting options as needed -->
+                    <option value="priceAsc" <%= sortBy === 'priceAsc' ? 'selected' : '' %>>Price: Low to High</option>
+                    <option value="priceDesc" <%= sortBy === 'priceDesc' ? 'selected' : '' %>>Price: High to Low</option>
+                    <option value="nameAsc" <%= sortBy === 'nameAsc' ? 'selected' : '' %>>Name (A-Z)</option>
+                    <option value="nameDesc" <%= sortBy === 'nameDesc' ? 'selected' : '' %>>Name (Z-A)</option>
                 </select>
             </div>
         </div>
@@ -45,19 +239,80 @@
                 <div class="product-card">
                     <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
                     <h2><%= product.name %></h2>
-                    <p><%= product.description %></p>
                     <p class="price">$<%= product.price %></p>
-                    <a href="/productDetail/<%= product._id %>" class="view-detail">View Detail</a>
+                    <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                 </div>
             <% }); %>
         </div>
 
         <div class="pagination">
           <% paginationLinks.forEach(link => { %>
-            <a href="?page=<%= link.page %>" class="<%= link.active ? 'active' : '' %>"><%= link.page %></a>
+            <a href="?page=<%= link.page %>
+            <% if (categoryFilter) { %>&category=<%= categoryFilter %><% } %>
+            <% if (priceMinFilter) { %>&priceMin=<%= priceMinFilter %><% } %>
+            <% if (priceMaxFilter) { %>&priceMax=<%= priceMaxFilter %><% } %>
+            <% if (searchQuery) { %>&q=<%= searchQuery %><% } %>
+            " class="<%= link.active ? 'active' : '' %>"><%= link.page %></a>
           <% }); %>
         </div>
     </div>
+
+      <footer class="footer">
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-logo">
+                <a href="/"><img src="/images/logo.png" alt="Jewelry Shop"></a>
+                <p>Краткое описание твоего магазина.</p>
+            </div>
+            <div class="footer-nav">
+                <div class="footer-nav-col">
+                    <h4>Информация</h4>
+                    <ul>
+                        <li><a href="/about">О компании</a></li>
+                        <li><a href="/stores">Магазины</a></li>
+                        <li><a href="/public-offer">Публичная оферта</a></li>
+                        <li><a href="/privacy-policy">Политика конфиденциальности</a></li>
+                        <li><a href="/contacts">Контакты</a></li>
+                        <li><a href="/news">Новости</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-col">
+                    <h4>Сервис</h4>
+                    <ul>
+                        <li><a href="/delivery">Доставка</a></li>
+                        <li><a href="/payment">Оплата</a></li>
+                        <li><a href="/return">Возврат / Гарантия</a></li>
+                        <li><a href="/promo">Промокод</a></li>
+                        <li><a href="/bonus-club">Бонусный клуб</a></li>
+                        <li><a href="/installment">Рассрочка</a></li>
+                    </ul>
+                </div>
+                <div class="footer-nav-col">
+                    <h4>Помощь</h4>
+                    <ul>
+                        <li><a href="/faq">Вопрос-ответ</a></li>
+                        <li><a href="/size-chart">Таблица размеров</a></li>
+                        <li><a href="/care">Хранение и уход</a></li>
+                        <li><a href="/about-brand">О бренде Jewelry Shop</a></li>
+                        <li><a href="/dispute">Досудебное урегулирование потребительских споров</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-subscribe">
+                <h4>Подписка на новости</h4>
+                <p>Актуальные акции, новинки и персональные предложения. Укажите свой e-mail и получайте доступ в числе первых!</p>
+                <form action="/subscribe" method="POST">
+                    <input type="email" placeholder="Введите e-mail" name="email">
+                    <button type="submit">Отправить</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© <%= new Date().getFullYear() %> Jewelry Shop. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
     <script>
     function applyPriceFilter() {
     let priceMin = document.getElementById('priceMin').value;
@@ -72,6 +327,10 @@
       if (existingParams.has('q')) {
         baseUrl += 'q=' + existingParams.get('q') + '&';
     }
+      if (existingParams.has('sortBy')) {
+        baseUrl += 'sortBy=' + existingParams.get('sortBy') + '&';
+    }
+
 
     // Add price filters
     if (priceMin) {
@@ -94,6 +353,15 @@
     if (existingParams.has('category')) {
         baseUrl += 'category=' + existingParams.get('category') + '&';
     }
+     if (existingParams.has('priceMin')) {
+        baseUrl += 'priceMin=' + existingParams.get('priceMin') + '&';
+    }
+     if (existingParams.has('priceMax')) {
+        baseUrl += 'priceMax=' + existingParams.get('priceMax') + '&';
+    }
+      if (existingParams.has('sortBy')) {
+        baseUrl += 'sortBy=' + existingParams.get('sortBy') + '&';
+    }
 
     // Add search query
     if (q) {
@@ -104,6 +372,37 @@
     baseUrl = baseUrl.replace(/&+$/, '');
     window.location.href = baseUrl;
 }
+    function applySorting() {
+    let sortBy = document.getElementById('sortBy').value;
+    let baseUrl = window.location.pathname + '?';
+
+    // Add existing query parameters
+    let existingParams = new URLSearchParams(window.location.search);
+    if (existingParams.has('category')) {
+        baseUrl += 'category=' + existingParams.get('category') + '&';
+    }
+    if (existingParams.has('q')) {
+        baseUrl += 'q=' + existingParams.get('q') + '&';
+    }
+      if (existingParams.has('priceMin')) {
+        baseUrl += 'priceMin=' + existingParams.get('priceMin') + '&';
+    }
+     if (existingParams.has('priceMax')) {
+        baseUrl += 'priceMax=' + existingParams.get('priceMax') + '&';
+    }
+
+    // Add sort by
+    if (sortBy) {
+        baseUrl += 'sortBy=' + sortBy + '&';
+    }
+
+    // Remove trailing '&' and redirect
+    baseUrl = baseUrl.replace(/&+$/, '');
+    window.location.href = baseUrl;
+}
+     document.getElementById('applyPriceButton').addEventListener('click', applyPriceFilter);
+    document.getElementById('applySearchButton').addEventListener('click', applySearch);
     </script>
+
 </body>
 </html>

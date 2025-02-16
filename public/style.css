@@ -1,3 +1,4 @@
+/* General styles */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
@@ -10,118 +11,257 @@ body {
     min-height: 100vh;
 }
 
-
 .container {
+    max-width: 1200px; /* Increased to accommodate header and product listing */
     width: 80%;
-    max-width: 600px;
     margin: 20px auto;
-    padding: 20px;
+    padding: 0 20px;
+}
+
+/* Header styles */
+.header {
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center text within the container by default */
+    padding: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-h1, h2 {
-    color: #333;
-    text-align: center;
-}
-
-p {
-    color: #666;
-    text-align: center;
-}
-
-a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-form {
+.header .container {
     display: flex;
-    flex-direction: column;
-    align-items: stretch; /* Stretch form elements to fill container width */
+    justify-content: space-between;
+    align-items: center;
 }
 
-label {
-    margin-top: 10px;
-    display: block;
-    text-align: left; /* Keep labels left-aligned */
+.logo img {
+    max-height: 50px;
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"],
-textarea {
+.nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.nav li {
+    margin-left: 20px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: #007bff;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-right .phone {
+    margin-right: 20px;
+    color: #555;
+}
+
+.header-right .phone a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header-right .icons a {
+    margin-left: 10px;
+    color: #333;
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.header-right .icons a:hover {
+    color: #007bff;
+}
+
+.burger-menu {
+    display: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+/* Footer styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
     width: 100%;
-    padding: 10px;
-    margin: 5px 0 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+    text-align: left;
 }
 
-button {
+.footer-logo {
+    flex: 1;
+    text-align: left;
+}
+
+.footer-logo img {
+    max-height: 40px;
+    margin-bottom: 10px;
+}
+
+.footer-nav {
+    display: flex;
+    flex: 2;
+    justify-content: space-around;
+}
+
+.footer-nav-col {
+    margin-right: 20px;
+    flex: 1;
+}
+
+.footer-nav-col h4 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.footer-nav-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-nav-col li {
+    margin-bottom: 5px;
+}
+
+.footer-nav-col a {
+    text-decoration: none;
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.footer-nav-col a:hover {
+    color: #fff;
+}
+
+.footer-subscribe {
+    flex: 1;
+    text-align: left;
+}
+
+.footer-subscribe h4 {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.footer-subscribe p {
+    font-size: 0.9em;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.footer-subscribe input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #666;
+    background-color: #444;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.footer-subscribe button {
+    padding: 8px 16px;
     background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    margin-top: 10px;
+    color: #fff;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+.footer-subscribe button:hover {
     background-color: #0056b3;
 }
 
-.error {
-    color: red;
-    list-style: none;
-    padding: 0;
-    margin-bottom: 10px;
+.footer-bottom {
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: #ccc;
 }
 
-.error li {
-    margin-bottom: 5px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .nav {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav li {
+        margin: 5px 0;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .footer-top {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-nav-col {
+        margin: 0 0 20px;
+        text-align: center;
+    }
+
+    .footer-subscribe {
+        text-align: center;
+    }
 }
 
-.password-requirements {
-    list-style: none;
-    padding: 0;
-    margin-top: 5px;
-    text-align: left;
-    width: 100%;
-}
-
-.password-requirements li {
-    color: #777;
-    margin-bottom: 5px;
-}
-
-.password-requirements li.valid {
-    color: green;
-}
-
-.password-requirements li.invalid {
-    color: red;
-}
-
-/* Profile Page Styles (Вместо предыдущего кода) */
+/* Profile Page Styles */
 .profile-container {
     width: 80%;
-    max-width: 700px; /* Увеличил max-width */
+    max-width: 700px;
     margin: 20px auto;
     padding: 20px;
-    background-color: #f9f9f9; /* Заменил цвет фона */
+    background-color: #f9f9f9;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Улучшил shadow */
-    text-align: center; /* Центрирование контента в контейнере */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .profile-container h1,
@@ -132,24 +272,24 @@ button:hover {
 
 .profile-container p {
     color: #555;
-    text-align: left; /* выровнять влево */
+    text-align: left;
     margin-bottom: 10px;
 }
 
 .profile-container a {
     color: #007bff;
     text-decoration: none;
-    display: inline-block; /* позволяет применять padding и margin */
+    display: inline-block;
     padding: 8px 15px;
     border-radius: 5px;
-    background-color: #e9ecef; /* нейтральный фон */
+    background-color: #e9ecef;
     margin: 5px;
-    transition: background-color 0.3s ease; /* плавный переход при наведении */
+    transition: background-color 0.3s ease;
 }
 
 .profile-container a:hover {
     text-decoration: none;
-    background-color: #dee2e6; /* немного темнее при наведении */
+    background-color: #dee2e6;
 }
 
 .profile-container form {
@@ -162,7 +302,7 @@ button:hover {
 .profile-container label {
     margin-top: 10px;
     display: block;
-    text-align: center; /* центрировать метки */
+    text-align: center;
     color: #555;
 }
 
@@ -171,7 +311,7 @@ button:hover {
 .profile-container input[type="text"],
 .profile-container textarea,
 .profile-container input[type="file"] {
-    width: 70%; /* немного меньше, чтобы освободить место */
+    width: 70%;
     padding: 10px;
     margin: 5px 0 15px;
     border: 1px solid #ddd;
@@ -181,7 +321,7 @@ button:hover {
 }
 
 .profile-container button {
-    background-color: #4682B4; /* цвет из образца */
+    background-color: #4682B4;
     color: white;
     padding: 10px 20px;
     margin-top: 10px;
@@ -192,7 +332,7 @@ button:hover {
 }
 
 .profile-container button:hover {
-    background-color: #5495cc; /* светлее при наведении */
+    background-color: #5495cc;
 }
 
 .profile-container .danger-zone {
@@ -206,11 +346,12 @@ button:hover {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    object-fit: cover; /* обрежьте изображение по кругу */
-    margin: 10px auto 20px; /* центрировать и добавить пространство */
+    object-fit: cover;
+    margin: 10px auto 20px;
     display: block;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 /* Main Page Styles */
 .main-page-container {
     width: 80%;
@@ -243,7 +384,7 @@ button:hover {
     text-decoration: underline;
 }
 
-/* Styles for Login and Register Pages - UNCHANGED */
+/* Styles for Login and Register Pages */
 .login-register-container {
     width: 80%;
     max-width: 500px;
@@ -251,7 +392,7 @@ button:hover {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center; /* Center content inside the container */
+    text-align: center;
 }
 
 .login-register-container h1 {
@@ -312,4 +453,185 @@ button:hover {
 
 .login-register-container a:hover {
     text-decoration: underline;
+}
+
+/* Product Listing Styles */
+.product-listing {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.product-filter-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-right: 20px;
+}
+
+.filters label {
+    margin-right: 10px;
+}
+
+.filters select,
+.filters input[type="number"] {
+    margin-right: 15px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.sort-by {
+    text-align: right;
+}
+
+.sort-by label {
+    margin-right: 10px;
+}
+
+.sort-by select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    width: auto;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.product-card {
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.product-card h2 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.product-card .price {
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-card .view-detail {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.pagination a {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #555;
+}
+
+.pagination a.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+    .nav {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav li {
+        margin: 5px 0;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .footer-top {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-nav-col {
+        margin: 0 0 20px;
+        text-align: center;
+    }
+
+    .footer-subscribe {
+        text-align: center;
+    }
 }
