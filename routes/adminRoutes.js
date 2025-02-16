@@ -17,11 +17,11 @@ cloudinary.config({
 router.use(authMiddleware.isLoggedIn, authMiddleware.isAdmin);
 
 // Отображение формы для редактирования настроек
-router.get('/settings', async (req, res) => {
+router.get('/setting', async (req, res) => {
     try {
         const bannerSetting = await Setting.findOne({ key: 'bannerImageUrl' });
         const bannerImageUrl = bannerSetting ? bannerSetting.value : '';
-        res.render('admin/settings', { bannerImageUrl: bannerImageUrl });
+        res.render('admin/setting', { bannerImageUrl: bannerImageUrl });
     } catch (error) {
         console.error('Error fetching settings:', error);
         res.status(500).send('Error fetching settings.');
@@ -29,7 +29,7 @@ router.get('/settings', async (req, res) => {
 });
 
 // Обработка сохранения настроек
-router.post('/settings', upload.single('bannerImage'), async (req, res) => {
+router.post('/setting', upload.single('bannerImage'), async (req, res) => {
   try {
     let bannerImageUrl = req.body.existingBannerImageUrl;
 
@@ -62,7 +62,7 @@ router.post('/settings', upload.single('bannerImage'), async (req, res) => {
       { upsert: true, new: true }
     );
 
-    res.redirect('/admin/settings');
+    res.redirect('/admin/setting');
   } catch (error) {
     console.error('Error saving settings:', error);
     res.status(500).send('Error saving settings.');
