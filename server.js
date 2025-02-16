@@ -11,6 +11,7 @@ const multer = require('multer');
 const fs = require('fs'); // Import the fs module
 const authMiddleware = require('./middleware/authMiddleware');
 const methodOverride = require('method-override'); // Import method-override
+const Setting = require('./models/Setting'); // Add Setting model
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -91,6 +92,9 @@ const productRoutes = require('./routes/productRoutes');
 app.use('/products', productRoutes);
 const categoryRoutes = require('./routes/categoryRoutes');
 app.use('/categories', categoryRoutes);
+
+const adminRoutes = require('./routes/adminRoutes'); //Add admin Routes
+app.use('/admin', adminRoutes);
 
 app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
     try {
@@ -250,14 +254,24 @@ app.post('/profile/upload', isLoggedIn, upload.single('profilePicture'), async (
     }
 });
 
-app.get('/',authMiddleware.redirectIfAdmin, (req, res) => {
+// Main route that renders banner and adds user
+app.get('/',authMiddleware.redirectIfAdmin, async (req, res) => {
+  try {
+    const bannerSetting = await Setting.findOne({ key: 'bannerImageUrl' });
+    const bannerImageUrl = bannerSetting ? bannerSetting.value : '/images/default-banner.jpg'; // URL по умолчанию
+
     if (req.session.userId) {
-        // User is logged in, render the main page
-        res.render('main', { user: req.session.user });
+      // User is logged in, render the main page
+      res.render('main', { user: res.locals.user, bannerImageUrl: bannerImageUrl });
     } else {
-        // User is not logged in, render the index page
-        res.render('index');
+      // User is not logged in, render the index page
+      res.render('index', { bannerImageUrl: bannerImageUrl });
     }
+  } catch (error) {
+    console.error('Error fetching banner image URL:', error);
+    // Handle the error, e.g., by rendering with a default banner or an error message
+    res.render('index', { bannerImageUrl: '/images/default-banner.jpg' }); // Render index by default
+  }
 });
 
 app.listen(port, () => {
