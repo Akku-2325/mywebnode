@@ -345,3 +345,14 @@ body {
         text-align: center;
     }
 }
+.add-to-cart {
+    color: #fff;
+    background-color: #007bff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.add-to-cart i {
+    margin-right: 5px; /* Add some space between the icon and the text */
+}

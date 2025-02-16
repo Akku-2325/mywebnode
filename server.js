@@ -14,6 +14,7 @@ const methodOverride = require('method-override'); // Import method-override
 const Setting = require('./models/Setting'); // Add Setting model
 const cloudinary = require('cloudinary').v2; // Cloudinary
 const userProductRoutes = require('./routes/userProductRoutes'); // User product routes
+const cartRoutes = require('./routes/cartRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,6 +26,7 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 app.use('/productList', userProductRoutes); 
+app.use('/cart', cartRoutes);
 
 app.use(methodOverride('_method')); // Add method-override middleware
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cart</h1>
+        <% if (cart.length > 0) { %>
+            <ul>
+                <% cart.forEach(item => { %>
+                    <li>
+                        <%= item.product.name %> -
+                        <%= item.quantity %> x $<%= item.product.price %> =
+                        $<%= item.product.price * item.quantity %>
+                    </li>
+                <% }); %>
+            </ul>
+            <p>Total: $<%= total %></p>
+            <a href="/checkout">Checkout</a>
+        <% } else { %>
+            <p>Your cart is empty.</p>
+        <% } %>
+        <a href="/productList">Continue Shopping</a>
+    </div>
+</body>
+</html>
