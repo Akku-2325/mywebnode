@@ -13,6 +13,7 @@ const authMiddleware = require('./middleware/authMiddleware');
 const methodOverride = require('method-override'); // Import method-override
 const Setting = require('./models/Setting'); // Add Setting model
 const cloudinary = require('cloudinary').v2; // Cloudinary
+const userProductRoutes = require('./routes/userProductRoutes'); // User product routes
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
+
+app.use('/productList', userProductRoutes); 
 
 app.use(methodOverride('_method')); // Add method-override middleware
 
