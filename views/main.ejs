@@ -1,30 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Main Page</title>
-    <link rel="stylesheet" href="main.css">
+    <title>Jewelry Shop - Main Page</title>
+    
+    <link rel="stylesheet" href="/main.css"> <!-- Link to main page specific styles -->
 </head>
 <body>
     <div class="main-page-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Jewelry Shop</h1>
+        </div>
+
+        <!-- Banner -->
         <div class="banner">
             <img src="/images/banner.jpg" alt="Welcome Banner">
         </div>
+
+        <!-- Shop Information -->
         <div class="shop-info">
-            <h1>Welcome to Our Shop!</h1>
-            <p>We offer a wide selection of high-quality jewelry for every occasion. Discover unique styles and exceptional craftsmanship.</p>
+            <h1>Discover Exquisite Jewelry</h1>
+            <p>Explore our curated collection of handcrafted jewelry, designed to elevate your style and celebrate your unique moments.</p>
             <ul>
-                <li>High-Quality Materials</li>
-                <li>Fast & Reliable Shipping</li>
-                <li>Unique & Exclusive Designs</li>
+                <li><b>Crafted with Passion:</b> Each piece is meticulously crafted with the finest materials.</li>
+                <li><b>Express Your Style:</b> Find the perfect jewelry to reflect your personality.</li>
+                <li><b>Memorable Gifts:</b> Create lasting memories with our exquisite jewelry gifts.</li>
             </ul>
             <a href="/productList" class="shop-now-button">Shop Now</a>
         </div>
-        <a href="/profile">View Profile</a>
-        <% if (locals.user && locals.user.role === 'admin') { %>
-            <a href="/admin">Admin Panel</a>
-            <a href="/products">Manage Products</a>
-        <% } %>
-        <a href="/auth/logout">Logout</a>
+
+        <!-- User Links (Profile, Admin, Logout) -->
+        <div class="user-links">
+            <a href="/profile">View Profile</a>
+            <% if (locals.user && locals.user.role === 'admin') { %>
+                <a href="/admin">Admin Panel</a>
+                <a href="/products">Manage Products</a>
+            <% } %>
+            <a href="/auth/logout">Logout</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            © <%= new Date().getFullYear() %> Jewelry Shop. All rights reserved.
+        </div>
     </div>
 </body>
 </html>
