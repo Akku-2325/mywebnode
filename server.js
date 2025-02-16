@@ -57,22 +57,6 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const uploadDir = path.join(__dirname, 'public', 'uploads'); // Construct the full path
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({ storage: storage });
-
 // Apply setUser middleware to all routes
 app.use(async (req, res, next) => {
     try {
@@ -95,16 +79,6 @@ app.use('/categories', categoryRoutes);
 
 const adminRoutes = require('./routes/adminRoutes'); //Add admin Routes
 app.use('/admin', adminRoutes);
-
-// Route to handle profile rendering
-app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
-    try {
-        res.render('admin/index');
-    } catch (error) {
-        console.error('Error rendering admin panel:', error);
-        res.status(500).send('Error rendering admin panel.');
-    }
-});
 
 // Protected route example (Profile management - moved here for now)
 app.get('/profile', isLoggedIn, async (req, res) => {
@@ -219,7 +193,7 @@ app.post('/profile/remove-picture', isLoggedIn, async (req, res) => {
     }
 });
 
-app.post('/profile/upload', isLoggedIn, upload.single('profilePicture'), async (req, res) => {
+app.post('/profile/upload', isLoggedIn,  async (req, res) => {
     try {
         const userId = req.session.userId;
         const user = await User.findById(userId);
@@ -233,7 +207,10 @@ app.post('/profile/upload', isLoggedIn, upload.single('profilePicture'), async (
             return res.redirect('/profile');
         }
 
-        user.profilePicture = '/uploads/' + req.file.filename;
+        // Upload to Cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
+        user.profilePicture = result.secure_url;
+
         await user.save();
 
         req.session.user = {
@@ -259,7 +236,7 @@ app.post('/profile/upload', isLoggedIn, upload.single('profilePicture'), async (
 app.get('/',authMiddleware.redirectIfAdmin, async (req, res) => {
   try {
     const bannerSetting = await Setting.findOne({ key: 'bannerImageUrl' });
-    const bannerImageUrl = bannerSetting ? bannerSetting.value : '/banner/default-banner.jpg'; // URL по умолчанию
+    const bannerImageUrl = bannerSetting ? bannerSetting.value : '/images/default-banner.jpg'; // URL по умолчанию
 
     if (req.session.userId) {
       // User is logged in, render the main page
@@ -271,7 +248,7 @@ app.get('/',authMiddleware.redirectIfAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error fetching banner image URL:', error);
     // Handle the error, e.g., by rendering with a default banner or an error message
-    res.render('index', { bannerImageUrl: '/banner/default-banner.jpg' }); // Render index by default
+    res.render('index', { bannerImageUrl: '/images/default-banner.jpg' }); // Render index by default
   }
 });
 

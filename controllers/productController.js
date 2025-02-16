@@ -1,6 +1,16 @@
 // productController.js
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
+
+
+// Cloudinary configuration
+cloudinary.config({
+    cloud_name: 'dcntjvbad',
+    api_key: '524554154549779',
+    api_secret: 's-g5LOm50e0R8T8YLn7NKuj-ezk'
+});
 
 const productController = {
     getAllProducts: async (req, res) => {
@@ -108,9 +118,43 @@ const productController = {
 
     createProduct: async (req, res) => {
         try {
-            const newProduct = new Product(req.body);
+            const { name, description, price, category } = req.body;
+            const imageUrls = [];
+
+            if (req.files && req.files.length > 0) {
+                for (const file of req.files) {
+                    // Upload to Cloudinary using streams
+                    const streamUpload = (file) => {
+                        return new Promise((resolve, reject) => {
+                            const stream = cloudinary.uploader.upload_stream(
+                                (error, result) => {
+                                    if (error) {
+                                        console.log("Cloudinary Error", error);
+                                        return reject(error);
+                                    }
+                                    resolve(result);
+                                }
+                            );
+                            streamifier.createReadStream(file.buffer).pipe(stream);
+                        });
+                    };
+
+                    const result = await streamUpload(file);
+                    imageUrls.push(result.secure_url);
+                }
+            }
+
+            const newProduct = new Product({
+                name: name,
+                description: description,
+                price: price,
+                images: imageUrls,
+                category: category
+            });
+
             await newProduct.save();
             res.redirect('/products');
+
         } catch (error) {
             console.error('Error creating product:', error);
             const categories = await Category.find();

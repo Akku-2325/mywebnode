@@ -42,7 +42,9 @@ const productSchema = new mongoose.Schema({
         createdAt: { type: Date, default: Date.now }
     }]
 
-});
+},
+{ collection: 'products' }
+);
 
 // Add text index with weights
 productSchema.index(

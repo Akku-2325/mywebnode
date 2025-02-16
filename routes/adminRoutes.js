@@ -1,27 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const Setting = require('../models/Setting');
+const authMiddleware = require('../middleware/authMiddleware'); // Import auth middleware
 const upload = require('../middleware/uploadMiddleware');
-const cloudinary = require('cloudinary').v2;
-const streamifier = require('streamifier'); // Import streamifier
-const authMiddleware = require('../middleware/authMiddleware');
+const cloudinary = require('cloudinary').v2; // Cloudinary
+const streamifier = require('streamifier');
 
 // Cloudinary configuration
 cloudinary.config({
-    cloud_name: 'dcntjvbad',
-    api_key: '524554154549779',
-    api_secret: 's-g5LOm50e0R8T8YLn7NKuj-ezk'
+  cloud_name: 'dcntjvbad',
+  api_key: '524554154549779',
+  api_secret: 's-g5LOm50e0R8T8YLn7NKuj-ezk'
 });
 
 // Apply auth middleware to all admin routes
 router.use(authMiddleware.isLoggedIn, authMiddleware.isAdmin);
 
+// Display admin panel
+router.get('/', async (req, res) => {
+    try {
+        res.render('admin/index', { user: req.session.user }); // Render the EJS template
+    } catch (error) {
+        console.error('Error rendering admin panel:', error);
+        res.status(500).send('Error rendering admin panel.');
+    }
+});
+
 // Отображение формы для редактирования настроек
-router.get('/setting', async (req, res) => {
+router.get('/settings', async (req, res) => {
     try {
         const bannerSetting = await Setting.findOne({ key: 'bannerImageUrl' });
         const bannerImageUrl = bannerSetting ? bannerSetting.value : '';
-        res.render('admin/setting', { bannerImageUrl: bannerImageUrl });
+        res.render('admin/settings', { bannerImageUrl: bannerImageUrl });
     } catch (error) {
         console.error('Error fetching settings:', error);
         res.status(500).send('Error fetching settings.');
@@ -29,7 +39,7 @@ router.get('/setting', async (req, res) => {
 });
 
 // Обработка сохранения настроек
-router.post('/setting', upload.single('bannerImage'), async (req, res) => {
+router.post('/settings', upload.single('bannerImage'), async (req, res) => {
   try {
     let bannerImageUrl = req.body.existingBannerImageUrl;
 
@@ -62,7 +72,7 @@ router.post('/setting', upload.single('bannerImage'), async (req, res) => {
       { upsert: true, new: true }
     );
 
-    res.redirect('/admin/setting');
+    res.redirect('/admin/settings');
   } catch (error) {
     console.error('Error saving settings:', error);
     res.status(500).send('Error saving settings.');

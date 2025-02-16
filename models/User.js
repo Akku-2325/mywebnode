@@ -15,8 +15,9 @@ const userSchema = new mongoose.Schema({
     lockUntil: { type: Date },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
 
-    twoFASecret: { type: String },
-    is2FAEnabled: { type: Boolean, default: false }
+    // УДАЛЯЕМ ЭТО
+    //twoFASecret: { type: String },
+    //is2FAEnabled: { type: Boolean, default: false }
 });
 
 userSchema.pre('save', async function(next) {

@@ -2,7 +2,7 @@ const User = require('../models/User');
 
 const authMiddleware = {
     isLoggedIn: (req, res, next) => {
-        if (req.session.userId && req.session.is2FAVerified) {
+        if (req.session.userId) { //  && req.session.is2FAVerified - УДАЛЯЕМ ЭТО
             return next();
         } else {
             return res.redirect('/auth/login');
