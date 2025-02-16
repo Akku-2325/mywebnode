@@ -24,17 +24,6 @@ app.set('view engine', 'ejs');
 
 app.use(methodOverride('_method')); // Add method-override middleware
 
-// Apply setUser middleware to all routes
-app.use(async (req, res, next) => {
-    try {
-        await authMiddleware.setUser(req, res, next);
-    } catch (error) {
-        console.error('Error in setUser middleware:', error);
-        // Handle the error gracefully, e.g., redirect to an error page
-        res.status(500).send('Internal Server Error');
-    }
-});
-
 // Session Configuration
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -84,6 +73,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Apply setUser middleware to all routes
+app.use(async (req, res, next) => {
+    try {
+        await authMiddleware.setUser(req, res, next);
+    } catch (error) {
+        console.error('Error in setUser middleware:', error);
+        // Handle the error gracefully, e.g., redirect to an error page
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 // Routes
 app.use('/auth', authRoutes);
 
@@ -95,15 +95,6 @@ app.use('/categories', categoryRoutes);
 
 const adminRoutes = require('./routes/adminRoutes'); //Add admin Routes
 app.use('/admin', adminRoutes);
-
-app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
-    try {
-        res.render('admin/index');
-    } catch (error) {
-        console.error('Error rendering admin panel:', error);
-        res.status(500).send('Error rendering admin panel.');
-    }
-});
 
 // Protected route example (Profile management - moved here for now)
 app.get('/profile', isLoggedIn, async (req, res) => {
