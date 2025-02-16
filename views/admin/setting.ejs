@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Panel</title>
+    <title>Admin Settings</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Admin Panel</h1>
-        <a href="/auth/logout">Logout</a> <!-- Added Logout Button -->
-        <p>Welcome to the admin panel!</p>
+        <h1>Admin Settings</h1>
+        <a href="/admin">Back to Admin Panel</a>
 
-        <h2>Categories</h2>
-        <a href="/categories/create">Create New Category</a> <br>
-        <a href="/categories">Manage Categories</a> <br><br>
-
-        <h2>Products</h2>
-        <a href="/products/create">Create New Product</a> <br>
-        <a href="/products">Manage Products</a> <br>
-
-        <a href="/admin/settings">Manage Banner</a>
-
-        <!-- Add links to manage orders, etc. here -->
+        <form action="/admin/settings" method="POST" enctype="multipart/form-data">
+            <div>
+                <label for="bannerImage">Banner Image:</label>
+                <% if (bannerImageUrl) { %>
+                    <img src="<%= bannerImageUrl %>" alt="Current Banner">
+                <% } %>
+                <input type="hidden" name="existingBannerImageUrl" value="<%= bannerImageUrl %>"> <!-- Save the URL of the old image -->
+                <input type="file" id="bannerImage" name="bannerImage">
+            </div>
+            <button type="submit">Save Settings</button>
+        </form>
     </div>
 </body>
 </html>
