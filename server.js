@@ -29,7 +29,6 @@ app.use(session({
 }));
 
 const authRoutes = require('./routes/authRoutes');
-const productRoutes = require('./routes/productRoutes');
 const userProductRoutes = require('./routes/userProductRoutes');
 const cartRoutes = require('./routes/cartRoutes');
 
