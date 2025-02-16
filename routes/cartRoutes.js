@@ -3,6 +3,7 @@ const router = express.Router();
 const Product = require('../models/Product');
 
 router.get('/addToCart/:productId', async (req, res) => {
+    console.log(req.session)
     const productId = req.params.productId;
     console.log("addToCart route called with productId:", productId); // <--  ВАЖНО!
     try {
