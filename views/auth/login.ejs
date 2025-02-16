@@ -10,7 +10,7 @@
         <% if (typeof error !== 'undefined' && error) { %>
             <p style="color: red;"><%= error %></p>
         <% } %>
-        <form  method="POST" onsubmit="return validateForm(event)" id="login-form">  // УДАЛЯЕМ action и добавляем id
+        <form  method="POST" onsubmit="return validateForm(event)" id="login-form"> 
             <div>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
