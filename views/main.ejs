@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Jewelry Shop - Main Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/main.css">
+    <script src="/script.js"></script>
+</head>
+<body>
     <header class="header">
         <div class="container">
             <div class="logo">
-                <a href="/"><img src="/Users/bellyashsh/Downloads/DALL·E 2025-02-17 03.47.42 - A beautiful and elegant text logo that says 'Jewelry Store' in landscape orientation on a white background. The font should be luxurious and stylish, .webp" alt="Jewelry Shop"></a>
+                <a href="/"><img src="/images/logo.png" alt="Jewelry Shop"></a>
             </div>
             <nav class="nav">
                 <ul>
@@ -32,23 +39,14 @@
                 <i class="fa fa-bars"></i>
             </div>
         </div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/main.css"> <!-- Link to main page specific styles -->
-    <script src="/script.js"></script>
     </header>
-<body>
-    <div class="main-page-container">
-        <!-- Header -->
-        <div class="header">
-            <h1>Jewelry Shop</h1>
-        </div>
 
-        <!-- Banner -->
+    <div class="main-page-container">
+
         <div class="banner">
             <img src="<%= bannerImageUrl || '/banner/default-banner.jpg' %>" alt="Welcome Banner">
         </div>
 
-        <!-- Shop Information -->
         <div class="shop-info">
             <h1>Discover Exquisite Jewelry</h1>
             <p>Explore our curated collection of handcrafted jewelry, designed to elevate your style and celebrate your unique moments.</p>
@@ -57,66 +55,64 @@
                 <li><b>Express Your Style:</b> Find the perfect jewelry to reflect your personality.</li>
                 <li><b>Memorable Gifts:</b> Create lasting memories with our exquisite jewelry gifts.</li>
             </ul>
-            <a href="/userProducts/index" class="shop-now-button">Shop Now</a>
+            <a href="/productList" class="shop-now-button">Shop Now</a>
         </div>
 
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-top">
-                    <div class="footer-logo">
-                        <a href="/"><img src="/images/logo.png" alt="Jewelry Shop"></a>
-                        <p>Краткое описание твоего магазина.</p>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <a href="/"><img src="/images/logo.png" alt="Jewelry Shop"></a>
+                    <p>Краткое описание твоего магазина.</p>
+                </div>
+                <div class="footer-nav">
+                    <div class="footer-nav-col">
+                        <h4>Информация</h4>
+                        <ul>
+                            <li><a href="/about">О компании</a></li>
+                            <li><a href="/stores">Магазины</a></li>
+                            <li><a href="/public-offer">Публичная оферта</a></li>
+                            <li><a href="/privacy-policy">Политика конфиденциальности</a></li>
+                            <li><a href="/contacts">Контакты</a></li>
+                            <li><a href="/news">Новости</a></li>
+                        </ul>
                     </div>
-                    <div class="footer-nav">
-                        <div class="footer-nav-col">
-                            <h4>Информация</h4>
-                            <ul>
-                                <li><a href="/about">О компании</a></li>
-                                <li><a href="/stores">Магазины</a></li>
-                                <li><a href="/public-offer">Публичная оферта</a></li>
-                                <li><a href="/privacy-policy">Политика конфиденциальности</a></li>
-                                <li><a href="/contacts">Контакты</a></li>
-                                <li><a href="/news">Новости</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-nav-col">
-                            <h4>Сервис</h4>
-                            <ul>
-                                <li><a href="/delivery">Доставка</a></li>
-                                <li><a href="/payment">Оплата</a></li>
-                                <li><a href="/return">Возврат / Гарантия</a></li>
-                                <li><a href="/promo">Промокод</a></li>
-                                <li><a href="/bonus-club">Бонусный клуб</a></li>
-                                <li><a href="/installment">Рассрочка</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-nav-col">
-                            <h4>Помощь</h4>
-                            <ul>
-                                <li><a href="/faq">Вопрос-ответ</a></li>
-                                <li><a href="/size-chart">Таблица размеров</a></li>
-                                <li><a href="/care">Хранение и уход</a></li>
-                                <li><a href="/about-brand">О бренде Jewelry Shop</a></li>
-                                <li><a href="/dispute">Досудебное урегулирование потребительских споров</a></li>
-                            </ul>
-                        </div>
+                    <div class="footer-nav-col">
+                        <h4>Сервис</h4>
+                        <ul>
+                            <li><a href="/delivery">Доставка</a></li>
+                            <li><a href="/payment">Оплата</a></li>
+                            <li><a href="/return">Возврат / Гарантия</a></li>
+                            <li><a href="/promo">Промокод</a></li>
+                            <li><a href="/bonus-club">Бонусный клуб</a></li>
+                            <li><a href="/installment">Рассрочка</a></li>
+                        </ul>
                     </div>
-                    <div class="footer-subscribe">
-                        <h4>Подписка на новости</h4>
-                        <p>Актуальные акции, новинки и персональные предложения. Укажите свой e-mail и получайте доступ в числе первых!</p>
-                        <form action="/subscribe" method="POST">
-                            <input type="email" placeholder="Введите e-mail" name="email">
-                            <button type="submit">Отправить</button>
-                        </form>
+                    <div class="footer-nav-col">
+                        <h4>Помощь</h4>
+                        <ul>
+                            <li><a href="/faq">Вопрос-ответ</a></li>
+                            <li><a href="/size-chart">Таблица размеров</a></li>
+                            <li><a href="/care">Хранение и уход</a></li>
+                            <li><a href="/about-brand">О бренде Jewelry Shop</a></li>
+                            <li><a href="/dispute">Досудебное урегулирование потребительских споров</a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="footer-bottom">
-                    <p>© <%= new Date().getFullYear() %> Jewelry Shop. Все права защищены.</p>
+                <div class="footer-subscribe">
+                    <h4>Подписка на новости</h4>
+                    <p>Актуальные акции, новинки и персональные предложения. Укажите свой e-mail и получайте доступ в числе первых!</p>
+                    <form action="/subscribe" method="POST">
+                        <input type="email" placeholder="Введите e-mail" name="email">
+                        <button type="submit">Отправить</button>
+                    </form>
                 </div>
             </div>
-        </footer>
-    </div>
+            <div class="footer-bottom">
+                <p>© <%= new Date().getFullYear() %> Jewelry Shop. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
