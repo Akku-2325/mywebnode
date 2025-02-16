@@ -5,13 +5,14 @@ const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 const path = require('path');
-const User = require('./models/User'); //try with this
+const User = require('./models/User');
 const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs'); // Import the fs module
 const authMiddleware = require('./middleware/authMiddleware');
 const methodOverride = require('method-override'); // Import method-override
 const Setting = require('./models/Setting'); // Add Setting model
+const cloudinary = require('cloudinary').v2; // Cloudinary
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -53,7 +54,7 @@ const isLoggedIn = (req, res, next) => {
     if (req.session.userId) {
         next();
     } else {
-        res.redirect('/auth/login');
+        res.redirect('/login');
     }
 };
 
@@ -79,6 +80,16 @@ app.use('/categories', categoryRoutes);
 
 const adminRoutes = require('./routes/adminRoutes'); //Add admin Routes
 app.use('/admin', adminRoutes);
+
+// Route to handle profile rendering
+app.get('/admin', isLoggedIn, authMiddleware.isAdmin, async (req, res) => {
+    try {
+        res.render('admin/index');
+    } catch (error) {
+        console.error('Error rendering admin panel:', error);
+        res.status(500).send('Error rendering admin panel.');
+    }
+});
 
 // Protected route example (Profile management - moved here for now)
 app.get('/profile', isLoggedIn, async (req, res) => {
@@ -181,7 +192,7 @@ app.post('/profile/remove-picture', isLoggedIn, async (req, res) => {
             return res.status(404).send('User not found');
         }
 
-        user.profilePicture = '/images/default-profile.png';
+        user.profilePicture = '/banner/default-profile.png';
         await user.save();
 
         req.session.user.profilePicture = user.profilePicture;
@@ -193,7 +204,7 @@ app.post('/profile/remove-picture', isLoggedIn, async (req, res) => {
     }
 });
 
-app.post('/profile/upload', isLoggedIn,  async (req, res) => {
+app.post('/profile/upload', isLoggedIn, async (req, res) => {
     try {
         const userId = req.session.userId;
         const user = await User.findById(userId);
@@ -210,8 +221,6 @@ app.post('/profile/upload', isLoggedIn,  async (req, res) => {
         // Upload to Cloudinary
         const result = await cloudinary.uploader.upload(req.file.path);
         user.profilePicture = result.secure_url;
-
-        await user.save();
 
         req.session.user = {
             _id: user._id,
@@ -236,7 +245,7 @@ app.post('/profile/upload', isLoggedIn,  async (req, res) => {
 app.get('/',authMiddleware.redirectIfAdmin, async (req, res) => {
   try {
     const bannerSetting = await Setting.findOne({ key: 'bannerImageUrl' });
-    const bannerImageUrl = bannerSetting ? bannerSetting.value : '/images/default-banner.jpg'; // URL по умолчанию
+    const bannerImageUrl = bannerSetting ? bannerSetting.value : '/banner/default-banner.jpg'; // URL по умолчанию
 
     if (req.session.userId) {
       // User is logged in, render the main page
@@ -248,7 +257,7 @@ app.get('/',authMiddleware.redirectIfAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error fetching banner image URL:', error);
     // Handle the error, e.g., by rendering with a default banner or an error message
-    res.render('index', { bannerImageUrl: '/images/default-banner.jpg' }); // Render index by default
+    res.render('index', { bannerImageUrl: '/banner/default-banner.jpg' }); // Render index by default
   }
 });
 
