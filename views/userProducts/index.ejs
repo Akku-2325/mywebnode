@@ -254,7 +254,7 @@
                     <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
                     <h2><%= product.name %></h2>
                     <p class="price">$<%= product.price %></p>
-                    <a href="/addToCart/<%= product._id %>" class="add-to-cart"><i class="fa fa-shopping-cart"></i> В корзину</a>
+                    <a href="/addToCart/<%= product._id %>" class="add-to-cart"><i class="fa fa-shopping-cart"></i></a>
                     <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                 </div>
             <% }); %>
