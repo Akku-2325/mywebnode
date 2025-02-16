@@ -32,7 +32,10 @@
                     <% } else { %>
                         <a href="/auth/login"><i class="fa fa-sign-in"></i></a>
                     <% } %>
-                    <a href="/addToCart/<%= product._id %>" class="add-to-cart"><i class="fa fa-shopping-cart"></i></a>
+                    <a href="/cart"><i class="fa fa-shopping-cart"></i></a>
+                    <% if (typeof product !== 'undefined' && product) { %>
+                       <a href="/addToCart/<%= product._id %>" class="add-to-cart"><i class="fa fa-shopping-cart"></i></a>
+                    <% } %>
                 </div>
             </div>
             <div class="burger-menu">
