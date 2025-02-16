@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const bodyParser = require('body-parser');
-const authRoutes = require('./routes/authRoutes');
 const path = require('path');
 const User = require('./models/User');
 const { body, validationResult } = require('express-validator');
@@ -13,11 +12,27 @@ const authMiddleware = require('./middleware/authMiddleware');
 const methodOverride = require('method-override'); // Import method-override
 const Setting = require('./models/Setting'); // Add Setting model
 const cloudinary = require('cloudinary').v2; // Cloudinary
-const userProductRoutes = require('./routes/userProductRoutes'); // User product routes
-const cartRoutes = require('./routes/cartRoutes');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Session Configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        ttl: 14 * 24 * 60 * 60,
+        autoRemove: 'native'
+    })
+}));
+
+const authRoutes = require('./routes/authRoutes');
+const productRoutes = require('./routes/productRoutes');
+const userProductRoutes = require('./routes/userProductRoutes');
+const cartRoutes = require('./routes/cartRoutes');
+
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
