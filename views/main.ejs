@@ -33,12 +33,6 @@
         <!-- User Links (Profile, Admin, Logout) -->
         <div class="user-links">
             <a href="/profile">View Profile</a>
-            <% if (locals.user && locals.user.role === 'admin') { %>
-                <a href="/admin">Admin Panel</a>
-                <a href="/products">Manage Products</a>
-            <% } %>
-            <a href="/auth/logout">Logout</a>
-        </div>
 
         <!-- Footer -->
         <div class="footer">
