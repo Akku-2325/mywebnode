@@ -2,57 +2,279 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Exquisite Jewelry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewelry Shop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/main.css">
-    <script src="/script.js"></script>
     <style>
-        /* Basic Styling - replace with your actual CSS */
-        body { font-family: sans-serif; margin: 0; padding: 0; }
-        .header { background-color: #f0f0f0; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; }  /* Vertically center logo content */
-        .logo a { font-size: 24px; font-weight: bold; color: #333; text-decoration: none; margin-left: 10px; } /* Add space for logo */
-        .logo img { height: 40px; margin-right: 10px; } /* Size and space for logo image */
-        .burger-menu { font-size: 24px; cursor: pointer; }
-        .nav { position: absolute; top: 60px; left: 0; background-color: #fff; width: 100%; display: none; }
-        .nav ul { list-style: none; padding: 0; margin: 0; }
-        .nav ul li { padding: 10px; border-bottom: 1px solid #eee; }
-        .nav ul li a { text-decoration: none; color: #333; }
-        .show-nav { display: block; }
-        .main-page-container { padding: 20px; text-align: center; }
-        .banner img { width: 100%; max-height: 300px; object-fit: cover; }
-        .shop-info { margin-top: 20px; }
-        .shop-info h1 { font-size: 32px; }
-        .shop-info ul { list-style: none; padding: 0; }
-        .shop-info ul li { margin-bottom: 10px; }
-        .shop-now-button { display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; }
-        .footer { background-color: #333; color: #fff; padding: 20px; text-align: center; }
-        .footer-top { display: flex; flex-wrap: wrap; justify-content: space-around; }
-        .footer-logo { flex: 1 1 200px; }
-        .footer-nav { flex: 3 1 400px; display: flex; justify-content: space-around; }
-        .footer-nav-col { flex: 1 1 150px; text-align: left; }
-        .footer-nav-col h4 { margin-bottom: 10px; }
-        .footer-nav-col ul { list-style: none; padding: 0; }
-        .footer-nav-col ul li a { color: #fff; text-decoration: none; }
-        .footer-subscribe { flex: 2 1 300px; }
-        .footer-subscribe form { display: flex; }
-        .footer-subscribe input { flex: 1; padding: 5px; }
-        .footer-subscribe button { background-color: #007bff; color: #fff; border: none; padding: 5px 10px; cursor: pointer; }
-        .footer-bottom { margin-top: 20px; }
+        /* Basic Styling - Adapt to your design */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
         }
-         .header-right { display: flex; align-items: center; } /* Align icons horizontally */
-        .icons { display: flex; align-items: center; } /* Ensure icons stay aligned */
-        .phone { margin-right: 10px; } /* Separate phone number from icons */
 
-        /* New CSS for category cards */
-        .category-list { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
-        .category-card { width: 200px; margin: 10px; border: 1px solid #ccc; border-radius: 5px; overflow: hidden; text-align: center; }
-        .category-card a { display: block; padding: 15px; text-decoration: none; color: #333; }
-        .category-card img { width: 100%; height: 120px; object-fit: cover; } /* Add image style */
+        /* Header Styling */
+        .header {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .nav ul li {
+            margin-right: 20px;
+        }
+
+        .nav ul li a {
+            text-decoration: none;
+            color: #555;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .nav ul li a:hover {
+            color: #007bff;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-right i {
+            margin-left: 15px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* Banner Styling */
+        .banner {
+            margin-top: 20px;
+        }
+
+        .banner img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Category Grid Styling */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .category-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .category-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .category-card a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .category-card a:hover {
+            color: #0056b3;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            display: flex;
+            margin-top: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-section img {
+            width: 50%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .cta-text {
+            width: 50%;
+            padding: 30px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .cta-text h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .cta-text p {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .cta-text a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-text a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer Styling */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-info,
+        .footer-links,
+        .footer-social {
+            flex: 1 1 300px;
+            margin-bottom: 20px;
+        }
+
+        .footer h4 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .footer p {
+            font-size: 1em;
+            color: #ddd;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer ul li a {
+            text-decoration: none;
+            color: #ddd;
+            transition: color 0.3s ease;
+        }
+
+        .footer ul li a:hover {
+            color: #fff;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            margin-right: 10px;
+            color: #ddd;
+            font-size: 1.3em;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            font-size: 0.9em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header .container,
+            .footer .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav ul li {
+                margin: 10px 0;
+            }
+
+            .cta-section {
+                flex-direction: column;
+            }
+
+            .cta-section img {
+                width: 100%;
+                height: 300px;
+            }
+
+            .cta-text {
+                width: 100%;
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -60,143 +282,91 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                 <img src="/images/jewelry-logo.png" alt="Jewelry Logo">
-                <a href="/">Exquisite Jewelry</a>
-            </div>
-            <div class="burger-menu">
-                <i class="fa fa-bars"></i>
+                <a href="/">Jewelry Shop</a>
             </div>
             <nav class="nav">
                 <ul>
-                   <%
-                   const categories = [
-                    { name: 'Bracelets', url: '/bracelets', imageUrl: '/images/category-bracelets.jpg' },
-                    { name: 'Rings', url: '/rings', imageUrl: '/images/category-rings.jpg' },
-                    { name: 'Earrings', url: '/earrings', imageUrl: '/images/category-earrings.jpg' },
-                    { name: 'Necklaces', url: '/necklaces', imageUrl: '/images/category-necklaces.jpg' },
-                    { name: 'Custom Jewelry', url: '/custom-jewelry', imageUrl: '/images/category-custom.jpg' }
-                ];
-                    categories.forEach(category => {
-                        %>
-                        <li><a href="<%= category.url %>"><%= category.name %></a></li>
-                        <%
-                    });
-                   %>
-                    <% if (user) { %>  <!-- Added profile link to the nav menu -->
-                        <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
-                        <li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
-                    <% } else { %>
-                        <li><a href="/auth/login"><i class="fa fa-sign-in"></i> Login</a></li>
-                    <% } %>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Rings</a></li>
+                    <li><a href="#">Earrings</a></li>
+                    <li><a href="#">Necklaces</a></li>
+                    <li><a href="#">Bracelets</a></li>
                 </ul>
             </nav>
-           <div class="header-right">
-                <div class="phone">
-                    <a href="tel:7059241111">705 924 11 11</a>
-                </div>
-                <div class="icons">
-                    <a href="/search"><i class="fa fa-search"></i></a>
-
-                    <a href="/cart"><i class="fa fa-shopping-cart"></i></a>
-                    <% if (typeof product !== 'undefined' && product) { %>
-                       <a href="/addToCart/<%= product._id %>" class="add-to-cart"><i class="fa fa-shopping-cart"></i></a>
-                    <% } %>
-                </div>
+            <div class="header-right">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-globe"></i>
+                 <i class="fas fa-shopping-cart"></i>
             </div>
-
         </div>
     </header>
 
-    <div class="main-page-container">
+    <main>
+        <div class="container">
+            <div class="banner">
+                <img src="https://via.placeholder.com/1200x400" alt="Banner Image">
+            </div>
 
-        <div class="banner">
-            <img src="/banner/jewelry-model.jpg" alt="Jewelry Model">
-        </div>
-
-        <div class="category-list">
-            <% categories.forEach(category => { %>
+            <div class="category-grid">
                 <div class="category-card">
-                    <a href="<%= category.url %>">
-                        <img src="<%= category.imageUrl %>" alt="<%= category.name %>">
-                        <%= category.name %>
-                    </a>
+                    <img src="https://via.placeholder.com/300x200" alt="Rings">
+                    <h3>Rings</h3>
+                    <a href="#">Shop Now</a>
                 </div>
-            <% }); %>
-        </div>
+                <div class="category-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Earrings">
+                    <h3>Earrings</h3>
+                    <a href="#">Shop Now</a>
+                </div>
+                <div class="category-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Necklaces">
+                    <h3>Necklaces</h3>
+                    <a href="#">Shop Now</a>
+                </div>
+                <div class="category-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Bracelets">
+                    <h3>Bracelets</h3>
+                    <a href="#">Shop Now</a>
+                </div>
+            </div>
 
-        <div class="shop-info">
-            <h1>Discover Exquisite Jewelry</h1>
-            <p>Explore our curated collection of handcrafted jewelry, designed to elevate your style and celebrate your unique moments.</p>
-            <ul>
-                <li><b>Crafted with Passion:</b> Each piece is meticulously crafted with the finest materials.</li>
-                <li><b>Express Your Style:</b> Find the perfect jewelry to reflect your personality.</li>
-                <li><b>Memorable Gifts:</b> Create lasting memories with our exquisite jewelry gifts.</li>
-            </ul>
-            <a href="/productList" class="shop-now-button">Shop Now</a>
+            <div class="cta-section">
+                <img src="https://via.placeholder.com/600x400" alt="CTA Image">
+                <div class="cta-text">
+                    <h2>Discover Our New Collection</h2>
+                    <p>Explore our latest jewelry designs, crafted with passion and attention to detail. Find the perfect piece to express your style.</p>
+                    <a href="#">Browse Now</a>
+                </div>
+            </div>
         </div>
-
-    </div>
+    </main>
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-top">
-                <div class="footer-logo">
-                    <a href="/">Exquisite Jewelry</a>
-                    <p>Your destination for exquisite jewelry.</p>
-                </div>
-                <div class="footer-nav">
-                    <div class="footer-nav-col">
-                        <h4>Information</h4>
-                        <ul>
-                            <li><a href="/about">About Us</a></li>
-                            <li><a href="/stores">Stores</a></li>
-                            <li><a href="/public-offer">Terms of Service</a></li>
-                            <li><a href="/privacy-policy">Privacy Policy</a></li>
-                            <li><a href="/contacts">Contact Us</a></li>
-                            <li><a href="/news">News</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-nav-col">
-                        <h4>Service</h4>
-                        <ul>
-                            <li><a href="/delivery">Shipping</a></li>
-                            <li><a href="/payment">Payment</a></li>
-                            <li><a href="/return">Returns</a></li>
-                            <li><a href="/promo">Promotions</a></li>
-                            <li><a href="/bonus-club">Bonus Club</a></li>
-                            <li><a href="/installment">Installment Plans</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-nav-col">
-                        <h4>Help</h4>
-                        <ul>
-                            <li><a href="/faq">FAQ</a></li>
-                            <li><a href="/size-chart">Size Chart</a></li>
-                            <li><a href="/care">Jewelry Care</a></li>
-                            <li><a href="/about-brand">About Our Brand</a></li>
-                            <li><a href="/dispute">Dispute Resolution</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="footer-subscribe">
-                    <h4>Subscribe to Newsletter</h4>
-                    <p>Get the latest news, promotions, and personal offers delivered to your inbox!</p>
-                    <form action="/subscribe" method="POST">
-                        <input type="email" placeholder="Enter your email" name="email">
-                        <button type="submit">Subscribe</button>
-                    </form>
-                </div>
+            <div class="footer-info">
+                <h4>About Us</h4>
+                <p>We are a jewelry shop dedicated to providing high-quality, handcrafted jewelry for every occasion. Our passion is to create unique pieces that reflect your personal style.</p>
             </div>
-            <div class="footer-bottom">
-                <p>© <%= new Date().getFullYear() %> Exquisite Jewelry. All Rights Reserved.</p>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
             </div>
+            <div class="footer-social">
+                <h4>Follow Us</h4>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2024 Jewelry Shop. All Rights Reserved.
         </div>
     </footer>
 
-    <script>
-        document.querySelector('.burger-menu').addEventListener('click', function() {
-            document.querySelector('.nav').classList.toggle('show-nav');
-        });
-    </script>
 </body>
 </html>
