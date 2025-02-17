@@ -1,5 +1,19 @@
+const express = require('express');
+const router = express.Router(); // Create an Express Router instance
+const Product = require('../models/Product');
+const Category = require('../models/Category');
+
+// Helper function to generate page links
+function generatePaginationLinks(currentPage, totalPages) {
+    let links = [];
+    for (let i = 1; i <= totalPages; i++) {
+        links.push({ page: i, active: i === currentPage });
+    }
+    return links;
+}
+
 router.get('/', async (req, res) => {
-    const { page = 1, category, priceMin, priceMax, q } = req.query;
+    const { page = 1, category, priceMin, priceMax, q, sortBy } = req.query;
     const productsPerPage = 20; // Number of products per page
 
     try {
@@ -24,12 +38,33 @@ router.get('/', async (req, res) => {
             }
         }
 
+        let sort = {};
+        if (sortBy) {
+            switch (sortBy) {
+                case 'priceAsc':
+                    sort = { price: 1 };
+                    break;
+                case 'priceDesc':
+                    sort = { price: -1 };
+                    break;
+                case 'nameAsc':
+                    sort = { name: 1 };
+                    break;
+                case 'nameDesc':
+                    sort = { name: -1 };
+                    break;
+                default:
+                    break;
+            }
+        }
+
         const skip = (page - 1) * productsPerPage;
 
         const products = await Product.find(query)
             .populate('category')
             .skip(skip)
             .limit(productsPerPage)
+            .sort(sort)
             .exec();
 
         const totalProducts = await Product.countDocuments(query);
@@ -41,6 +76,11 @@ router.get('/', async (req, res) => {
         // Fetch all categories for filtering options
         const categories = await Category.find();
 
+        let categoryData = null;
+        if (category) {
+            categoryData = await Category.findById(category);
+        }
+
         res.render('userProducts/index', {
             products: products,
             categories: categories,
@@ -50,7 +90,9 @@ router.get('/', async (req, res) => {
             categoryFilter: category || null,
             priceMinFilter: priceMin || null,
             priceMaxFilter: priceMax || null,
-            searchQuery: q || null
+            searchQuery: q || null,
+            categoryData: categoryData,
+            sortBy: sortBy 
         });
 
     } catch (error) {
@@ -58,3 +100,23 @@ router.get('/', async (req, res) => {
         res.status(500).send('Error fetching products');
     }
 });
+
+router.get('/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id).populate('category');
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.render('userProducts/productDetail', { product: product });  // Use the correct view path
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        res.status(500).json({ message: 'Failed to fetch product' });
+    }
+});
+
+router.use((req, res, next) => {
+    res.locals.cart = req.session.cart || [];
+    next();
+});
+
+module.exports = router;

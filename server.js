@@ -227,7 +227,7 @@ app.post('/profile/upload', isLoggedIn, async (req, res) => {
             lastName: user.lastName,
             location: user.location,
             website: user.website,
-            bio: user.bio,
+            bio: bio,
             profilePicture: user.profilePicture,
         };
 
@@ -277,18 +277,19 @@ app.get('/', authMiddleware.redirectIfAdmin, async (req, res) => {
                 categories: categories,
                 categoryFilter: category || null,
                 priceMinFilter: priceMin || null,
-                priceMaxFilter: priceMax || null,
+                priceMaxFilter: null,
                 searchQuery: q || null
             });
         } else {
             // User is not logged in, render the index page
             res.render('index', {
+                user:null,
                 bannerImageUrl: bannerImageUrl,
                 products: products,
                 categories: categories,
                 categoryFilter: category || null,
-                priceMinFilter: priceMin || null,
-                priceMaxFilter: priceMax || null,
+                priceMinFilter: null,
+                priceMaxFilter: null,
                 searchQuery: q || null
             });
         }
@@ -296,6 +297,7 @@ app.get('/', authMiddleware.redirectIfAdmin, async (req, res) => {
         console.error('Error fetching banner image URL or products:', error);
         // Handle the error, e.g., by rendering with a default banner or an error message
         res.render('index', {
+            user:null,
             bannerImageUrl: '/banner/default-banner.jpg',
             products: [],
             categories: [],
