@@ -17,16 +17,16 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Session Configuration
-// app.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     resave: false,
-//     saveUninitialized: false,
-//     store: MongoStore.create({
-//         mongoUrl: process.env.MONGODB_URI,
-//         ttl: 14 * 24 * 60 * 60,
-//         autoRemove: 'native'
-//     })
-// }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+        ttl: 14 * 24 * 60 * 60,
+        autoRemove: 'native'
+    })
+}));
 
 app.use((req, res, next) => {
     console.log('Session:', req.session);
@@ -83,15 +83,15 @@ const isLoggedIn = (req, res, next) => {
 };
 
 // Apply setUser middleware to all routes
-app.use(async (req, res, next) => {
-    try {
-        await authMiddleware.setUser(req, res, next);
-    } catch (error) {
-        console.error('Error in setUser middleware:', error);
-        // Handle the error gracefully, e.g., redirect to an error page
-        res.status(500).send('Internal Server Error');
-    }
-});
+// app.use(async (req, res, next) => {
+//     try {
+//         await authMiddleware.setUser(req, res, next);
+//     } catch (error) {
+//         console.error('Error in setUser middleware:', error);
+//         // Handle the error gracefully, e.g., redirect to an error page
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 // Routes
 app.use('/auth', authRoutes);
