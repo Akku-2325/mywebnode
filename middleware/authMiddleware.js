@@ -2,7 +2,7 @@ const User = require('../models/User');
 
 const authMiddleware = {
     isLoggedIn: (req, res, next) => {
-        if (req.session.userId) { //  && req.session.is2FAVerified - УДАЛЯЕМ ЭТО
+        if (req.session.userId) { 
             return next();
         } else {
             return res.redirect('/auth/login');
@@ -10,13 +10,12 @@ const authMiddleware = {
     },
 
     isAdmin: async (req, res, next) => {
-      if (req.session.user && req.session.user.role === 'admin') {
-          return next();
-      } else {
-          //  return res.status(403).json({ message: 'Forbidden: Admin access required' }); // Original
-          return res.status(403).render('error', { message: 'Forbidden: Admin access required' }); // Перенаправление на страницу error.ejs
-      }
-  },
+        if (req.session.user && req.session.user.role === 'admin') {
+            return next();
+        } else {
+            return res.status(403).render('error', { message: 'Forbidden: Admin access required' });
+        }
+    },
 
     setUser: async (req, res, next) => {
         console.log('setUser middleware called'); // Debugging log
@@ -48,10 +47,18 @@ const authMiddleware = {
     },
 
     redirectIfAdmin: (req, res, next) => {
-      if (req.session.user && req.session.user.role === 'admin') {
-          return res.redirect('/admin');
-      }
-      next();
+        if (req.session.user && req.session.user.role === 'admin') {
+            return res.redirect('/admin');
+        }
+        next();
+    },
+    requireAuth: (req, res, next) => {
+        if (req.session.userId) {
+            next(); // User is authenticated, proceed
+        } else {
+            // User is not authenticated
+            res.redirect('/auth/login'); // Redirect to login page
+        }
     }
 };
 

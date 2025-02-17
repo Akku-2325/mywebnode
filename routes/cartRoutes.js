@@ -1,21 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const { requireAuth } = require('../middleware/authMiddleware'); // Import the authentication middleware
 
-router.post('/addToCart/:productId', async (req, res) => {
-    console.log("addToCart route called!");
-    const productId = req.params.productId;
-    console.log('ProductID', productId);
-    // Логируем всю сессию
-    console.log(req.session);
-
+router.post('/addToCart/:productId', requireAuth, async (req, res) => {
     try {
+        const productId = req.params.productId;
         const product = await Product.findById(productId);
+
         if (!product) {
             return res.status(404).send('Product not found');
         }
 
-        // Get the cart from the session
         let cart = req.session.cart || [];
 
         // Check if the product is already in the cart
@@ -29,16 +25,12 @@ router.post('/addToCart/:productId', async (req, res) => {
             cart.push({ product: product, quantity: 1 });
         }
 
-        // Save the cart in the session
         req.session.cart = cart;
-
-        // Save the session before redirecting (important!)
         req.session.save(err => {
             if (err) {
                 console.error('Error saving session:', err);
                 return res.status(500).send('Error saving session');
             }
-            // Redirect to the cart page or back to the product listing
             res.redirect('/cart');
         });
     } catch (error) {

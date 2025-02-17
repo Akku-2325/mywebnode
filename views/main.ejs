@@ -341,9 +341,9 @@
                         <h2><%= product.name %></h2>
                         <p class="price">$<%= product.price %></p>
                         <!-- Form for adding to cart -->
-                        <form action="/addToCart/<%= product._id %>" method="post">
-                            <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                        </form>
+                        <form action="/cart/<%= product._id %>" method="post">
+                            <button type="submit" class="add-to-cart">Add to Cart</button>
+                      </form>
                         <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                     </div>
                 <% }); %>
