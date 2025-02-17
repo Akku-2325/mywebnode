@@ -275,6 +275,42 @@
                 padding: 20px;
             }
         }
+
+        /* Custom CSS for Add to Favorites */
+        .product-card .add-to-favorites {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #dc3545; /* Red color */
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            border: none; /* Remove default button border */
+            cursor: pointer; /* Change cursor to pointer on hover */
+            transition: background-color 0.3s ease; /* Add transition for hover effect */
+        }
+
+        .product-card .add-to-favorites:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
+        /* Style for View Detail link */
+        .product-card .view-detail {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 16px;
+            background-color: #28a745; /* Green color */
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-card .view-detail:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
     </style>
 </head>
 <body>
@@ -286,13 +322,12 @@
             </div>
             <nav class="nav">
                 <ul>
-    
                     <% if (user) { %>
                         <li><a href="/profile">Profile</a></li>
-                        <li><a href="/logout">Logout</a></li>
+                        <li><a href="/auth/logout">Logout</a></li>
                     <% } else { %>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/register">Register</a></li>
+                        <li><a href="/auth/login">Login</a></li>
+                        <li><a href="/auth/register">Register</a></li>
                     <% } %>
                 </ul>
             </nav>
@@ -308,7 +343,7 @@
             <div class="banner">
                 <img src="<%= bannerImageUrl %>" alt="Banner Image">
             </div>
-    
+
             <div class="product-filter-section">
                 <div class="filters">
                     <form action="/" method="GET">
@@ -319,21 +354,21 @@
                                 <option value="<%= cat._id %>" <%= categoryFilter == cat._id ? 'selected' : '' %>><%= cat.name %></option>
                             <% }); %>
                         </select>
-    
+
                         <label for="priceMin">Min Price:</label>
                         <input type="number" id="priceMin" name="priceMin" placeholder="Min" value="<%= priceMinFilter %>">
-    
+
                         <label for="priceMax">Max Price:</label>
                         <input type="number" id="priceMax" name="priceMax" placeholder="Max" value="<%= priceMaxFilter %>">
-    
+
                         <label for="q">Search:</label>
                         <input type="text" id="q" name="q" placeholder="Search" value="<%= searchQuery %>">
-    
+
                         <button type="submit">Apply Filters</button>
                     </form>
                 </div>
             </div>
-    
+
             <div class="product-grid">
                 <% products.forEach(product => { %>
                     <div class="product-card">
@@ -344,10 +379,12 @@
                         <form action="/cart/<%= product._id %>" method="post">
                             <button type="submit" class="add-to-cart">Add to Cart</button>
                         </form>
-                         <!-- Add to Favorites Form -->
-                        <form action="/profile/addToFavorites/<%= product._id %>" method="post">
-                            <button type="submit" class="add-to-favorites"><i class="fas fa-heart"></i> Add to Favorites</button>
-                        </form>
+                        
+                        <!-- Redirect to Product Detail -->
+                        <a href="/productList/<%= product._id %>" class="add-to-favorites">
+                            <i class="fas fa-heart"></i> View Details
+                        </a>
+
                         <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                     </div>
                 <% }); %>
