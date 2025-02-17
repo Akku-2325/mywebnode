@@ -296,8 +296,8 @@
                         <li><a href="/profile">Profile</a></li>
                         <li><a href="/logout">Logout</a></li>
                     <% } else { %>
-                        <li><a href="/login">Login</a></li>
-                        <li><a href="/register">Register</a></li>
+                        <li><a href="/auth/login">Login</a></li>
+                        <li><a href="/auth/register">Register</a></li>
                     <% } %>
                 </ul>
             </nav>
@@ -312,39 +312,23 @@
     <main>
         <div class="container">
             <div class="banner">
-                <img src="https://via.placeholder.com/1200x400" alt="Banner Image">
+                <img src="<%= bannerImageUrl %>" alt="Banner Image">
             </div>
-
-            <div class="category-grid">
-                <div class="category-card">
-                    <img src="https://via.placeholder.com/300x200" alt="Rings">
-                    <h3>Rings</h3>
-                    <a href="#">Shop Now</a>
-                </div>
-                <div class="category-card">
-                    <img src="https://via.placeholder.com/300x200" alt="Earrings">
-                    <h3>Earrings</h3>
-                    <a href="#">Shop Now</a>
-                </div>
-                <div class="category-card">
-                    <img src="https://via.placeholder.com/300x200" alt="Necklaces">
-                    <h3>Necklaces</h3>
-                    <a href="#">Shop Now</a>
-                </div>
-                <div class="category-card">
-                    <img src="https://via.placeholder.com/300x200" alt="Bracelets">
-                    <h3>Bracelets</h3>
-                    <a href="#">Shop Now</a>
-                </div>
-            </div>
-
-            <div class="cta-section">
-                <img src="https://via.placeholder.com/600x400" alt="CTA Image">
-                <div class="cta-text">
-                    <h2>Discover Our New Collection</h2>
-                    <p>Explore our latest jewelry designs, crafted with passion and attention to detail. Find the perfect piece to express your style.</p>
-                    <a href="#">Browse Now</a>
-                </div>
+            <div class="product-listing">
+                    <div class="product-grid">
+                        <% products.forEach(product => { %>
+                          <div class="product-card">
+                            <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
+                            <h2><%= product.name %></h2>
+                            <p class="price">$<%= product.price %></p>
+                            <!-- Form for adding to cart -->
+                            <form action="/addToCart/<%= product._id %>" method="post">
+                              <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                            </form>
+                            <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
+                          </div>
+                        <% }); %>
+                    </div>
             </div>
         </div>
     </main>
