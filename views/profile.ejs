@@ -48,7 +48,7 @@
             </form>
         <% } else { %>
             <img src="<%= user.profilePicture || '/images/default-profile.png' %>" alt="Profile Picture" width="100">
-            <h2>Update Picture</h2>
+             <h2>Update Profile Picture</h2>
             <form action="/profile/upload" method="POST" enctype="multipart/form-data">
                 <input type="file" name="profilePicture">
                 <button type="submit">Upload</button>
@@ -64,6 +64,20 @@
             <p>Location: <%= user.location %></p>
             <p>Website: <%= user.website %></p>
             <p>Bio: <%= user.bio %></p>
+
+             <!-- Favorite Products Section -->
+            <h2>Favorite Products</h2>
+            <div class="favorite-products">
+            <% if (user.favorites && user.favorites.length > 0) { %>
+                <ul>
+                    <% user.favorites.forEach(product => { %>
+                        <li><%= product.name %> - $<%= product.price %></li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <p>No favorite products yet.</p>
+            <% } %>
+           </div>
 
             <a href="/profile?edit=true">Edit Profile</a>
             <a href="/auth/logout">Logout</a>

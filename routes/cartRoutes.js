@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const User = require('../models/User');
 const { requireAuth } = require('../middleware/authMiddleware'); // Import the authentication middleware
 
 router.post('/cart/:productId', requireAuth, async (req, res) => {

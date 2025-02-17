@@ -343,7 +343,11 @@
                         <!-- Form for adding to cart -->
                         <form action="/cart/<%= product._id %>" method="post">
                             <button type="submit" class="add-to-cart">Add to Cart</button>
-                      </form>
+                        </form>
+                         <!-- Add to Favorites Form -->
+                        <form action="/profile/addToFavorites/<%= product._id %>" method="post">
+                            <button type="submit" class="add-to-favorites"><i class="fas fa-heart"></i> Add to Favorites</button>
+                        </form>
                         <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                     </div>
                 <% }); %>

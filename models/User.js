@@ -14,10 +14,7 @@ const userSchema = new mongoose.Schema({
     loginAttempts: { type: Number, default: 0 },
     lockUntil: { type: Date },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
-
-    // УДАЛЯЕМ ЭТО
-    //twoFASecret: { type: String },
-    //is2FAEnabled: { type: Boolean, default: false }
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }] //Array of product IDs
 });
 
 userSchema.pre('save', async function(next) {
