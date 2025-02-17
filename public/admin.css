@@ -33,9 +33,9 @@ a:hover {
 
 /* Стили для административной панели (admin/index.ejs) */
 .admin-panel {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирование элементов по горизонтали */
     padding: 20px;
 }
 
@@ -45,12 +45,9 @@ a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.admin-panel-section:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    margin-bottom: 20px; /* Добавлено пространство между секциями */
+    width: 100%; /* Занимает всю ширину контейнера */
+    max-width: 400px; /* Максимальная ширина секции */
 }
 
 .admin-panel-section h2 {
@@ -67,6 +64,7 @@ a:hover {
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease-in-out;
+    margin-bottom: 10px; /* Добавлено пространство между ссылками */
 }
 
 .admin-panel-section a:hover {
@@ -133,16 +131,19 @@ a[href*="/create"] {
     color: white;
     text-decoration: none;
     border-radius: 4px;
+    text-align: center; /* Центрирование текста в ссылке */
+    width: auto; /* Автоматическая ширина */
 }
 
 a[href*="/create"]:hover {
     background-color: #0056b3;
 }
 
-/* Styles for existing images in edit form */
+/* Стили для существующих изображений в форме редактирования */
 .existing-images {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center; /* Центрирование изображений */
 }
 
 .image-item {
@@ -162,4 +163,64 @@ a[href*="/create"]:hover {
 .image-item label {
     font-size: 0.8em;
     color: #666;
+}
+
+/* Стили для сетки категорий */
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: start; /* Выравнивание по верхнему краю */
+}
+
+.category-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрирование содержимого карточки */
+    text-align: center; /* Центрирование текста */
+}
+
+.category-card img {
+    width: 100%;
+    max-width: 200px; /* Ограничение максимальной ширины изображения */
+    height: auto;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.category-card h2 {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.category-card p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.category-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Центрирование кнопок */
+}
+
+.category-actions a,
+.category-actions button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+}
+
+.category-actions a:hover,
+.category-actions button:hover {
+    background-color: #0056b3;
 }

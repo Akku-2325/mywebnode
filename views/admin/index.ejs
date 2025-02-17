@@ -7,20 +7,29 @@
 <body>
     <div class="container">
         <h1>Admin Panel</h1>
-        <a href="/auth/logout">Logout</a> <!-- Added Logout Button -->
-        <p>Welcome to the admin panel!</p>
+        <div style="text-align: center;"> <!-- Центрирование кнопки выхода -->
+          <a href="/auth/logout">Logout</a>
+        </div>
+        <p style="text-align: center;">Welcome to the admin panel!</p>
 
-        <h2>Categories</h2>
-        <a href="/categories/create">Create New Category</a> <br>
-        <a href="/categories">Manage Categories</a> <br><br>
+        <div class="admin-panel">
+            <div class="admin-panel-section">
+                <h2>Categories</h2>
+                <a href="/categories/create">Create New Category</a>
+                <a href="/categories">Manage Categories</a>
+            </div>
 
-        <h2>Products</h2>
-        <a href="/products/create">Create New Product</a> <br>
-        <a href="/products">Manage Products</a> <br>
+            <div class="admin-panel-section">
+                <h2>Products</h2>
+                <a href="/products/create">Create New Product</a>
+                <a href="/products">Manage Products</a>
+            </div>
 
-        <a href="/admin/settings">Manage Banner</a>
-
-        <!-- Add links to manage orders, etc. here -->
+            <div class="admin-panel-section">
+                <h2>Banner</h2>
+                <a href="/admin/settings">Manage Banner</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
