@@ -15,6 +15,7 @@ const Product = require('./models/Product'); // Import the Product model
 const Category = require('./models/Category'); // Import category Model
 const cloudinary = require('cloudinary').v2; // Cloudinary
 
+
 const app = express();
 const port = process.env.PORT || 3000;
 

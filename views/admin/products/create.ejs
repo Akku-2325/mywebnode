@@ -9,24 +9,29 @@
         <h1>Create New Product</h1>
 
         <% if (typeof error !== 'undefined' && error) { %>
-            <p style="color: red;"><%= error %></p>
+            <p class="error-message"><%= error %></p>
         <% } %>
 
         <!-- Форма для создания продукта -->
         <form action="/products" method="POST">
-            <div>
+            <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea id="description" name="description" required></textarea>
             </div>
-            <div>
+           <div class="form-group">
+                <label for="images">Image URLs (comma-separated):</label>
+                <input type="text" id="images" name="images">
+                <small>Enter multiple image URLs separated by commas.</small>
+            </div>
+            <div class="form-group">
                 <label for="price">Price:</label>
                 <input type="number" id="price" name="price" step="0.01" required>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="category">Category:</label>
                 <select id="category" name="category">
                     <% if (typeof categories !== 'undefined' && categories) { %>
@@ -36,11 +41,51 @@
                     <% } %>
                 </select>
             </div>
-            <div>
-                <label for="material">Material:</label>
-                <input type="text" id="material" name="material">
+            <div class="form-group">
+                <label for="metalType">Metal Type:</label>
+                <input type="text" id="metalType" name="metalType">
             </div>
-            <div>
+            <div class="form-group">
+                <label for="gemstone">Gemstone:</label>
+                <input type="text" id="gemstone" name="gemstone">
+            </div>
+            <div class="form-group">
+                <label for="gemstoneColor">Gemstone Color:</label>
+                <input type="text" id="gemstoneColor" name="gemstoneColor">
+            </div>
+            <div class="form-group">
+                <label for="gemstoneCarat">Gemstone Carat:</label>
+                <input type="number" id="gemstoneCarat" name="gemstoneCarat" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="style">Style:</label>
+                <input type="text" id="style" name="style">
+            </div>
+            <div class="form-group">
+                <label for="jewelryType">Jewelry Type:</label>
+                <input type="text" id="jewelryType" name="jewelryType">
+            </div>
+            <div class="form-group">
+                <label for="size">Size:</label>
+                <input type="text" id="size" name="size">
+            </div>
+            <div class="form-group">
+                <label for="weight">Weight:</label>
+                <input type="number" id="weight" name="weight" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <input type="text" id="brand" name="brand">
+            </div>
+            <div class="form-group">
+                <label for="collection">Collection:</label>
+                <input type="text" id="collection" name="collection">
+            </div>
+            <div class="form-group">
+                <label for="tags">Tags (comma-separated):</label>
+                <input type="text" id="tags" name="tags">
+            </div>
+           <div class="form-group">
                 <label for="stock">Stock:</label>
                 <input type="number" id="stock" name="stock" value="0">
             </div>

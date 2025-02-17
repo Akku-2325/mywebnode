@@ -200,6 +200,38 @@ const productController = {
 
             const tags = req.body.tags ? req.body.tags.split(',').map(tag => tag.trim()) : [];
 
+            // Delete Existing Images
+            if (req.body.deleteImages) {
+                const imagesToDelete = Array.isArray(req.body.deleteImages) ? req.body.deleteImages : [req.body.deleteImages];
+
+                for (const indexToDelete of imagesToDelete) {
+                    product.images.splice(indexToDelete, 1);
+                }
+            }
+
+            // Upload New Images
+            if (req.files && req.files.length > 0) {
+                for (const file of req.files) {
+                    const streamUpload = (file) => {
+                        return new Promise((resolve, reject) => {
+                            const stream = cloudinary.uploader.upload_stream(
+                                (error, result) => {
+                                    if (error) {
+                                        console.log("Cloudinary Error", error);
+                                        return reject(error);
+                                    }
+                                    resolve(result);
+                                }
+                            );
+                            streamifier.createReadStream(file.buffer).pipe(stream);
+                        });
+                    };
+
+                    const result = await streamUpload(file);
+                    product.images.push(result.secure_url);
+                }
+            }
+
             // Update product properties
             product.name = req.body.name;
             product.description = req.body.description;
