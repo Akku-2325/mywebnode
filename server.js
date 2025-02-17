@@ -12,6 +12,7 @@ const authMiddleware = require('./middleware/authMiddleware');
 const methodOverride = require('method-override'); // Import method-override
 const Setting = require('./models/Setting'); // Add Setting model
 const Product = require('./models/Product'); // Import the Product model
+const Category = require('./models/Category'); // Import category Model
 const cloudinary = require('cloudinary').v2; // Cloudinary
 
 const app = express();
@@ -239,22 +240,70 @@ app.post('/profile/upload', isLoggedIn, async (req, res) => {
 
 // Main route that renders banner and adds user
 app.get('/', authMiddleware.redirectIfAdmin, async (req, res) => {
+    const { category, priceMin, priceMax, q } = req.query;
     try {
         const bannerSetting = await Setting.findOne({ key: 'bannerImageUrl' });
         const bannerImageUrl = bannerSetting ? bannerSetting.value : '/banner/default-banner.jpg'; // URL по умолчанию
-        const products = await Product.find().populate('category'); // Fetch all products from the database
+
+        let query = {};
+
+        if (q) {
+            query.$text = { $search: q };
+        }
+
+        if (category) {
+            query.category = category;
+        }
+
+        if (priceMin !== undefined && priceMin !== '') {
+            query.price = { $gte: parseFloat(priceMin) };
+        }
+
+        if (priceMax !== undefined && priceMax !== '') {
+            query.price = { ...query.price, $lte: parseFloat(priceMax) };
+            if (!query.price) {
+                query.price = { $lte: parseFloat(priceMax) };
+            }
+        }
+        const products = await Product.find(query).populate('category'); // Fetch all products from the database
+        const categories = await Category.find();
 
         if (req.session.userId) {
             // User is logged in, render the main page
-            res.render('main', { user: req.session.user, bannerImageUrl: bannerImageUrl, products: products });
+            res.render('main', {
+                user: req.session.user,
+                bannerImageUrl: bannerImageUrl,
+                products: products,
+                categories: categories,
+                categoryFilter: category || null,
+                priceMinFilter: priceMin || null,
+                priceMaxFilter: priceMax || null,
+                searchQuery: q || null
+            });
         } else {
             // User is not logged in, render the index page
-            res.render('index', { bannerImageUrl: bannerImageUrl, products: products });
+            res.render('index', {
+                bannerImageUrl: bannerImageUrl,
+                products: products,
+                categories: categories,
+                categoryFilter: category || null,
+                priceMinFilter: priceMin || null,
+                priceMaxFilter: priceMax || null,
+                searchQuery: q || null
+            });
         }
     } catch (error) {
         console.error('Error fetching banner image URL or products:', error);
         // Handle the error, e.g., by rendering with a default banner or an error message
-        res.render('index', { bannerImageUrl: '/banner/default-banner.jpg', products: [] }); // Render index by default
+        res.render('index', {
+            bannerImageUrl: '/banner/default-banner.jpg',
+            products: [],
+            categories: [],
+            categoryFilter: null,
+            priceMinFilter: null,
+            priceMaxFilter: null,
+            searchQuery: null
+        }); // Render index by default
     }
 });
 

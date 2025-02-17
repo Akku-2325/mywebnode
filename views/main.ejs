@@ -308,21 +308,45 @@
             <div class="banner">
                 <img src="<%= bannerImageUrl %>" alt="Banner Image">
             </div>
-            <div class="product-listing">
-                    <div class="product-grid">
-                        <% products.forEach(product => { %>
-                          <div class="product-card">
-                            <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
-                            <h2><%= product.name %></h2>
-                            <p class="price">$<%= product.price %></p>
-                            <!-- Form for adding to cart -->
-                            <form action="/addToCart/<%= product._id %>" method="post">
-                              <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                            </form>
-                            <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
-                          </div>
-                        <% }); %>
+    
+            <div class="product-filter-section">
+                <div class="filters">
+                    <form action="/" method="GET">
+                        <label for="category">Category:</label>
+                        <select name="category" id="category">
+                            <option value="">All Categories</option>
+                            <% categories.forEach(cat => { %>
+                                <option value="<%= cat._id %>" <%= categoryFilter == cat._id ? 'selected' : '' %>><%= cat.name %></option>
+                            <% }); %>
+                        </select>
+    
+                        <label for="priceMin">Min Price:</label>
+                        <input type="number" id="priceMin" name="priceMin" placeholder="Min" value="<%= priceMinFilter %>">
+    
+                        <label for="priceMax">Max Price:</label>
+                        <input type="number" id="priceMax" name="priceMax" placeholder="Max" value="<%= priceMaxFilter %>">
+    
+                        <label for="q">Search:</label>
+                        <input type="text" id="q" name="q" placeholder="Search" value="<%= searchQuery %>">
+    
+                        <button type="submit">Apply Filters</button>
+                    </form>
+                </div>
+            </div>
+    
+            <div class="product-grid">
+                <% products.forEach(product => { %>
+                    <div class="product-card">
+                        <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
+                        <h2><%= product.name %></h2>
+                        <p class="price">$<%= product.price %></p>
+                        <!-- Form for adding to cart -->
+                        <form action="/addToCart/<%= product._id %>" method="post">
+                            <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                        </form>
+                        <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                     </div>
+                <% }); %>
             </div>
         </div>
     </main>
