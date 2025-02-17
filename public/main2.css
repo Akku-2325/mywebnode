@@ -1,13 +1,15 @@
-/* Общие стили */
+/* Main 2 CSS */
+
+/* Common styles */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa; /* Светло-серый фон */
-    color: #343a40; /* Темно-серый текст */
+    background-color: #f8f9fa;
+    color: #343a40;
     line-height: 1.6;
-    position: relative; /* Относительное позиционирование для футера */
-    min-height: 100vh; /* Минимальная высота для всей страницы */
+    position: relative;
+    min-height: 100vh;
 }
 
 .container {
@@ -20,7 +22,7 @@ body {
 .header {
     background-color: #fff;
     padding: 20px 0;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Soft shadow */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .header .container {
@@ -32,7 +34,7 @@ body {
 .logo a {
     font-size: 28px;
     font-weight: bold;
-    color: #343a40; /* Dark grey logo */
+    color: #343a40;
     text-decoration: none;
 }
 
@@ -44,12 +46,12 @@ body {
 }
 
 .nav ul li {
-    margin-right: 15px; /* Уменьшен отступ */
+    margin-right: 15px;
 }
 
 .nav ul li a {
     text-decoration: none;
-    color: #495057; /* Medium grey text */
+    color: #495057;
     font-weight: 500;
     transition: color 0.3s ease;
     font-size: 1rem;
@@ -62,7 +64,7 @@ body {
 }
 
 .nav ul li a:hover {
-    color: #007bff; /* Blue on hover */
+    color: #007bff;
 }
 
 .header-right {
@@ -72,7 +74,7 @@ body {
 
 .header-right i {
     margin-left: 15px;
-    color: #495057; /* Medium grey icon */
+    color: #495057;
     cursor: pointer;
     font-size: 1.3rem;
 }
@@ -82,7 +84,7 @@ body {
     margin-top: 30px;
     width: 100%;
     overflow: hidden;
-    max-height: 400px; /* Уменьшена максимальная высота */
+    max-height: 300px; /* Further reduced maximum height */
 }
 
 .banner img {
@@ -102,13 +104,13 @@ body {
     background-color: #fff;
     border-radius: 0.75rem;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    padding: 15px; /* Уменьшен отступ */
+    padding: 15px;
 }
 
 .product-filter-section .filters summary {
     list-style: none;
     cursor: pointer;
-    padding: 10px 15px; /* Уменьшен отступ */
+    padding: 10px 15px;
     font-weight: 500;
     color: #495057;
     border-bottom: 1px solid #ced4da;
@@ -137,16 +139,16 @@ body {
 .product-filter-section .filters input[type="number"],
 .product-filter-section .filters input[type="text"] {
     width: 100%;
-    padding: 8px; /* Уменьшен отступ */
+    padding: 8px;
     border: 1px solid #ced4da;
     border-radius: 0.5rem;
-    margin-bottom: 15px; /* Уменьшен отступ */
+    margin-bottom: 15px;
     box-sizing: border-box;
     font-size: 0.9rem;
 }
 
 .product-filter-section .filters button {
-    padding: 10px 15px; /* Уменьшен отступ */
+    padding: 10px 15px;
     background-color: #007bff;
     color: #fff;
     border-radius: 0.5rem;
@@ -164,70 +166,70 @@ body {
 /* Product Grid Styling */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Уменьшена минимальная ширина */
-    gap: 20px; /* Уменьшен отступ */
-    margin-top: 30px; /* Уменьшен отступ */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
 }
 
 .product-card {
     background-color: #fff;
     border-radius: 0.75rem;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Soft shadow */
-    padding: 20px; /* Уменьшен отступ */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 20px;
     text-align: center;
     transition: transform 0.2s ease-in-out;
 }
 
 .product-card:hover {
-    transform: translateY(-5px); /* Slight lift on hover */
+    transform: translateY(-5px);
 }
 
 .product-card img {
     width: 100%;
-    height: 200px; /* Уменьшена высота */
+    height: 200px;
     object-fit: cover;
     border-radius: 0.5rem;
-    margin-bottom: 10px; /* Уменьшен отступ */
+    margin-bottom: 10px;
 }
 
 .product-card h2 {
     font-size: 1.3rem;
-    margin-bottom: 8px; /* Уменьшен отступ */
-    color: #343a40; /* Dark grey heading */
+    margin-bottom: 8px;
+    color: #343a40;
 }
 
 .product-card .price {
     font-size: 1.1rem;
-    color: #28a745; /* Green price */
-    margin-bottom: 15px; /* Уменьшен отступ */
+    color: #28a745;
+    margin-bottom: 15px;
     font-weight: 600;
 }
 
 /* Custom CSS for Add to Cart */
 .product-card .add-to-cart {
     display: inline-block;
-    padding: 10px 20px; /* Уменьшен отступ */
-    background-color: #007bff; /* Blue color */
+    padding: 10px 20px;
+    background-color: #007bff;
     color: #fff;
     border-radius: 0.5rem;
     text-decoration: none;
     font-weight: 500;
     transition: background-color 0.3s ease;
-    border: none; /* Remove default button border */
-    cursor: pointer; /* Change cursor to pointer on hover */
+    border: none;
+    cursor: pointer;
     font-size: 0.9rem;
-    margin-right: 8px; /* Уменьшен отступ */
+    margin-right: 8px;
 }
 
 .product-card .add-to-cart:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
 /* Custom CSS for View Details */
 .product-card .view-detail {
     display: inline-block;
-    padding: 10px 20px; /* Уменьшен отступ */
-    background-color: #28a745; /* Green color */
+    padding: 10px 20px;
+    background-color: #28a745;
     color: #fff;
     border-radius: 0.5rem;
     text-decoration: none;
@@ -237,16 +239,15 @@ body {
 }
 
 .product-card .view-detail:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #218838;
 }
 
 /* Footer Styling */
 .footer {
-    background-color: #343a40; /* Dark grey background */
+    background-color: #343a40;
     color: #fff;
-    padding: 30px 0; /* Уменьшен отступ */
+    padding: 30px 0;
     text-align: center;
-    /* position: absolute; */
     bottom: 0;
     width: 100%;
 }
@@ -261,12 +262,12 @@ body {
 .footer-links,
 .footer-social {
     flex: 1 1 300px;
-    margin-bottom: 20px; /* Уменьшен отступ */
+    margin-bottom: 20px;
 }
 
 .footer h4 {
     font-size: 1.3rem;
-    margin-bottom: 15px; /* Уменьшен отступ */
+    margin-bottom: 15px;
     font-weight: 600;
 }
 
@@ -282,7 +283,7 @@ body {
 }
 
 .footer ul li {
-    margin-bottom: 10px; /* Уменьшен отступ */
+    margin-bottom: 10px;
 }
 
 .footer ul li a {
@@ -298,7 +299,7 @@ body {
 
 .footer-social a {
     display: inline-block;
-    margin-right: 10px; /* Уменьшен отступ */
+    margin-right: 10px;
     color: #ddd;
     font-size: 1.3rem;
     transition: color 0.3s ease;
@@ -309,8 +310,8 @@ body {
 }
 
 .footer-bottom {
-    margin-top: 20px; /* Уменьшен отступ */
-    padding-top: 20px; /* Уменьшен отступ */
+    margin-top: 20px;
+    padding-top: 20px;
     border-top: 1px solid #555;
     font-size: 0.9rem;
     color: #ddd;
@@ -353,6 +354,6 @@ body {
     }
 
     .footer {
-        position: static; /* Убираем фиксацию футера */
+        position: static;
     }
 }
