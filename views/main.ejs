@@ -291,6 +291,14 @@
                     <li><a href="#">Earrings</a></li>
                     <li><a href="#">Necklaces</a></li>
                     <li><a href="#">Bracelets</a></li>
+    
+                    <% if (user) { %>
+                        <li><a href="/profile">Profile</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
+                    <% } %>
                 </ul>
             </nav>
             <div class="header-right">
@@ -364,7 +372,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            © 2024 Jewelry Shop. All Rights Reserved.
+            © 2025 Jewelry Shop. All Rights Reserved.
         </div>
     </footer>
 
