@@ -84,7 +84,7 @@ body {
     margin-top: 30px;
     width: 100%;
     overflow: hidden;
-    max-height: 300px; /* Further reduced maximum height */
+    max-height: 600px; /* Further reduced maximum height */
 }
 
 .banner img {

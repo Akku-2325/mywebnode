@@ -124,6 +124,11 @@ app.get('/', authMiddleware.redirectIfAdmin, async (req, res) => {
         const products = await Product.find(query).populate('category'); // Fetch all products from the database
         const categories = await Category.find();
 
+        const categoryFilter = category !== undefined ? category : null;
+        const priceMinFilter = priceMin !== undefined ? priceMin : null;
+        const priceMaxFilter = priceMax !== undefined ? priceMax : null;
+        const searchQuery = q !== undefined ? q : null;
+
         if (req.session.userId) {
             // User is logged in, render the main page
             res.render('main', {
@@ -131,10 +136,10 @@ app.get('/', authMiddleware.redirectIfAdmin, async (req, res) => {
                 bannerImageUrl: bannerImageUrl,
                 products: products,
                 categories: categories,
-                categoryFilter: category || null,
-                priceMinFilter: priceMin || null,
-                priceMaxFilter: null,
-                searchQuery: q || null
+                categoryFilter: categoryFilter,
+                priceMinFilter: priceMinFilter,
+                priceMaxFilter: priceMaxFilter,
+                searchQuery: searchQuery
             });
         } else {
             // User is not logged in, render the index page
@@ -143,10 +148,10 @@ app.get('/', authMiddleware.redirectIfAdmin, async (req, res) => {
                 bannerImageUrl: bannerImageUrl,
                 products: products,
                 categories: categories,
-                categoryFilter: category || null,
-                priceMinFilter: null,
-                priceMaxFilter: null,
-                searchQuery: null
+                categoryFilter: categoryFilter,
+                priceMinFilter: priceMinFilter,
+                priceMaxFilter: priceMaxFilter,
+                searchQuery: searchQuery
             });
         }
     } catch (error) {

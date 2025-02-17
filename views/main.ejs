@@ -42,81 +42,79 @@
     <div class="container">
         <div class="product-filter-section">
             <div class="filters">
-                <details>
-                    <summary>Filter Products</summary>
-                    <form action="/" method="GET">
-                        <label for="category">Category:</label>
-                        <select name="category" id="category">
-                            <option value="">All Categories</option>
-                            <% categories.forEach(cat => { %>
-                                <option value="<%= cat._id %>" <%= categoryFilter == cat._id ? 'selected' : '' %>><%= cat.name %>
-                                </option>
-                            <% }); %>
-                        </select>
+                <form action="/" method="GET">
+                    <label for="category">Category:</label>
+                    <select name="category" id="category">
+                        <option value="">All Categories</option>
+                        <% categories.forEach(cat => { %>
+                            <option value="<%= cat._id %>" <%= categoryFilter == cat._id ? 'selected' : '' %>><%= cat.name %>
+                            </option>
+                        <% }); %>
+                    </select>
 
-                        <label for="priceMin">Min Price:</label>
-                        <input type="number" id="priceMin" name="priceMin" placeholder="Min"
-                               value="<%= priceMinFilter %>">
+                    <label for="priceMin">Min Price:</label>
+                    <input type="number" id="priceMin" name="priceMin" placeholder="Min"
+                           value="<%= priceMinFilter %>">
 
-                        <label for="priceMax">Max Price:</label>
-                        <input type="number" id="priceMax" name="priceMax" placeholder="Max"
-                               value="<%= priceMaxFilter %>">
+                    <label for="priceMax">Max Price:</label>
+                    <input type="number" id="priceMax" name="priceMax" placeholder="Max"
+                           value="<%= priceMaxFilter %>">
 
-                        <label for="q">Search:</label>
-                        <input type="text" id="q" name="q" placeholder="Search" value="<%= searchQuery %>">
+                    <label for="q">Search:</label>
+                    <input type="text" id="q" name="q" placeholder="Search" value="<%= searchQuery %>">
 
-                        <button type="submit">Apply Filters</button>
+                    <button type="submit">Apply Filters</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="product-grid">
+            <% products.forEach(product => { %>
+                <div class="product-card">
+                    <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>"
+                         alt="<%= product.name %>">
+                    <h2><%= product.name %></h2>
+                    <p class="price">$<%= product.price %></p>
+                    <!-- Form for adding to cart -->
+                    <form action="/cart/<%= product._id %>" method="post">
+                        <button type="submit" class="add-to-cart">Add to Cart</button>
                     </form>
+
+                    <!-- Redirect to Product Detail -->
+                    <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
                 </div>
-            </div>
-
-            <div class="product-grid">
-                <% products.forEach(product => { %>
-                    <div class="product-card">
-                        <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>"
-                             alt="<%= product.name %>">
-                        <h2><%= product.name %></h2>
-                        <p class="price">$<%= product.price %></p>
-                        <!-- Form for adding to cart -->
-                        <form action="/cart/<%= product._id %>" method="post">
-                            <button type="submit" class="add-to-cart">Add to Cart</button>
-                        </form>
-
-                        <!-- Redirect to Product Detail -->
-                        <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
-                    </div>
-                <% }); %>
-            </div>
+            <% }); %>
         </div>
-    </main>
+    </div>
+</main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-info">
-                <h4>About Us</h4>
-                <p>We are a jewelry shop dedicated to providing high-quality, handcrafted jewelry for every occasion. Our passion
-                    is to create unique pieces that reflect your personal style.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Shipping & Returns</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div class="footer-social">
-                <h4>Follow Us</h4>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-info">
+            <h4>About Us</h4>
+            <p>We are a jewelry shop dedicated to providing high-quality, handcrafted jewelry for every occasion. Our passion
+                is to create unique pieces that reflect your personal style.</p>
         </div>
-        <div class="footer-bottom">
-            © 2025 Jewelry Shop. All Rights Reserved.
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Shipping & Returns</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
         </div>
-    </footer>
+        <div class="footer-social">
+            <h4>Follow Us</h4>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        © 2025 Jewelry Shop. All Rights Reserved.
+    </div>
+</footer>
 
 </body>
 </html>
