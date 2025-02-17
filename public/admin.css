@@ -32,43 +32,77 @@ a:hover {
 }
 
 /* Стили для административной панели (admin/index.ejs) */
-.admin-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Центрирование элементов по горизонтали */
-    padding: 20px;
-}
-
-.admin-panel-section {
+/* Стили для страницы административных настроек */
+.admin-settings-container {
+    width: 80%;
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 30px;
     background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0.75rem;
+}
+
+.admin-settings-container h1 {
     text-align: center;
-    margin-bottom: 20px; /* Добавлено пространство между секциями */
-    width: 100%; /* Занимает всю ширину контейнера */
-    max-width: 400px; /* Максимальная ширина секции */
+    margin-bottom: 2rem;
+    color: #343a40;
+    font-weight: 600;
 }
 
-.admin-panel-section h2 {
-    color: #333;
-    font-size: 1.5em;
-    margin-bottom: 15px;
-}
-
-.admin-panel-section a {
+.admin-settings-container label {
     display: block;
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease-in-out;
-    margin-bottom: 10px; /* Добавлено пространство между ссылками */
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    color: #495057;
 }
 
-.admin-panel-section a:hover {
-    background-color: #0056b3;
+.admin-settings-container input[type="file"] {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+    background-color: #f8f9fa;
+}
+
+.admin-settings-container button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.admin-settings-container button:hover {
+    background-color: #218838;
+}
+
+.admin-settings-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-settings-container a {
+    display: inline-block;
+    margin-top: 1.5rem;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    font-size: 1.1rem;
+}
+
+.admin-settings-container a:hover {
+    color: #0056b3;
+    text-decoration: underline;
 }
 
 /* Стили для таблицы продуктов */
