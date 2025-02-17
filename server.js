@@ -28,6 +28,11 @@ app.use(session({
     })
 }));
 
+app.use((req, res, next) => {
+    console.log('Session:', req.session);
+    next();
+ });
+
 const authRoutes = require('./routes/authRoutes');
 const userProductRoutes = require('./routes/userProductRoutes');
 const cartRoutes = require('./routes/cartRoutes');
