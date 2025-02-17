@@ -250,17 +250,18 @@
 
         <div class="product-grid">
             <% products.forEach(product => { %>
-                <div class="product-card">
-                    <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
-                    <h2><%= product.name %></h2>
-                    <p class="price">$<%= product.price %></p>
-                    <form action="/addToCart/<%= product._id %>" method="POST">
-                        <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> В корзину</button>
-                    </form>
-                    <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
-                </div>
+              <div class="product-card">
+                <img src="<%= product.images && product.images.length > 0 ? product.images[0] : '/images/default-product.png' %>" alt="<%= product.name %>">
+                <h2><%= product.name %></h2>
+                <p class="price">$<%= product.price %></p>
+                <!-- Form for adding to cart -->
+                <form action="/addToCart/<%= product._id %>" method="post">
+                  <button type="submit" class="add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                </form>
+                <a href="/productList/<%= product._id %>" class="view-detail">View Detail</a>
+              </div>
             <% }); %>
-        </div>
+            </div>
 
         <div class="pagination">
           <% paginationLinks.forEach(link => { %>
