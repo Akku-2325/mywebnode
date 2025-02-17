@@ -3,7 +3,7 @@ const router = express.Router();
 const Product = require('../models/Product');
 const { requireAuth } = require('../middleware/authMiddleware'); // Import the authentication middleware
 
-router.post('/addToCart/:productId', requireAuth, async (req, res) => {
+router.post('/cart/:productId', requireAuth, async (req, res) => {
     try {
         const productId = req.params.productId;
         const product = await Product.findById(productId);
