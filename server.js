@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 const authRoutes = require('./routes/authRoutes');
 const userProductRoutes = require('./routes/userProductRoutes');
 const cartRoutes = require('./routes/cartRoutes');
-const userRoutes = require('./routes/userRoutes');
+
 
 // Middleware
 app.use(express.static(path.join(__dirname, 'public')));
@@ -49,7 +49,7 @@ app.set('view engine', 'ejs');
 
 app.use('/productList', userProductRoutes);
 app.use('/cart', cartRoutes);
-app.use('/', userRoutes);
+
 
 app.use(methodOverride('_method')); // Add method-override middleware
 
