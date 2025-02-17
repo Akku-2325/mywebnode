@@ -1,3 +1,5 @@
+/* main2.css */
+
 /* Общие стили */
 body {
     font-family: 'Arial', sans-serif;
@@ -6,6 +8,8 @@ body {
     background-color: #f8f9fa; /* Светло-серый фон */
     color: #343a40; /* Темно-серый текст */
     line-height: 1.6;
+    position: relative; /* Относительное позиционирование для футера */
+    min-height: 100vh; /* Минимальная высота для всей страницы */
 }
 
 .container {
@@ -72,13 +76,15 @@ body {
 /* Banner Styling */
 .banner {
     margin-top: 30px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .banner img {
     width: 100%;
     height: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.075); /* Soft shadow */
+    object-fit: cover;
+    display: block;
 }
 
 /* Product Filter Section */
@@ -87,66 +93,82 @@ body {
 }
 
 .product-filter-section .filters {
-    padding: 20px;
+    position: relative;
     background-color: #fff;
     border-radius: 0.75rem;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 15px; /* Уменьшен отступ */
+}
+
+.product-filter-section .filters summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 10px 15px; /* Уменьшен отступ */
+    font-weight: 500;
+    color: #495057;
+    border-bottom: 1px solid #ced4da;
+    font-size: 1rem;
+}
+
+.product-filter-section .filters details[open] summary {
+    border-bottom: none;
+}
+
+.product-filter-section .filters details > form {
+    padding: 15px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+    flex-direction: column;
 }
 
 .product-filter-section .filters label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     font-weight: 500;
-    color: #495057; /* Medium grey label */
-    width: 100%;
-    text-align: left;
+    color: #495057;
+    font-size: 0.9rem;
 }
 
 .product-filter-section .filters select,
 .product-filter-section .filters input[type="number"],
 .product-filter-section .filters input[type="text"] {
-    width: 150px;
-    padding: 12px;
-    border: 1px solid #ced4da; /* Light grey border */
+    width: 100%;
+    padding: 8px; /* Уменьшен отступ */
+    border: 1px solid #ced4da;
     border-radius: 0.5rem;
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Уменьшен отступ */
     box-sizing: border-box;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .product-filter-section .filters button {
-    padding: 12px 24px;
-    background-color: #007bff; /* Blue color */
+    padding: 10px 15px; /* Уменьшен отступ */
+    background-color: #007bff;
     color: #fff;
     border-radius: 0.5rem;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .product-filter-section .filters button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3;
 }
 
 /* Product Grid Styling */
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted size */
-    gap: 25px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Уменьшена минимальная ширина */
+    gap: 20px; /* Уменьшен отступ */
+    margin-top: 30px; /* Уменьшен отступ */
 }
 
 .product-card {
     background-color: #fff;
     border-radius: 0.75rem;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Soft shadow */
-    padding: 25px;
+    padding: 20px; /* Уменьшен отступ */
     text-align: center;
     transition: transform 0.2s ease-in-out;
 }
@@ -157,29 +179,29 @@ body {
 
 .product-card img {
     width: 100%;
-    height: 220px; /* Fixed height */
+    height: 200px; /* Уменьшена высота */
     object-fit: cover;
     border-radius: 0.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Уменьшен отступ */
 }
 
 .product-card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
+    font-size: 1.3rem;
+    margin-bottom: 8px; /* Уменьшен отступ */
     color: #343a40; /* Dark grey heading */
 }
 
 .product-card .price {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: #28a745; /* Green price */
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Уменьшен отступ */
     font-weight: 600;
 }
 
 /* Custom CSS for Add to Cart */
 .product-card .add-to-cart {
     display: inline-block;
-    padding: 12px 24px;
+    padding: 10px 20px; /* Уменьшен отступ */
     background-color: #007bff; /* Blue color */
     color: #fff;
     border-radius: 0.5rem;
@@ -188,8 +210,8 @@ body {
     transition: background-color 0.3s ease;
     border: none; /* Remove default button border */
     cursor: pointer; /* Change cursor to pointer on hover */
-    font-size: 1rem;
-    margin-right: 10px;
+    font-size: 0.9rem;
+    margin-right: 8px; /* Уменьшен отступ */
 }
 
 .product-card .add-to-cart:hover {
@@ -199,15 +221,14 @@ body {
 /* Custom CSS for View Details */
 .product-card .view-detail {
     display: inline-block;
-    padding: 12px 24px;
+    padding: 10px 20px; /* Уменьшен отступ */
     background-color: #28a745; /* Green color */
     color: #fff;
     border-radius: 0.5rem;
     text-decoration: none;
     font-weight: 500;
     transition: background-color 0.3s ease;
-    margin-top: 10px;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .product-card .view-detail:hover {
@@ -218,9 +239,11 @@ body {
 .footer {
     background-color: #343a40; /* Dark grey background */
     color: #fff;
-    padding: 40px 0;
+    padding: 30px 0; /* Уменьшен отступ */
     text-align: center;
-    margin-top: 50px;
+    /* position: absolute; */
+    bottom: 0;
+    width: 100%;
 }
 
 .footer .container {
@@ -233,17 +256,17 @@ body {
 .footer-links,
 .footer-social {
     flex: 1 1 300px;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* Уменьшен отступ */
 }
 
 .footer h4 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+    font-size: 1.3rem;
+    margin-bottom: 15px; /* Уменьшен отступ */
     font-weight: 600;
 }
 
 .footer p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: #ddd;
     line-height: 1.8;
 }
@@ -254,14 +277,14 @@ body {
 }
 
 .footer ul li {
-    margin-bottom: 12px;
+    margin-bottom: 10px; /* Уменьшен отступ */
 }
 
 .footer ul li a {
     text-decoration: none;
     color: #ddd;
     transition: color 0.3s ease;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .footer ul li a:hover {
@@ -270,9 +293,9 @@ body {
 
 .footer-social a {
     display: inline-block;
-    margin-right: 15px;
+    margin-right: 10px; /* Уменьшен отступ */
     color: #ddd;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     transition: color 0.3s ease;
 }
 
@@ -281,10 +304,10 @@ body {
 }
 
 .footer-bottom {
-    margin-top: 30px;
-    padding-top: 30px;
+    margin-top: 20px; /* Уменьшен отступ */
+    padding-top: 20px; /* Уменьшен отступ */
     border-top: 1px solid #555;
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #ddd;
 }
 
@@ -302,7 +325,7 @@ body {
     }
 
     .nav ul li {
-        margin: 12px 0;
+        margin: 10px 0;
     }
 
     .product-filter-section .filters {
@@ -322,5 +345,9 @@ body {
 
     .product-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjusted size */
+    }
+
+    .footer {
+        position: static; /* Убираем фиксацию футера */
     }
 }
