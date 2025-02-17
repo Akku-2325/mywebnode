@@ -1,23 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Jewelry Shop - Main Page</title>
+    <meta charset="UTF-8">
+    <title>Exquisite Jewelry</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/main.css">
     <script src="/script.js"></script>
+    <style>
+        /* Basic Styling - replace with your actual CSS */
+        body { font-family: sans-serif; margin: 0; padding: 0; }
+        .header { background-color: #f0f0f0; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .logo a { font-size: 24px; font-weight: bold; color: #333; text-decoration: none; }
+        .burger-menu { font-size: 24px; cursor: pointer; }
+        .nav { position: absolute; top: 60px; left: 0; background-color: #fff; width: 100%; display: none; }
+        .nav ul { list-style: none; padding: 0; margin: 0; }
+        .nav ul li { padding: 10px; border-bottom: 1px solid #eee; }
+        .nav ul li a { text-decoration: none; color: #333; }
+        .show-nav { display: block; }
+        .main-page-container { padding: 20px; text-align: center; }
+        .banner img { width: 100%; max-height: 300px; object-fit: cover; }
+        .shop-info { margin-top: 20px; }
+        .shop-info h1 { font-size: 32px; }
+        .shop-info ul { list-style: none; padding: 0; }
+        .shop-info ul li { margin-bottom: 10px; }
+        .shop-now-button { display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 5px; }
+        .footer { background-color: #333; color: #fff; padding: 20px; text-align: center; }
+        .footer-top { display: flex; flex-wrap: wrap; justify-content: space-around; }
+        .footer-logo { flex: 1 1 200px; }
+        .footer-nav { flex: 3 1 400px; display: flex; justify-content: space-around; }
+        .footer-nav-col { flex: 1 1 150px; text-align: left; }
+        .footer-nav-col h4 { margin-bottom: 10px; }
+        .footer-nav-col ul { list-style: none; padding: 0; }
+        .footer-nav-col ul li a { color: #fff; text-decoration: none; }
+        .footer-subscribe { flex: 2 1 300px; }
+        .footer-subscribe form { display: flex; }
+        .footer-subscribe input { flex: 1; padding: 5px; }
+        .footer-subscribe button { background-color: #007bff; color: #fff; border: none; padding: 5px 10px; cursor: pointer; }
+        .footer-bottom { margin-top: 20px; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+    </style>
 </head>
 <body>
+
     <header class="header">
         <div class="container">
             <div class="logo">
-                <a href="/"><img src="/images/logo.png" alt="Jewelry Shop"></a>
+                <a href="/">Exquisite Jewelry</a>
+            </div>
+            <div class="burger-menu">
+                <i class="fa fa-bars"></i>
             </div>
             <nav class="nav">
                 <ul>
-                    <li><a href="/bracelets">Браслеты</a></li>
-                    <li><a href="/rings">Кольца</a></li>
-                    <li><a href="/earrings">Серьги</a></li>
-                    <li><a href="/collections">Коллекции</a></li>
+                    <li><a href="/bracelets">Bracelets</a></li>
+                    <li><a href="/rings">Rings</a></li>
+                    <li><a href="/earrings">Earrings</a></li>                    
                 </ul>
             </nav>
             <div class="header-right">
@@ -38,16 +79,14 @@
                     <% } %>
                 </div>
             </div>
-            <div class="burger-menu">
-                <i class="fa fa-bars"></i>
-            </div>
+
         </div>
     </header>
 
     <div class="main-page-container">
 
         <div class="banner">
-            <img src="<%= bannerImageUrl || '/banner/default-banner.jpg' %>" alt="Welcome Banner">
+            <img src="/banner/jewelry-model.jpg" alt="Jewelry Model">
         </div>
 
         <div class="shop-info">
@@ -62,60 +101,67 @@
         </div>
 
     </div>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-top">
                 <div class="footer-logo">
-                    <a href="/"><img src="/images/logo.png" alt="Jewelry Shop"></a>
-                    <p>Краткое описание твоего магазина.</p>
+                    <a href="/">Exquisite Jewelry</a>
+                    <p>Your destination for exquisite jewelry.</p>
                 </div>
                 <div class="footer-nav">
                     <div class="footer-nav-col">
-                        <h4>Информация</h4>
+                        <h4>Information</h4>
                         <ul>
-                            <li><a href="/about">О компании</a></li>
-                            <li><a href="/stores">Магазины</a></li>
-                            <li><a href="/public-offer">Публичная оферта</a></li>
-                            <li><a href="/privacy-policy">Политика конфиденциальности</a></li>
-                            <li><a href="/contacts">Контакты</a></li>
-                            <li><a href="/news">Новости</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/stores">Stores</a></li>
+                            <li><a href="/public-offer">Terms of Service</a></li>
+                            <li><a href="/privacy-policy">Privacy Policy</a></li>
+                            <li><a href="/contacts">Contact Us</a></li>
+                            <li><a href="/news">News</a></li>
                         </ul>
                     </div>
                     <div class="footer-nav-col">
-                        <h4>Сервис</h4>
+                        <h4>Service</h4>
                         <ul>
-                            <li><a href="/delivery">Доставка</a></li>
-                            <li><a href="/payment">Оплата</a></li>
-                            <li><a href="/return">Возврат / Гарантия</a></li>
-                            <li><a href="/promo">Промокод</a></li>
-                            <li><a href="/bonus-club">Бонусный клуб</a></li>
-                            <li><a href="/installment">Рассрочка</a></li>
+                            <li><a href="/delivery">Shipping</a></li>
+                            <li><a href="/payment">Payment</a></li>
+                            <li><a href="/return">Returns</a></li>
+                            <li><a href="/promo">Promotions</a></li>
+                            <li><a href="/bonus-club">Bonus Club</a></li>
+                            <li><a href="/installment">Installment Plans</a></li>
                         </ul>
                     </div>
                     <div class="footer-nav-col">
-                        <h4>Помощь</h4>
+                        <h4>Help</h4>
                         <ul>
-                            <li><a href="/faq">Вопрос-ответ</a></li>
-                            <li><a href="/size-chart">Таблица размеров</a></li>
-                            <li><a href="/care">Хранение и уход</a></li>
-                            <li><a href="/about-brand">О бренде Jewelry Shop</a></li>
-                            <li><a href="/dispute">Досудебное урегулирование потребительских споров</a></li>
+                            <li><a href="/faq">FAQ</a></li>
+                            <li><a href="/size-chart">Size Chart</a></li>
+                            <li><a href="/care">Jewelry Care</a></li>
+                            <li><a href="/about-brand">About Our Brand</a></li>
+                            <li><a href="/dispute">Dispute Resolution</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="footer-subscribe">
-                    <h4>Подписка на новости</h4>
-                    <p>Актуальные акции, новинки и персональные предложения. Укажите свой e-mail и получайте доступ в числе первых!</p>
+                    <h4>Subscribe to Newsletter</h4>
+                    <p>Get the latest news, promotions, and personal offers delivered to your inbox!</p>
                     <form action="/subscribe" method="POST">
-                        <input type="email" placeholder="Введите e-mail" name="email">
-                        <button type="submit">Отправить</button>
+                        <input type="email" placeholder="Enter your email" name="email">
+                        <button type="submit">Subscribe</button>
                     </form>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© <%= new Date().getFullYear() %> Jewelry Shop. Все права защищены.</p>
+                <p>© <%= new Date().getFullYear() %> Exquisite Jewelry. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
+
+    <script>
+        document.querySelector('.burger-menu').addEventListener('click', function() {
+            document.querySelector('.nav').classList.toggle('show-nav');
+        });
+    </script>
 </body>
 </html>
