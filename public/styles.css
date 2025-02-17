@@ -1,0 +1,159 @@
+/* Общие стили для всего приложения */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Светло-серый фон */
+    color: #343a40; /* Темно-серый текст */
+    line-height: 1.6;
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px; /* Максимальная ширина контейнера */
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #fff; /* Белый фон для контейнера */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Небольшая тень */
+    border-radius: 0.5rem; /* Скругленные углы */
+}
+
+h1 {
+    text-align: center;
+    color: #007bff; /* Синий заголовок */
+    margin-bottom: 1.5rem;
+}
+
+/* Ссылки */
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out; /* Плавный переход цвета */
+}
+
+a:hover {
+    color: #0056b3; /* Более темный синий при наведении */
+    text-decoration: underline;
+}
+
+/* Формы */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500; /* Полужирный шрифт для label */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ced4da; /* Светло-серая граница */
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    margin-top: 0.25rem;
+    transition: border-color 0.2s ease-in-out; /* Плавный переход цвета границы */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #80bdff; /* Синяя граница при фокусе */
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Синяя тень при фокусе */
+}
+
+textarea {
+    resize: vertical; /* Разрешить изменение высоты textarea */
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out; /* Плавный переход цвета фона */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Сообщения об ошибках */
+.error-message {
+    color: #dc3545; /* Красный цвет для ошибок */
+    margin-bottom: 1rem;
+}
+
+/* Контейнер для логина и регистрации */
+.login-register-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 0.5rem;
+}
+
+.login-register-container h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #343a40;
+}
+
+/* Стили для списков требований к паролю */
+.password-requirements {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.5rem;
+}
+
+.password-requirements li {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+}
+
+.password-requirements li.valid {
+    color: #28a745; /* Зеленый для валидных требований */
+}
+
+.password-requirements li.invalid {
+    color: #dc3545; /* Красный для невалидных требований */
+}
+
+/* Всплывающее уведомление */
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 1.5rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    z-index: 1000;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
