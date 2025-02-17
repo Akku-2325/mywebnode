@@ -10,7 +10,9 @@
         /* Basic Styling - replace with your actual CSS */
         body { font-family: sans-serif; margin: 0; padding: 0; }
         .header { background-color: #f0f0f0; padding: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .logo a { font-size: 24px; font-weight: bold; color: #333; text-decoration: none; }
+        .logo { display: flex; align-items: center; }  /* Vertically center logo content */
+        .logo a { font-size: 24px; font-weight: bold; color: #333; text-decoration: none; margin-left: 10px; } /* Add space for logo */
+        .logo img { height: 40px; margin-right: 10px; } /* Size and space for logo image */
         .burger-menu { font-size: 24px; cursor: pointer; }
         .nav { position: absolute; top: 60px; left: 0; background-color: #fff; width: 100%; display: none; }
         .nav ul { list-style: none; padding: 0; margin: 0; }
@@ -41,6 +43,9 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+         .header-right { display: flex; align-items: center; } /* Align icons horizontally */
+        .icons { display: flex; align-items: center; } /* Ensure icons stay aligned */
+        .phone { margin-right: 10px; } /* Separate phone number from icons */
 
     </style>
 </head>
@@ -49,6 +54,7 @@
     <header class="header">
         <div class="container">
             <div class="logo">
+                 <img src="/images/jewelry-logo.png" alt="Jewelry Logo">
                 <a href="/">Exquisite Jewelry</a>
             </div>
             <div class="burger-menu">
@@ -56,23 +62,35 @@
             </div>
             <nav class="nav">
                 <ul>
-                    <li><a href="/bracelets">Bracelets</a></li>
-                    <li><a href="/rings">Rings</a></li>
-                    <li><a href="/earrings">Earrings</a></li>                    
+                   <%
+                   const categories = [
+                    { name: 'Bracelets', url: '/bracelets' },
+                    { name: 'Rings', url: '/rings' },
+                    { name: 'Earrings', url: '/earrings' },
+                    { name: 'Necklaces', url: '/necklaces' },
+                    { name: 'Custom Jewelry', url: '/custom-jewelry' }
+                ];
+                    categories.forEach(category => {
+                        %>
+                        <li><a href="<%= category.url %>"><%= category.name %></a></li>
+                        <%
+                    });
+                   %>
+                    <% if (user) { %>  <!-- Added profile link to the nav menu -->
+                        <li><a href="/profile"><i class="fa fa-user"></i> Profile</a></li>
+                        <li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/auth/login"><i class="fa fa-sign-in"></i> Login</a></li>
+                    <% } %>
                 </ul>
             </nav>
-            <div class="header-right">
+           <div class="header-right">
                 <div class="phone">
                     <a href="tel:7059241111">705 924 11 11</a>
                 </div>
                 <div class="icons">
                     <a href="/search"><i class="fa fa-search"></i></a>
-                    <% if (user) { %>
-                        <a href="/profile"><i class="fa fa-user"></i></a>
-                        <a href="/auth/logout"><i class="fa fa-sign-out"></i></a>
-                    <% } else { %>
-                        <a href="/auth/login"><i class="fa fa-sign-in"></i></a>
-                    <% } %>
+
                     <a href="/cart"><i class="fa fa-shopping-cart"></i></a>
                     <% if (typeof product !== 'undefined' && product) { %>
                        <a href="/addToCart/<%= product._id %>" class="add-to-cart"><i class="fa fa-shopping-cart"></i></a>
